@@ -37,6 +37,7 @@ export default {
    width: 100vw;
    padding: 1rem 1rem 1rem 16.67%;
    background-color: #000;
+   z-index: 1000;
 }
 .row {
     margin: 0;
@@ -89,27 +90,5 @@ input:focus {
 }
 .fai:hover {
     color: #01BAEF;
-}
-.circular {
-    width: 40px;
-    height: 40px;
-    background-color: #000000;
-    border-radius: 50%;
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-}
-.circular img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
 }
 </style>
