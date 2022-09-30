@@ -1,11 +1,12 @@
 <template>
   <div class="main">
+        <TopBar />
     <div class="row">
       <div class="col-lg-2 col-md-1 col-sm-1">
         <SideMenu />
       </div>
       <div class="col-lg-10 col-md-11 col-sm-11">
-        <router-view />
+        <router-view class="pad" />
       </div>
     </div>
   </div>
@@ -13,9 +14,10 @@
 
 <script>
 import SideMenu from './components/SideMenu.vue';
+import TopBar from './components/TopBar.vue';
 export default {
     name: "App",
-    components: { SideMenu }
+    components: { SideMenu, TopBar }
 }
 </script>
 
@@ -32,5 +34,8 @@ body {
   background-color: #222222;
   color: #FFF;
   font-family: 'Space Grotesk', sans-serif;
+}
+.pad {
+  padding-top: 6rem;
 }
 </style>
