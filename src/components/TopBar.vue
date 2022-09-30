@@ -9,8 +9,9 @@
         </div>
         <div class="col-lg-2 col-md-2 col-0"></div>
         <div class="col-lg-2 col-md-2 col-sm-6 d-flex icons">
-            <i class="fa fa-regular fa-paper-plane"></i>
-            <i class="fa fa-regular fa-bell"></i>
+            <i class="fai fa-regular fa-paper-plane"></i>
+            <i class="fai fa-regular fa-bell"></i>
+            <!-- <i class="fa-regular fa-bell-slash"></i> -->
             <router-link to="/" class="circular">
                 <img src="../assets/images/me.jpg" alt="user profile image">
             </router-link>
@@ -46,6 +47,7 @@ export default {
 }
 .search i {
     position: absolute;
+    bottom: -1px;
 }  
 .search {
     width: 100%;
@@ -67,30 +69,30 @@ input[type='text'] {
     color: #e7e9ea;
     border: none;
     border-radius: 32px;
-    height: 2.4rem;
+    height: 2rem;
     padding-left: 2.5rem;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
     width: 100%;
 }
-input[type='text']:focus {
-    outline: 1px solid linear-gradient(to right, #20BF55, #01BAEF);
+input:focus {
+    outline-style: 1px solid linear-gradient(to right, #20BF55, #01BAEF);
 }
 .icons {
     justify-content: space-between;
     align-items: center;
 }
-.fa {
+.fai {
     cursor: pointer;
     transition: all 0.5s;
 }
-.fa:hover {
+.fai:hover {
     color: #01BAEF;
 }
 .circular {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-color: #000000;
     border-radius: 50%;
     position: relative;
