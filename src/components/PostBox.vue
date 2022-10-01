@@ -9,7 +9,7 @@
             </div>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
                 <!-- <input type="text" name="status" class="status" placeholder="What's on your mind?"> -->
-                <div class="row">
+                <div class="row w-100">
                     <div class="col-lg-6 col-md-6 ">
                         <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="What's on your mind?"
                         v-model="status"></textarea>
@@ -104,9 +104,15 @@ textarea:focus {
 }div.buttons {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 div.attached {
     display: flex;
     align-items: center;
+}
+.fa-paperclip:hover {
+    background-color: transparent;
+    color: #e7e9ea;
+    cursor: default;
 }
 </style>
