@@ -9,25 +9,30 @@
             </div>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
                 <!-- <input type="text" name="status" class="status" placeholder="What's on your mind?"> -->
-                <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" cols="30" rows="2" placeholder="What's on your mind?"
-                v-model="status"></textarea>
-                <!-- <i class="fa-regular fa-image"></i> -->
-                <div class="attached">
-                    <i class="fa-solid fa-paperclip"></i>
-                    <p class="subtext mb-0">0 file(s) attached</p>
-                </div>
-                <div class="file-input">
-                    <input
-                        type="file"
-                        name="file-input"
-                        id="file-input"
-                        class="file-input__input"
-                    />
-                    <label class="file-input__label" for="file-input">
-                        <i class="fa-regular fa-image"></i></label>
-                </div>
-                <div class="talk-btn">
-                    <p class="other-talks">Share</p>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 ">
+                        <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="What's on your mind?"
+                        v-model="status"></textarea>
+                    </div>
+                    <div class="col-lg-6 col-md-6 buttons">
+                        <div class="attached">
+                            <i class="fa-solid fa-paperclip"></i>
+                            <p class="subtext mb-0">0 file(s) attached</p>
+                        </div>
+                        <div class="file-input">
+                            <input
+                                type="file"
+                                name="file-input"
+                                id="file-input"
+                                class="file-input__input"
+                            />
+                            <label class="file-input__label" for="file-input">
+                                <i class="fa-regular fa-image"></i></label>
+                        </div>
+                        <div class="talk-btn">
+                            <p class="other-talks">Share</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,7 +68,7 @@ div.form {
     display: flex;
     align-items: center;
 }
-div.form > * {
+div.form > *, div.buttons > * {
     margin-right: 0.5rem;
 }
 textarea {
@@ -71,7 +76,7 @@ textarea {
     backdrop-filter: blur(45px);
     color: #e7e9ea;
     border: none;
-    height: 2rem;
+    width: 100%;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
@@ -96,6 +101,9 @@ textarea:focus {
 }
 .other-talks {
   margin: 0;
+}div.buttons {
+    display: flex;
+    justify-content: space-between;
 }
 div.attached {
     display: flex;
