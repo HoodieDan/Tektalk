@@ -2,16 +2,20 @@
   <div class="">
     <div class="post-box">
         <div class="row">
-            <div class="col-1">
+            <div class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
                     <img src="../assets/images/me.jpg" alt="handsome">
                 </div>
             </div>
-            <div class="col-11 form">
+            <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
                 <!-- <input type="text" name="status" class="status" placeholder="What's on your mind?"> -->
-                <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" cols="50" rows="2" placeholder="What's on your mind?"
+                <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" cols="30" rows="2" placeholder="What's on your mind?"
                 v-model="status"></textarea>
                 <!-- <i class="fa-regular fa-image"></i> -->
+                <div class="attached">
+                    <i class="fa-solid fa-paperclip"></i>
+                    <p class="subtext mb-0">0 file(s) attached</p>
+                </div>
                 <div class="file-input">
                     <input
                         type="file"
@@ -93,5 +97,8 @@ textarea:focus {
 .other-talks {
   margin: 0;
 }
-
+div.attached {
+    display: flex;
+    align-items: center;
+}
 </style>
