@@ -53,6 +53,7 @@ div.post-box {
     background-color: #000;
     padding: 1.5rem 1rem;
     border-radius: 5px;
+    margin-bottom: 0.5rem;
 }
 div.form {
     display: flex;
