@@ -2,13 +2,13 @@
   <div class="container-fluid">
     <TopBar />
     <div class="row">
-      <div class="col-lg-2 col-md-1 col-sm-1">
+      <div class="col-lg-2 col-md-2 col-sm-2">
         <SideMenu />
       </div>
-      <div class="col-lg-7 col-md-8 col-sm-8">
+      <div class="col-lg-7 col-md-10 col-sm-10">
         <router-view class="pad" />
       </div>
-      <div class="col-lg-3 col-md-3 col-sm-3">
+      <div class="col-lg-3 col-0">
         <Suggestions class="pad" />
       </div>
     </div>

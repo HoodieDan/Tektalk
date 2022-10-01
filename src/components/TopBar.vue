@@ -50,6 +50,9 @@ export default {
     position: absolute;
     bottom: -1px;
 }  
+.search i:hover {
+    background-color: transparent !important;
+}
 .search {
     width: 100%;
     /* margin-bottom: 0.6rem; */

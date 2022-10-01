@@ -62,4 +62,14 @@ margin: 0;
 .talk-name {
 margin-bottom: 0.1rem;
 }
+@media (max-width: 1100px) {
+    div.circular {
+        display: none;
+    }
+}
+@media (max-width: 992px) {
+  div.recommended {
+    display: none;
+  }
+}
 </style>
