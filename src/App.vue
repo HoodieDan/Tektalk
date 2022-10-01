@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-        <TopBar />
+  <div class="container-fluid">
+    <TopBar />
     <div class="row">
       <div class="col-lg-2 col-md-1 col-sm-1">
         <SideMenu />
@@ -52,11 +52,14 @@ body {
   background-color: #222222;
   color: #FFF;
   font-family: 'Space Grotesk', sans-serif;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 p {
   font-size: 0.9rem;
 }
+/* div.col-lg-3.col-md-3.col-sm-3 {
+  padding: 0;
+} */
 .subtext {
   font-size: 0.7rem;
   color: #A9A9A9;

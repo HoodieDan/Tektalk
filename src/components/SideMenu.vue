@@ -71,6 +71,7 @@ h6 {
     color: #e7e9ea;
     font-weight: 300;
     padding: 1rem 2rem 0;
+    z-index: 1001;
     /* border-right: #e7e9ea 1px solid; */
 }
 .logo-group {

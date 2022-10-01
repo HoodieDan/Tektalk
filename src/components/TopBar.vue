@@ -34,7 +34,7 @@ export default {
 <style scoped>
 .top-bar {
    position: fixed;
-   width: 100vw;
+   width: 100%;
    padding: 1rem 1rem 1rem 16.67%;
    background-color: #000;
    z-index: 1000;
