@@ -8,12 +8,11 @@
                 <input type="text" class="input field" placeholder="Explore" v-model="query" />
             </div>
         </div>
-        <div class="col-lg-2 col-0"></div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto">
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane"></i>
-                <i class="fai fa-regular fa-bell"></i>
-                <!-- <i class="fa-regular fa-bell-slash"></i> -->
+                <i class="fai fa-regular fa-bell" @click="changeSound" v-if="sound"></i>
+                <i class="fai fa-regular fa-bell-slash" @click="changeSound" v-if="!sound"></i>
                 <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="circular">
                     <img src="../assets/images/me.jpg" alt="user profile image">
                 </router-link>
@@ -45,7 +44,13 @@ export default {
     name: 'TopBar',
     data() {
         return {
-            query: ''
+            query: '',
+            sound: true,
+        }
+    },
+    methods: {
+        changeSound() {
+            this.sound = !this.sound
         }
     }
 }
