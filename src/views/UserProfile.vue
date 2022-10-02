@@ -46,13 +46,13 @@
     </div>
     <div class="tabs mt-3 mb-3">
         <div class="row">
-            <div class="col-4 b-r text-center tab active-tab">
+            <div class="col-4 b-r text-center tab" :class="{ 'active-tab': isActive('Posts') }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
-            <div class="col-4 b-r text-center tab">
+            <div class="col-4 b-r text-center tab" :class="{ 'active-tab': isActive('Contributions') }" @click="this.currentTab = 'Contributions'">
                 <h6 class="mt-2 mb-2">Contributions</h6>
             </div>
-            <div class="col-4 text-center tab">
+            <div class="col-4 text-center tab" :class="{ 'active-tab': isActive('Talks') }" @click="this.currentTab = 'Talks'">
                 <h6 class="mt-2 mb-2">Talks</h6>
             </div>
         </div>
@@ -64,6 +64,37 @@
 <script>
 import PostItem from '../components/PostItem.vue';
 export default {
+    created() {
+        const { tab } = this.$route.query;
+
+        this.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+    },
+    data() {
+        return {
+            currentTab: 'Posts'
+        }
+    },
+    methods: {
+        isActive(tab) {
+            if (this.currentTab === tab) {
+                return true
+            } else {
+                return false
+            }
+        }
+    },
+    watch: {
+        currentTab(newVal) {
+            if (newVal === this.$route.query.tab) {
+                return
+            }
+            this.$router.push({
+                query: {
+                    tab: newVal,
+                }
+            })
+        }
+    },
     components: { PostItem }
 }
 </script>
@@ -94,6 +125,7 @@ div.circular {
     position: relative;
     left: 50px;
     bottom: 100px;
+    cursor: default;
 }
 div.info {
     padding: 1.5rem 50px;
