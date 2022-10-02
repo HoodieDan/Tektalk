@@ -27,6 +27,10 @@
                 <i class="fa-solid fa-earth-africa"></i>
                 <p class="mb-0">Nigeria</p>
             </div>
+            <div class="location">
+                <i class="fa-regular fa-envelope normal-fa"></i>
+                <p class="mb-0">Obodedaniel3@gmail.com</p>
+            </div>
             <div class="bio mt-3">
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic enim assumenda 
                     recusandae atque minus ipsa quidem expedita eligendi, modi accusamus consequuntur 

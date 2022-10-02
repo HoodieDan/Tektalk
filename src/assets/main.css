@@ -58,6 +58,9 @@
     -webkit-background-clip: text;
 }
 .normal-fa {
+    cursor: default;
+}
+.normal-fa:hover {
     background-color: transparent;
-    color: #e7e9ea;
+    color: #A9A9A9;
 }
