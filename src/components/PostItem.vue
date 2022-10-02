@@ -2,11 +2,11 @@
   <div class="">
     <div class="post" v-for="post in postArr" :key="post">
         <div class="row">
-            <div class="col-lg-1 col-md-1 col-sm-2 col-2">
+            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
                     <img src="../assets/images/me.jpg" alt="handsome">
                 </div>
-            </div>
+            </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10">
                 <div>
                     <div class="user-details">
@@ -122,6 +122,9 @@ div.post {
 .post:hover {
     background-color: #191919;
 }
+.circular {
+    border: 1px solid #A9A9A9;
+}
 .username {
     font-weight: 500;
     background: linear-gradient(to right, #20BF55, #01BAEF);
@@ -147,6 +150,9 @@ div.svg-box {
     display: flex;
     cursor: pointer;
     margin-bottom: 0;
+}
+div.svg-box:nth-of-type(3) {
+    margin-right: 1rem;
 }
 svg {
     margin-right: 0.5rem;

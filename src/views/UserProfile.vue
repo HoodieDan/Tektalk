@@ -46,13 +46,13 @@
     </div>
     <div class="tabs mt-3 mb-3">
         <div class="row">
-            <div class="col-4 b-r text-center tab" :class="{ 'active-tab': isActive('Posts') }" @click="this.currentTab = 'Posts'">
+            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': isActive('Posts') }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
-            <div class="col-4 b-r text-center tab" :class="{ 'active-tab': isActive('Contributions') }" @click="this.currentTab = 'Contributions'">
+            <div class="col-lg-4 col-md-4 col-6 b-r text-center tab" :class="{ 'active-tab': isActive('Contributions') }" @click="this.currentTab = 'Contributions'">
                 <h6 class="mt-2 mb-2">Contributions</h6>
             </div>
-            <div class="col-4 text-center tab" :class="{ 'active-tab': isActive('Talks') }" @click="this.currentTab = 'Talks'">
+            <div class="col-lg-4 col-md-4 col-3 text-center tab" :class="{ 'active-tab': isActive('Talks') }" @click="this.currentTab = 'Talks'">
                 <h6 class="mt-2 mb-2">Talks</h6>
             </div>
         </div>
@@ -187,5 +187,15 @@ div.info {
 }
 .active-tab {
     background-color: #191919;
+}
+@media (max-width: 575px) {
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .info {
+        margin-right: 0;
+        margin-left: 0;
+    }
 }
 </style>

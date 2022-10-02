@@ -12,3 +12,37 @@
 .dark {
     color: #A9A9A9;
 }
+.talk-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #20BF55, #01BAEF);
+    height: 2rem;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.talk-btn:hover {
+    background-position:200px; 
+}
+.other-talks {
+    text-decoration: none;
+    color: #e7e9ea;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+.other-talks:hover {
+    color: #e7e9ea;
+}
+.logo-text {
+    font-weight: 700;
+    background: linear-gradient(to right, #20BF55, #01BAEF);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    width: 2.3rem;
+    height: auto;
+    margin-bottom: 0;
+}
+.no-underline {
+    text-decoration: none;
+}

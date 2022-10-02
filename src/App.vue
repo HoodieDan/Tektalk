@@ -1,11 +1,12 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid main-fluid">
     <TopBar />
+    <BottomMenu />
     <div class="row">
-      <div class="col-lg-2 col-md-2 col-sm-2">
+      <div class="col-lg-2 col-md-1 side-menu">
         <SideMenu />
       </div>
-      <div class="col-lg-7 col-md-10 col-sm-10">
+      <div class="col-lg-7 col-md-11">
         <router-view class="pad" />
       </div>
       <div class="col-lg-3 col-0">
@@ -19,9 +20,10 @@
 import SideMenu from './components/SideMenu.vue';
 import TopBar from './components/TopBar.vue';
 import Suggestions from './components/Suggestions.vue';
+import BottomMenu from './components/BottomMenu.vue';
 export default {
     name: "App",
-    components: { SideMenu, TopBar, Suggestions }
+    components: { SideMenu, TopBar, Suggestions, BottomMenu }
 }
 </script>
 
@@ -88,5 +90,23 @@ p {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+@media (max-width: 768px) {
+  .side-menu {
+    display: none;
+  }
+  .main-fluid {
+    padding-left: 0;
+  }
+}
+@media (max-width: 575px) {
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .row > * {
+        padding-left: 1rem;
+        padding-right: 0.25rem;
+    }
 }
 </style>

@@ -50,7 +50,7 @@ div.recommendation {
   border-radius: 32px;
 }
 .circular {
-  border: 1px solid #222222;
+  border: 1px solid #A9A9A9;
 }
 .talk-btn {
   padding: 0.5rem 1rem;

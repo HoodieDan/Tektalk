@@ -1,19 +1,39 @@
 <template>
   <div class="top-bar">
-    <div class="row">
+    <!-- desktop topbar  -->
+    <div class="row desktop">
         <div class="col-lg-8 col-md-8 col-sm-6 search-div">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
                 <input type="text" class="input field" placeholder="Explore" v-model="query" />
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-0"></div>
-        <div class="col-lg-2 col-md-2 col-sm-6 d-flex icons">
-            <i class="fai fa-regular fa-paper-plane"></i>
-            <i class="fai fa-regular fa-bell"></i>
-            <!-- <i class="fa-regular fa-bell-slash"></i> -->
-            <router-link :to="{name: 'profile', params: { username: 'hoodiedan' }}" class="circular">
-                <img src="../assets/images/me.jpg" alt="user profile image">
+        <div class="col-lg-2 col-0"></div>
+        <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="d-flex icons">
+                <i class="fai fa-regular fa-paper-plane"></i>
+                <i class="fai fa-regular fa-bell"></i>
+                <!-- <i class="fa-regular fa-bell-slash"></i> -->
+                <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="circular">
+                    <img src="../assets/images/me.jpg" alt="user profile image">
+                </router-link>
+            </div>
+        </div>
+    </div>
+
+    <!-- mobile top bar -->
+    <div class="row mobile">
+        <router-link :to="{name: 'Home'}" class="col-2 no-underline">
+            <h3 class="logo-text mb-0">Tt</h3>
+        </router-link>
+        <div class="col-8">
+            <h4 class="mb-0">{{this.$route.name}}</h4>
+        </div>
+        <div class="col-2">
+            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}">
+                <div class="circular">
+                    <img src="../assets/images/me.jpg" alt="gorgeous">
+                </div>
             </router-link>
         </div>
     </div>
@@ -87,11 +107,44 @@ input:focus {
     justify-content: space-between;
     align-items: center;
 }
-.fai {
+/* .fai {
     cursor: pointer;
     transition: all 0.5s;
-}
+} */
 .fai:hover {
     color: #01BAEF;
+}
+.mobile {
+    display: none;
+}
+.mobile > * {
+    display: none;
+}
+@media (min-width: 992px) {
+    .desktop {
+      display: flex !important;
+    }
+}
+@media (max-width: 768px) {
+    .desktop {
+        display: none;
+    }
+    .mobile {
+        display: flex !important;
+    }
+    .mobile > * {
+        display: block;
+    }
+    .top-bar {
+        padding: 1rem;
+    }
+    .col-10 h4, 
+    .logo-text {
+        font-weight: 700;
+    }
+    .circular {
+        width: 30px;
+        height: 30px;
+    }
 }
 </style>

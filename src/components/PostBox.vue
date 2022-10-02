@@ -2,11 +2,11 @@
   <div class="">
     <div class="post-box">
         <div class="row">
-            <div class="col-lg-1 col-md-1 col-sm-2 col-2">
+            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
                     <img src="../assets/images/me.jpg" alt="handsome">
                 </div>
-            </div>
+            </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
                 <!-- <input type="text" name="status" class="status" placeholder="What's on your mind?"> -->
                 <div class="row w-100">

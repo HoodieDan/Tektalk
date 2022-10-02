@@ -50,7 +50,7 @@ border-radius: 32px;
 cursor: pointer;
 }
 .circular {
-border: 1px solid #222222;
+border: 1px solid #A9A9A9;
 }
 .talk-btn {
 padding: 0.5rem 1rem;
