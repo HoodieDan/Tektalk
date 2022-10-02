@@ -46,6 +46,8 @@ width: 100%;
 align-items: center;
 justify-content: space-between;
 margin-bottom: 0.5rem;
+border-radius: 32px;
+cursor: pointer;
 }
 .circular {
 border: 1px solid #222222;

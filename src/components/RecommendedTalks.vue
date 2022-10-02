@@ -46,6 +46,8 @@ div.recommendation {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  cursor: pointer;
+  border-radius: 32px;
 }
 .circular {
   border: 1px solid #222222;

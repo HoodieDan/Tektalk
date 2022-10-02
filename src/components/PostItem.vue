@@ -120,7 +120,7 @@ div.post {
     cursor: pointer;
 }
 .post:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #191919;
 }
 .username {
     font-weight: 500;

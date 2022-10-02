@@ -12,7 +12,7 @@
             <i class="fai fa-regular fa-paper-plane"></i>
             <i class="fai fa-regular fa-bell"></i>
             <!-- <i class="fa-regular fa-bell-slash"></i> -->
-            <router-link to="/" class="circular">
+            <router-link :to="{name: 'profile', params: { username: 'hoodiedan' }}" class="circular">
                 <img src="../assets/images/me.jpg" alt="user profile image">
             </router-link>
         </div>
