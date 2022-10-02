@@ -52,6 +52,9 @@ export default {
 </script>
 
 <style scoped>
+h4 {
+    font-weight: 700;
+}
 .top-bar {
    position: fixed;
    width: 100%;

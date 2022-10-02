@@ -184,9 +184,11 @@ div.info {
 }
 .tab:hover {
     background-color: #191919;
+    color: #20BF55;
 }
 .active-tab {
     background-color: #191919;
+    color: #20BF55;
 }
 @media (max-width: 575px) {
     .container {

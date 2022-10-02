@@ -46,3 +46,18 @@
 .no-underline {
     text-decoration: none;
 }
+.light {
+    color: #e7e9ea;
+}
+.darkest {
+    color: #222222;
+}
+.text-gradient {
+    background: linear-gradient(to right, #20BF55, #01BAEF);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+.normal-fa {
+    background-color: transparent;
+    color: #e7e9ea;
+}

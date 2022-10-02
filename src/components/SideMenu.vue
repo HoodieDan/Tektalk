@@ -153,10 +153,10 @@ h6 {
     border-bottom: 1px solid #222222;
 }
 .bottom-nav {
+    margin-top: 0.5rem;
     border-top: 1px solid #222222;
 }
 .sign-out {
-    padding-top: 0.5rem;
     align-self: center !important;
 }
 @media (max-width: 992px) {
