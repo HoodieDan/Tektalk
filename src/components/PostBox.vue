@@ -115,4 +115,9 @@ div.attached {
     color: #e7e9ea;
     cursor: default;
 }
+@media (max-width: 330px) {
+    .talk-btn {
+        padding: 0.5rem;
+    }
+}
 </style>
