@@ -93,6 +93,13 @@ h6 {
     align-items: flex-end;
     font-family: 'Poppins', sans-serif;
     /* border-bottom: 1px solid #222222; */
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.logo,
+.logo-text {
+    animation: right-slide 0.5s cubic-bezier(0.645,0.045,0.355,1) forwards;
 }
 .logo {
     font-weight: 700;
@@ -158,6 +165,14 @@ h6 {
 }
 .sign-out {
     align-self: center !important;
+}
+@keyframes right-slide {
+    from {
+        transform: translateX(-150px);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 @media (max-width: 992px) {
     .menu {

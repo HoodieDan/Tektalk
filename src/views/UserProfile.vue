@@ -234,4 +234,12 @@ div.info {
         margin-left: 0;
     }
 }
+@media (max-width: 400px) {
+    .circular {
+        left: 30px;
+    }
+    div.info {
+        padding: 1.5rem 30px;
+    }
+}
 </style>

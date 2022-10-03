@@ -101,7 +101,8 @@ textarea:focus {
 }
 .other-talks {
   margin: 0;
-}div.buttons {
+}
+div.buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -64,3 +64,6 @@
     background-color: transparent;
     color: #A9A9A9;
 }
+#nprogress .bar {
+  background: #0bce5a !important;
+}
