@@ -1,16 +1,20 @@
 <template>
   <div class="container-fluid main-fluid">
-    <TopBar />
-    <BottomMenu />
+    <TopBar  v-show="!emptyScreen" />
+    <BottomMenu  v-if="!emptyScreen" />
     <div class="row">
       <div class="col-lg-2 col-md-1 side-menu">
-        <SideMenu />
+        <SideMenu  v-if="!emptyScreen" />
       </div>
       <div class="col-lg-7 col-md-11">
-        <router-view class="pad" />
+        <router-view class="pad" v-slot="{ Component }" >
+          <transition name="fade" mode="out-in">
+            <component :is="Component" ></component>
+          </transition>
+        </router-view>
       </div>
       <div class="col-lg-3 col-0">
-        <Suggestions class="pad" />
+        <Suggestions class="pad"  v-if="!emptyScreen"/>
       </div>
     </div>
   </div>
@@ -23,6 +27,12 @@ import Suggestions from './components/Suggestions.vue';
 import BottomMenu from './components/BottomMenu.vue';
 export default {
     name: "App",
+    computed: {
+      emptyScreen() {
+        return this.$route.name === 'Auth' || this.$route.name === 'SignUp' ||
+        this.$route.name === 'SignIn'
+      }
+    },
     components: { SideMenu, TopBar, Suggestions, BottomMenu }
 }
 </script>
@@ -90,6 +100,20 @@ p {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+.transparent {
+  opacity: 0;
+}
+.fade-in {
+  animation: fade-in 0.5s linear forwards;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @media (max-width: 768px) {
   .side-menu {

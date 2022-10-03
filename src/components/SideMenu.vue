@@ -1,5 +1,5 @@
 <template>
-<div class="menu">
+<div class="menu fade-in">
         <div class="nav-group">
             <div class="logo-group d-flex">
                 <h3 class="logo-text">Tt</h3>

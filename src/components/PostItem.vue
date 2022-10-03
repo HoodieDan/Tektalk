@@ -197,4 +197,9 @@ div.svg-box:nth-of-type(3) {
 h6 span.subtext {
     font-size: 0.9rem;
 }
+@media (max-width: 768px) {
+    .function-icons {
+        margin-left: 17%;
+    }
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container fade-in">
     <RecommendedTalks />
     <RecommendedUsers />
   </div>

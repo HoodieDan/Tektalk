@@ -1,5 +1,5 @@
 <template>
-  <div class="top-bar">
+  <div class="top-bar fade-in">
     <!-- desktop topbar  -->
     <div class="row desktop">
         <div class="col-lg-8 col-md-8 col-sm-6 search-div">
@@ -21,7 +21,7 @@
     </div>
 
     <!-- mobile top bar -->
-    <div class="row mobile">
+    <div class="row mobile fade-in">
         <router-link :to="{name: 'Home'}" class="col-2 no-underline">
             <h3 class="logo-text mb-0">Tt</h3>
         </router-link>
@@ -86,7 +86,8 @@ h4 {
     /* margin-bottom: 0.6rem; */
 } 
 .icon {
-    padding: 10px;
+    padding-top: 12px;
+    padding-left: 10px;
     min-width: 2.3rem;
     z-index: 10;
     color: #999999;
