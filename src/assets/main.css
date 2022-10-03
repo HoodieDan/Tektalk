@@ -67,3 +67,11 @@
 #nprogress .bar {
   background: #0bce5a !important;
 }
+@keyframes right-slide {
+    from {
+        transform: translateX(-150px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}

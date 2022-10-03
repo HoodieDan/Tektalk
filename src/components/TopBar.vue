@@ -128,6 +128,14 @@ input:focus {
 .mobile > * {
     display: none;
 }
+.col-2.no-underline {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.logo-text {
+    animation: right-slide 1s cubic-bezier(0.645,0.045,0.355,1) forwards;
+}
 @media (min-width: 992px) {
     .desktop {
       display: flex !important;
