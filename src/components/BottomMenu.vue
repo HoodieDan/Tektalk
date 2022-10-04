@@ -10,7 +10,7 @@
         <router-link :to="{ name: 'Home' }"><i class="fa fa-regular fa-address-book"></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-gear"></i></router-link>
+        <router-link :to="{ name: 'Settings' }"><i class="fa fa-solid fa-gear"></i></router-link>
     </div>
   </div>
 </template>

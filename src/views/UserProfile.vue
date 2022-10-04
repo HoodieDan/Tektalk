@@ -52,7 +52,7 @@
                     <p class="other-talks mb-0">Follow</p>
                 </div>
                 <div class="talk-btn" v-else>
-                    <p class="other-talks mb-0"><i class="fa fa-solid fa-gear light"></i> Settings</p>
+                    <p class="mb-0 other-talks"><i class="light fa-solid fa-pen-nib"></i><span>Edit Profile</span></p>
                 </div>
             </div>
             <div class="stack">
