@@ -47,9 +47,7 @@ export const authStore = defineStore('auth', {
             this.user = user;
         },
         signOut() {
-            localStorage.clear()
-
-            window.location.reload();
+            this.userLoggedIn = false;
         },
     }
 });

@@ -42,6 +42,14 @@ const router = createRouter({
       name: 'SignUp',
       component: () => import('../views/SignUp.vue')
     },
+    {
+      path: '/Settings',
+      name: 'Settings',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/SettingsPage.vue')
+    },
   ]
 })
 

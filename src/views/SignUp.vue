@@ -186,7 +186,7 @@ input, select {
     border: 1px solid #e7e9ea;
     border-radius: 32px;
     height: 2rem;
-    padding-left: 2.5rem;
+    padding-left: 2.5rem !important;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;

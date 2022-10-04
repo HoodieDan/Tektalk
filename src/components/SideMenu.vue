@@ -16,7 +16,7 @@
                     <router-link to="/" class="navi"><i class="fa fa-regular fa-address-book"></i><span>Events</span></router-link>
                 </div>
                 <div class="link settings">
-                    <router-link to="/" class="navi"><i class="fa fa-solid fa-gear"></i><span>Settings</span></router-link>
+                    <router-link :to="{ name: 'Settings' }" class="navi"><i class="fa fa-solid fa-gear"></i><span>Settings</span></router-link>
                 </div>
             </div>
             <div class="mid">
@@ -70,6 +70,7 @@
 
 <script>
 import axios from 'axios';
+import { authStore } from '../stores/auth';
 
 export default {
     name: 'SideMenu',
@@ -86,6 +87,8 @@ export default {
     },
     methods: {
         signOut() {
+            const auth = authStore();
+            auth.signOut();
             localStorage.clear()
 
             this.$router.push({ name: 'Auth' })
