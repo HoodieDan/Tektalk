@@ -120,6 +120,9 @@ export default {
         })
 
     },
+    Updated(to, from) {
+        console.log('Update');
+    },
     data() {
         return {
             profile: null,
@@ -146,6 +149,9 @@ export default {
                     tab: newVal,
                 }
             })
+        },
+        $route(){
+            window.location.reload();
         }
     },
     components: { PostItem },
