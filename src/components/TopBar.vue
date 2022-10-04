@@ -30,7 +30,7 @@
             <h4 class="mb-0">{{this.$route.name}}</h4>
         </div>
         <div class="col-2" v-if="currentUser !== null">
-            <router-link :to="{name: 'Profile', params: { username: 'HoodieDan' }}">
+            <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
                 <div class="circular">
                     <img :src="currentUser.displayUrl" alt="gorgeous" v-if="currentUser.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
