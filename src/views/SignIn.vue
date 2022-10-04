@@ -63,9 +63,9 @@ export default {
                 return;
             }
 
-            // window.location.reload();
+            window.location.reload();
             this.login_in_submission = false;
-            this.$router.push({ name: 'Home' });
+            // this.$router.push({ name: 'Home' });
         }
     },
     beforeRouteEnter(to, from, next) {
