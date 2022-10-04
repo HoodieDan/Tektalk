@@ -63,8 +63,12 @@ export default {
         async getUser() {
             const apiKey = import.meta.env.VITE_API_KEY;
 
-            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-            this.currentUser = profile.data;
+            if (localStorage.getItem('token')) {
+                const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+                this.currentUser = profile.data;
+            } else {
+                return;
+            }
         }
     },
     props: ['userId']

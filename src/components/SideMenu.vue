@@ -77,8 +77,10 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
             
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        this.user = profile.data;
+        if (localStorage.getItem('token')) {
+            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            this.user = profile.data;
+        }
     },
     data() {
         return {

@@ -106,9 +106,11 @@ import axios from 'axios'
 export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const user_profile = await axios.get(`/profile/${to.params.username}?apiKey=${apiKey}`)
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-            
+        const user_profile = await axios.get(`/profile/${to.params.username}?apiKey=${apiKey}`);
+        let profile = null;
+        if (localStorage.getItem('token')) {
+            profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        }            
         next((vm) => {
             const { tab } = vm.$route.query;
 
@@ -116,7 +118,9 @@ export default {
 
             vm.profile = user_profile.data;
         
-            vm.loggedInUser = profile.data;
+            if (localStorage.getItem('token')) {
+                vm.loggedInUser = profile.data;
+            }
         })
 
     },

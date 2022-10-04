@@ -31,7 +31,7 @@ import { authStore } from './stores/auth';
 export default {
     name: "App",
     async created() {
-      const apiKey = import.meta.env.VITE_API_KEY;
+      // const apiKey = import.meta.env.VITE_API_KEY;
 
       const auth = authStore();
       const uid = localStorage.getItem('uid');
@@ -43,12 +43,12 @@ export default {
         auth.loggedIn();
       }
       
-      const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-      this.user = profile.data;
+      // const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+      // this.user = profile.data;
     },
     data() {
       return {
-        user: null,
+        // user: null,
         uid: null,
       }
     },
