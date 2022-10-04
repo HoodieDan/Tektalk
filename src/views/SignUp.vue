@@ -128,9 +128,8 @@ export default {
             console.log(values);
             this.reg_in_submission = true;
 
-
             const auth = authStore();
-            // const apiKey = process.env.VUE_APP_API_KEY;
+            
             try {
                 await auth.register(values)
             } catch (error) {

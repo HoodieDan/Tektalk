@@ -55,8 +55,6 @@ export default {
             const auth = authStore();
             this.login_in_submission = true;
 
-
-            // const apiKey = process.env.VUE_APP_API_KEY;
             try {
                 await auth.login(values)
             } catch (error) {

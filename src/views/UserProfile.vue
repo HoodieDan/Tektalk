@@ -105,14 +105,16 @@ import axios from 'axios'
 
 export default {
     async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+            
         const { tab } = this.$route.query;
 
         this.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
-        const user_profile = await axios.get(`/profile/${this.$route.params.username}?apiKey=6f654abc45bb5ed9cae9db9c`)
+        const user_profile = await axios.get(`/profile/${this.$route.params.username}?apiKey=${apiKey}`)
         this.profile = user_profile.data;
         
-        const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.loggedInUser = profile.data;
     },
     data() {

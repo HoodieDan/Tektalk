@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
-// const apiKey = {process.env.VUE_APP_API_KEY}
+const apiKey = import.meta.env.VITE_API_KEY;
 
 export const authStore = defineStore('auth', {
     state: () => ({
@@ -17,7 +17,7 @@ export const authStore = defineStore('auth', {
             this.userLoggedIn = true;
         },
         async register(values) {
-            const response = await axios.post(`/auth/signup?apiKey=6f654abc45bb5ed9cae9db9c`, {
+            const response = await axios.post(`/auth/signup?apiKey=${apiKey}`, {
                 email: values.email,
                 password: values.password,
                 confirmPassword: values.confirm_password,
@@ -33,7 +33,7 @@ export const authStore = defineStore('auth', {
             this.loggedIn()
         },
         async login(values) {
-            const response = await axios.post(`/auth/login?apiKey=6f654abc45bb5ed9cae9db9c`, {
+            const response = await axios.post(`/auth/login?apiKey=${apiKey}`, {
                 email: values.email,
                 password: values.password,
             })
@@ -51,9 +51,5 @@ export const authStore = defineStore('auth', {
 
             window.location.reload();
         },
-        // async getCurrentUser() {
-        //     this.user = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
-        //     console.log(this.user);
-        // }   
     }
 });

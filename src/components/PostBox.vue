@@ -46,7 +46,9 @@ import axios from 'axios';
 export default {
     name: 'PostBox',
     async created() {
-        const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+        const apiKey = import.meta.env.VITE_API_KEY;
+
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
     },
     data() {
