@@ -2,7 +2,7 @@
   <div class="">
     <div class="post" v-for="post in postArr" :key="post">
         <router-link :to="{ name: 'Post', params: { postID: post } }" class="row no-underline">
-            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
+            <router-link :to="{name: 'Profile', params: { username: 'HoodieDan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
                     <img src="../assets/images/me.jpg" alt="handsome">
                 </div>

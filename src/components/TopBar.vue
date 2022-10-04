@@ -29,10 +29,11 @@
         <div class="col-8">
             <h4 class="mb-0">{{this.$route.name}}</h4>
         </div>
-        <div class="col-2">
+        <div class="col-2" v-if="currentUser !== null">
             <router-link :to="{name: 'Profile', params: { username: 'HoodieDan' }}">
                 <div class="circular">
-                    <img src="../assets/images/me.jpg" alt="gorgeous">
+                    <img :src="currentUser.displayUrl" alt="gorgeous" v-if="currentUser.displayUrl">
+                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                 </div>
             </router-link>
         </div>
