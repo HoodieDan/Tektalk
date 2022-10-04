@@ -10,7 +10,7 @@
                     <router-link to="/" class="navi active"><i class="fa fa-solid fa-house"></i><span>Home</span></router-link>
                 </div>
                 <div class="link dashboard">
-                    <router-link to="/" class="navi"><i class="fa fa-solid fa-chart-line"></i><span>Talks</span></router-link>
+                    <router-link :to="{ name: 'Talks' }" class="navi"><i class="fa fa-solid fa-chart-line"></i><span>Talks</span></router-link>
                 </div>
                 <div class="link calendar">
                     <router-link to="/" class="navi"><i class="fa fa-regular fa-address-book"></i><span>Events</span></router-link>

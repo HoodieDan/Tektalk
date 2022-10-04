@@ -11,8 +11,7 @@
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane"></i>
-                <i class="fai fa-regular fa-bell" @click="changeSound" v-if="sound"></i>
-                <i class="fai fa-regular fa-bell-slash" @click="changeSound" v-if="!sound"></i>
+                <i class="fai fa-regular fa-bell"></i>
                 <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular">
                     <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -26,8 +25,12 @@
         <router-link :to="{name: 'Home'}" class="col-2 no-underline">
             <h3 class="logo-text mb-0">Tt</h3>
         </router-link>
-        <div class="col-8">
+        <div class="col-5">
             <h4 class="mb-0">{{this.$route.name}}</h4>
+        </div>
+        <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
+            <i class="fai fa-regular fa-paper-plane"></i>
+            <i class="fai fa-regular fa-bell"></i>
         </div>
         <div class="col-2" v-if="currentUser !== null">
             <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
@@ -53,7 +56,6 @@ export default {
         return {
             currentUser: null,
             query: '',
-            sound: true,
         }
     },
     methods: {
@@ -155,6 +157,9 @@ input:focus {
 }
 .logo-text {
     animation: right-slide 1s cubic-bezier(0.645,0.045,0.355,1) forwards;
+}
+.mobile-icons {
+    justify-content: space-evenly;
 }
 @media (min-width: 992px) {
     .desktop {

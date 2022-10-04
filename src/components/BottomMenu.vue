@@ -4,7 +4,7 @@
         <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-house"></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-chart-line"></i></router-link>
+        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-chart-line"></i></router-link>
     </div>
     <div class="route">
         <router-link :to="{ name: 'Home' }"><i class="fa fa-regular fa-address-book"></i></router-link>

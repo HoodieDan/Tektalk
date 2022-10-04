@@ -20,9 +20,6 @@ const router = createRouter({
     {
       path: '/post/:postID',
       name: 'Post',
-      meta: {
-        requiresAuth: true,
-      },
       component: () => import('../views/PostDetails.vue')
     },
     {
@@ -49,6 +46,14 @@ const router = createRouter({
         requiresAuth: true,
       },
       component: () => import('../views/SettingsPage.vue')
+    },
+    {
+      path: '/Talks',
+      name: 'Talks',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/TalksPage.vue')
     },
   ]
 })
