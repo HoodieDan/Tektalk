@@ -1,18 +1,22 @@
 <template>
   <div class="container" v-if="profile !== null">
     <div class="profile-container w-100">
+        <!-- backdrop image  -->
         <div class="backdrop-image w-100">
             <div v-if="profile.backdropUrl !== null">
                 <img :src="profile.backdropUrl" alt="backdrop image" class="img-fluid">
             </div>
         </div>
         <div class="cover">
+            <!-- display image  -->
             <div class="circular" v-if="profile.displayUrl !== null">
                 <img :src="profile.displayUrl" :alt="profile.name" v-if="profile.displayUrl !== null">
                 <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
             </div>
         </div>
         <div class="row info">
+
+            <!-- name, verification badge and username  -->
             <div class="name-and-username col-7">
                 <div class="d-flex align-items-center">
                     <h4 class="name mb-0">{{ profile.name }}</h4>
@@ -48,28 +52,40 @@
                 <p class="username">@{{ profile.username }}</p>
             </div>
             <div class="follow col-5" v-if="loggedInUser !== null">
+                <!-- follow button  -->
                 <div class="talk-btn" v-if="profile.username !== loggedInUser.username">
                     <p class="other-talks mb-0">Follow</p>
                 </div>
+                <!-- edit profile button -->
                 <div class="talk-btn" v-else>
                     <p class="mb-0 other-talks"><i class="light fa-solid fa-pen-nib"></i><span>Edit Profile</span></p>
                 </div>
             </div>
+
+            <!-- stack -->
             <div class="stack">
                 <i class="fa-solid fa-code"></i>
                 <p class="mb-0">{{ profile.stack }}</p>
             </div>
+
+            <!-- location  -->
             <div class="location">
                 <i class="fa-solid fa-earth-africa"></i>
                 <p class="mb-0">{{ profile.location }}</p>
             </div>
+
+            <!-- email  -->
             <div class="location">
                 <i class="fa-regular fa-envelope normal-fa"></i>
                 <p class="mb-0">{{ profile.email }}</p>
             </div>
+
+            <!-- user bio  -->
             <div class="bio mt-3">
                 <p>{{ profile.bio }}</p>
             </div>
+
+            <!-- followers and following  -->
             <div class="row mt-4">
                 <div class="col-6 b-r text-center foll">
                     <h6>{{ profile.followersCount }}</h6>
@@ -82,25 +98,34 @@
             </div>
         </div>
     </div>
+
+    <!-- tabs  -->
     <div class="tabs mt-3 mb-3">
         <div class="row">
+            <!-- posts  -->
             <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': isActive('Posts') }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
+
+            <!-- Contributions  -->
             <div class="col-lg-4 col-md-4 col-6 b-r text-center tab" :class="{ 'active-tab': isActive('Contributions') }" @click="this.currentTab = 'Contributions'">
                 <h6 class="mt-2 mb-2">Contributions</h6>
             </div>
+
+            <!-- Talks  -->
             <div class="col-lg-4 col-md-4 col-3 text-center tab" :class="{ 'active-tab': isActive('Talks') }" @click="this.currentTab = 'Talks'">
                 <h6 class="mt-2 mb-2">Talks</h6>
             </div>
         </div>
     </div>
+    <PostBox :placeholder="placeholder" v-if="currentTab === 'Posts'" />
     <PostItem />
   </div>
 </template>
 
 <script>
 import PostItem from '../components/PostItem.vue';
+import PostBox from '../components/PostBox.vue';
 import axios from 'axios'
 
 export default {
@@ -132,6 +157,7 @@ export default {
             profile: null,
             loggedInUser: null,
             currentTab: 'Posts',
+            placeholder: 'Post something in your Feed?',
         }
     },
     methods: {
@@ -158,7 +184,7 @@ export default {
             window.location.reload();
         }
     },
-    components: { PostItem },
+    components: { PostItem, PostBox },
 }
 </script>
 

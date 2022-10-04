@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <PostBox />
+    <PostBox :placeholder="placeholder" />
     <PostItem />
   </div>
 </template>
@@ -11,6 +11,11 @@ import PostItem from '../components/PostItem.vue';
 export default {
     name: 'HomePage',
     components: { PostBox, PostItem },
+    data() {
+      return {
+        placeholder: 'What is on your mind?'
+      }
+    }
 }
 </script>
 

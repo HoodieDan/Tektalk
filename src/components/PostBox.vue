@@ -8,32 +8,37 @@
                 </div>
             </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
-                <!-- <input type="text" name="status" class="status" placeholder="What's on your mind?"> -->
-                <div class="row w-100">
-                    <div class="col-lg-6 col-md-6 ">
-                        <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="What's on your mind?"
-                        v-model="status"></textarea>
+                <vee-form @submit="post" :validation-schema="schema">
+                    <div class="row w-100">
+                        <div class="col-lg-6 col-md-6 ">
+                            <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" :placeholder="placeholder"
+                            v-model="status"></vee-field>
+                        </div>
+                        <div class="col-lg-6 col-md-6 buttons">
+                            <div class="attached">
+                                <i class="fa-solid fa-paperclip"></i>
+                                <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
+                                <p class="subtext mb-0 p-0 alert" v-else>{{ upload_alert }}</p>
+                            </div>
+                            <div class="file-input">
+                                <vee-field
+                                    type="file"
+                                    name="file_input"
+                                    id="file_input"
+                                    class="file-input__input"
+                                    @change="handleFileUpload($event)"
+                                    multiple
+                                />
+                                <label class="file-input__label" for="file_input">
+                                    <i class="fa-regular fa-image"></i></label>
+                            </div>
+                            <button type="submit" class="talk-btn">
+                                <p class="other-talks">Share</p>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 buttons">
-                        <div class="attached">
-                            <i class="fa-solid fa-paperclip"></i>
-                            <p class="subtext mb-0">0 file(s) attached</p>
-                        </div>
-                        <div class="file-input">
-                            <input
-                                type="file"
-                                name="file-input"
-                                id="file-input"
-                                class="file-input__input"
-                            />
-                            <label class="file-input__label" for="file-input">
-                                <i class="fa-regular fa-image"></i></label>
-                        </div>
-                        <div class="talk-btn">
-                            <p class="other-talks">Share</p>
-                        </div>
-                    </div>
-                </div>
+                    <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
+                </vee-form>
             </div>
         </div>
     </div>
@@ -42,6 +47,7 @@
 
 <script>
 import axios from 'axios';
+import { authStore } from '../stores/auth';
 
 export default {
     name: 'PostBox',
@@ -53,15 +59,71 @@ export default {
     },
     data() {
         return {
+            schema: {
+                status: 'required|min:1',
+                file_input:'',
+            },
             status: '',
             user: null,
+            file: [],
+            upload_alert: '',
+            show_upload_alert: false,
         }
     },
     computed: {
         tooLong() {
             return this.status.length >= 140
+        },
+        noOfFiles() {
+            return this.file.length;
         }
     },
+    methods: {
+        handleFileUpload($event) {
+            this.file = [...$event.target.files]
+            console.log(this.file);
+            console.log(this.upload_alert);
+            // console.log(this.show_upload_alert);
+
+            this.file.forEach((file) => {
+                const image = file.type.split('/');
+                console.log(image);
+                if (image[0] !== 'image') {
+                    this.upload_alert = 'Upload an image';
+                } else if (this.noOfFiles > 2) {
+                    this.upload_alert = 'maximum of 2 images';
+                } else if (file.size > 8000000) {
+                    this.upload_alert = 'max size is 5mb';
+                } else {
+                    this.upload_alert = ''
+                }
+                return;
+            })
+        },
+        async post(values) {
+            const post = authStore();
+            // values.file
+            values.file.forEach((file) => {
+                const image = file.type.split('/');
+                console.log(image);
+                if (image[0] !== 'image') {
+                    this.upload_alert = 'Upload an image';
+                } else if (this.noOfFiles > 2) {
+                    this.upload_alert = 'maximum of 2 images';
+                } else if (file.size > 8000000) {
+                    this.upload_alert = 'max size is 5mb';
+                } else {
+                    try {
+                        post.post(values)
+                    } catch (err) {
+
+                    }
+                }
+            })
+            console.log(values);
+        }
+    },
+    props: ['placeholder']
 }
 </script>
 

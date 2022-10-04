@@ -85,6 +85,9 @@ button.talk-btn {
     display: block;
     margin-top: 0.1rem;
 }
+.alert {
+    color: #ff0f0f;
+}
 @keyframes right-slide {
     from {
         transform: translateX(-150px);
