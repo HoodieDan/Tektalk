@@ -192,4 +192,13 @@ input, select {
     font-weight: 500;
     width: 100%;
 }
+@media (max-width: 768px) {
+    input, select {
+        height: 2.5rem;
+    }
+    .icon {
+        padding-top: 8px;
+        padding-left: 15px;
+    }
+}
 </style>
