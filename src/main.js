@@ -1,12 +1,15 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './router'
 import '../includes/axios'
 import VeeValidatePlugin from '../includes/Validation'
+import ProgressBar from '../includes/progress-bar'
+import 'nprogress/nprogress.css'
 
 import './assets/main.css'
+
+ProgressBar(router);
 
 const app = createApp(App)
 

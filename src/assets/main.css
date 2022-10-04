@@ -61,7 +61,7 @@ button.talk-btn {
     text-decoration: none;
 }
 .light {
-    color: #e7e9ea;
+    color: #e7e9ea !important;
 }
 .darkest {
     color: #222222;

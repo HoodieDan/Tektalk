@@ -104,18 +104,21 @@ import PostItem from '../components/PostItem.vue';
 import axios from 'axios'
 
 export default {
-    async created() {
+    async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-            
-        const { tab } = this.$route.query;
-
-        this.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
-
-        const user_profile = await axios.get(`/profile/${this.$route.params.username}?apiKey=${apiKey}`)
-        this.profile = user_profile.data;
-        
+        const user_profile = await axios.get(`/profile/${to.params.username}?apiKey=${apiKey}`)
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        this.loggedInUser = profile.data;
+            
+        next((vm) => {
+            const { tab } = vm.$route.query;
+
+            vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+
+            vm.profile = user_profile.data;
+        
+            vm.loggedInUser = profile.data;
+        })
+
     },
     data() {
         return {
