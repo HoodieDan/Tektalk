@@ -10,6 +10,7 @@
     "test:e2e:ci": "start-server-and-test preview http://localhost:4173/ 'cypress run --e2e'"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.6.10",
     "axios": "^0.27.2",
     "pinia": "^2.0.21",
     "vee-validate": "^4.6.10",

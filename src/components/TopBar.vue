@@ -8,13 +8,14 @@
                 <input type="text" class="input field" placeholder="Explore" v-model="query" />
             </div>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto">
+        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane"></i>
                 <i class="fai fa-regular fa-bell" @click="changeSound" v-if="sound"></i>
                 <i class="fai fa-regular fa-bell-slash" @click="changeSound" v-if="!sound"></i>
-                <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="circular">
-                    <img src="../assets/images/me.jpg" alt="user profile image">
+                <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular">
+                    <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
+                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                 </router-link>
             </div>
         </div>
@@ -29,7 +30,7 @@
             <h4 class="mb-0">{{this.$route.name}}</h4>
         </div>
         <div class="col-2">
-            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}">
+            <router-link :to="{name: 'Profile', params: { username: 'HoodieDan' }}">
                 <div class="circular">
                     <img src="../assets/images/me.jpg" alt="gorgeous">
                 </div>
@@ -40,10 +41,16 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'TopBar',
+    mounted() {
+        this.getUser()
+    },
     data() {
         return {
+            currentUser: null,
             query: '',
             sound: true,
         }
@@ -51,8 +58,13 @@ export default {
     methods: {
         changeSound() {
             this.sound = !this.sound
+        },
+        async getUser() {
+            const profile = await axios.get(`/profile/?apiKey=6f654abc45bb5ed9cae9db9c`);
+            this.currentUser = profile.data;
         }
-    }
+    },
+    props: ['userId']
 }
 </script>
 

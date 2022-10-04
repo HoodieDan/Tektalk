@@ -57,17 +57,38 @@
                 </div>
             </div>
             <div class="bottom-nav">
-                <div class="link sign-out">
-                    <p class="navi"><i class="fa fa-solid fa-right-from-bracket"></i><span>Sign Out</span></p>
+                <div class="link sign-out" @click.prevent="signOut" v-if="user !== null">
+                    <p class="navi"><i class="fa fa-solid fa-arrow-right-from-bracket"></i><span>Sign Out</span></p>
                 </div>
+                <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light mb-2 mt-2" v-else>
+                    <p class="mb-0 navi"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'SideMenu',
+    async created() {
+        const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+        this.user = profile.data;
+    },
+    data() {
+        return {
+            user: null,
+        }
+    },
+    methods: {
+        signOut() {
+            localStorage.clear()
+
+            this.$router.push({ name: 'Auth' })
+        }
+    },
 }
 </script>
 
@@ -165,6 +186,9 @@ h6 {
 .sign-out {
     align-self: center !important;
 }
+.talk-btn.no-underline {
+    height: auto;
+}
 @media (max-width: 992px) {
     .menu {
         width: 8.33%;
@@ -195,6 +219,23 @@ h6 {
     }
     .fa {
         width: 2rem;
+    }
+    h3.logo {
+        display: none;
+    }
+    .navi {
+        margin-bottom: auto;
+    }
+}
+@media (max-height: 600px) {
+    .link {
+        margin: auto;
+    }
+    .navi {
+        margin-bottom: 0.5rem;
+    }
+    p {
+        margin-bottom: 0.5rem;
     }
 }
 </style>

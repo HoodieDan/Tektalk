@@ -1,10 +1,10 @@
 <template>
-  <div class="">
+  <div class="" v-if="user !== null">
     <div class="post-box">
         <div class="row">
-            <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
+            <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
-                    <img src="../assets/images/me.jpg" alt="handsome">
+                    <img :src="user.displayUrl" alt="handsome">
                 </div>
             </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
@@ -41,18 +41,25 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'PostBox',
+    async created() {
+        const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+        this.user = profile.data;
+    },
     data() {
         return {
             status: '',
+            user: null,
         }
     },
     computed: {
         tooLong() {
             return this.status.length >= 140
         }
-    }
+    },
 }
 </script>
 

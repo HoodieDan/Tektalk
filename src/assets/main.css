@@ -81,6 +81,10 @@ button.talk-btn {
 #nprogress .bar {
     background: linear-gradient(to right, #20BF55, #01BAEF) !important;
 }
+.error {
+    display: block;
+    margin-top: 0.1rem;
+}
 @keyframes right-slide {
     from {
         transform: translateX(-150px);

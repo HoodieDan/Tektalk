@@ -4,28 +4,80 @@
         <h1 class="text-gradient">Tt.</h1>
         <h4>Welcome back to Tektalk!</h4>
     </div>
-    <form>
+    <vee-form @submit="login" :validation-schema="loginSchema">
+        <!-- email  -->
         <label for="email">Email:</label>
         <div class="form-item mt-2 mb-3">
             <i class="fa-regular fa-envelope icon"></i>
-            <input id="email" type="text" class="input field" placeholder="Email" />
+            <vee-field id="email" type="email" name="email" class="input field" placeholder="Email" />
         </div>
+        <ErrorMessage class="error mb-2 text-gradient" name="email"></ErrorMessage>
+
+        <!-- password  -->
         <label for="paswword">Password:</label>
         <div class="form-item mt-2 mb-3">
             <i class="fa-solid fa-lock icon"></i>
-            <input id="password" type="text" class="input field" placeholder="Password" />
+            <vee-field id="password" type="password" name="password" class="input field" placeholder="Password" />
         </div>
-        <button class="talk-btn w-100 mb-2 mt-5">
-            <h4 class="light mt-2 mb-2">Register!</h4>
+        <ErrorMessage class="error-message mb-2 text-gradient" name="password"></ErrorMessage>
+
+        <!-- login button  -->
+        <button type="submit" class="talk-btn w-100 mb-2 mt-5">
+            <h4 class="light mt-2 mb-2">Sign In!</h4>
         </button>
+
+        <!-- redirect to signup  -->
         <p class="subtext">Already have an account? <router-link :to="{ name: 'SignUp' }" class="text-gradient">Sign up</router-link></p>
-    </form>
+    </vee-form>
   </div>
 </template>
 
 <script>
-export default {
+import { authStore } from '../stores/auth'
 
+export default {
+    name: 'SignIn',
+    data() {
+        return {
+            loginSchema: {
+                email: 'required|min:11|max:100|email',
+                password: 'required|min:8|max:30',
+            },
+            login_in_submission: false,
+            login_show_alert: false,
+            login_alert_variant: 'bg-blue-500',
+            login_alert_message: '',
+        }
+    },
+    methods: {
+        async login(values) {
+            console.log(values);
+            const auth = authStore();
+            this.login_in_submission = true;
+
+
+            // const apiKey = process.env.VUE_APP_API_KEY;
+            try {
+                await auth.login(values)
+            } catch (error) {
+                console.error(error);
+                this.login_in_submission = false;
+                return;
+            }
+
+            window.location.reload();
+            this.login_in_submission = false;
+        }
+    },
+    beforeRouteEnter(to, from, next) {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            next({ name: 'Home' })
+        } else {
+            next();
+        }
+    }
 }
 </script>
 

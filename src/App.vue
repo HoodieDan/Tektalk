@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid main-fluid">
-    <TopBar  v-show="!emptyScreen" />
+    <TopBar  v-show="!emptyScreen" :userId="uid" />
     <BottomMenu  v-if="!emptyScreen" />
     <div class="row">
       <div class="col-lg-2 col-md-1 side-menu">
         <SideMenu  v-if="!emptyScreen" />
       </div>
-      <div class="col-lg-7 col-md-11">
-        <router-view class="pad" v-slot="{ Component }" >
+      <div class="col-lg-7 col-md-11 pad">
+        <router-view v-slot="{ Component }" >
           <transition name="fade" mode="out-in">
             <component :is="Component" ></component>
           </transition>
@@ -21,12 +21,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 import SideMenu from './components/SideMenu.vue';
 import TopBar from './components/TopBar.vue';
 import Suggestions from './components/Suggestions.vue';
 import BottomMenu from './components/BottomMenu.vue';
+import { authStore } from './stores/auth';
+
 export default {
     name: "App",
+    async created() {
+      const auth = authStore();
+      const uid = localStorage.getItem('uid');
+      this.uid = uid;
+      
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        auth.loggedIn();
+      }
+      
+      const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+      this.user = profile.data;
+    },
+    data() {
+      return {
+        user: null,
+        uid: null,
+      }
+    },
     computed: {
       emptyScreen() {
         return this.$route.name === 'Auth' || this.$route.name === 'SignUp' ||
@@ -100,6 +123,7 @@ p {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    object-fit: cover;
 }
 .transparent {
   opacity: 0;

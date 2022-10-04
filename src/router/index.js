@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { authStore } from '../stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,9 +15,6 @@ const router = createRouter({
     {
       path: '/profile/:username',
       name: 'Profile',
-      meta: {
-        requiresAuth: true,
-      },
       component: () => import('../views/UserProfile.vue')
     },
     {
@@ -47,17 +45,19 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (!to.matched.some((record) => record.meta.requiresAuth)) {
-//     next();
-//     return;
-//   }
+// check all routes to see if the require authentication to be opened 
+router.beforeEach((to, from, next) => {
+  const auth = authStore();
+  if (!to.matched.some((record) => record.meta.requiresAuth)) {
+    next();
+    return;
+  }
 
-//   if (store.state.auth.userLoggedIn) {
-//     next();
-//   } else {
-//     next({ name: 'Auth' });
-//   }
-// });
+  if (auth.userLoggedIn) {
+    next();
+  } else {
+    next({ name: 'Auth' });
+  }
+});
 
 export default router

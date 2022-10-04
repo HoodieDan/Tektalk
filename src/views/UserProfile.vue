@@ -1,19 +1,22 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="profile !== null">
     <div class="profile-container w-100">
         <div class="backdrop-image w-100">
-            <img src="https://pbs.twimg.com/profile_banners/823925912798371841/1648839079/1500x500" alt="backdrop image" class="img-fluid">
+            <div v-if="profile.backdropUrl !== null">
+                <img :src="profile.backdropUrl" alt="backdrop image" class="img-fluid">
+            </div>
         </div>
         <div class="cover">
-            <div class="circular">
-                <img src="../assets/images/me.jpg" alt="handsome">
+            <div class="circular" v-if="profile.displayUrl !== null">
+                <img :src="profile.displayUrl" :alt="profile.name" v-if="profile.displayUrl !== null">
+                <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
             </div>
         </div>
         <div class="row info">
             <div class="name-and-username col-7">
                 <div class="d-flex align-items-center">
-                    <h4 class="name mb-0">Drew</h4>
-                    <div class="badge">
+                    <h4 class="name mb-0">{{ profile.name }}</h4>
+                    <div class="badge" v-if="profile.verified">
                         <svg
                             width="17px"
                             height="17px"
@@ -42,37 +45,38 @@
                         </svg>
                     </div>
                 </div>
-                <p class="username">@Hoodiedan</p>
+                <p class="username">@{{ profile.username }}</p>
             </div>
-            <div class="follow col-5">
-                <div class="talk-btn">
+            <div class="follow col-5" v-if="loggedInUser !== null">
+                <div class="talk-btn" v-if="profile.username !== loggedInUser.username">
                     <p class="other-talks mb-0">Follow</p>
+                </div>
+                <div class="talk-btn" v-else>
+                    <p class="other-talks mb-0"><i class="fa fa-solid fa-gear light"></i> Settings</p>
                 </div>
             </div>
             <div class="stack">
                 <i class="fa-solid fa-code"></i>
-                <p class="mb-0">Frontend Developer</p>
+                <p class="mb-0">{{ profile.stack }}</p>
             </div>
             <div class="location">
                 <i class="fa-solid fa-earth-africa"></i>
-                <p class="mb-0">Nigeria</p>
+                <p class="mb-0">{{ profile.location }}</p>
             </div>
             <div class="location">
                 <i class="fa-regular fa-envelope normal-fa"></i>
-                <p class="mb-0">Obodedaniel3@gmail.com</p>
+                <p class="mb-0">{{ profile.email }}</p>
             </div>
             <div class="bio mt-3">
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic enim assumenda 
-                    recusandae atque minus ipsa quidem expedita eligendi, modi accusamus consequuntur 
-                    rerum? Aspernatur officia explicabo id quo? Earum, harum quidem?</p>
+                <p>{{ profile.bio }}</p>
             </div>
             <div class="row mt-4">
                 <div class="col-6 b-r text-center foll">
-                    <h6>500</h6>
+                    <h6>{{ profile.followersCount }}</h6>
                     <p class="dark mb-0">Followers</p>
                 </div>
                 <div class="col-6 text-center foll">
-                    <h6>2</h6>
+                    <h6>{{ profile.followingCount }}</h6>
                     <p class="dark mb-0">Following</p>
                 </div>
             </div>
@@ -97,15 +101,25 @@
 
 <script>
 import PostItem from '../components/PostItem.vue';
+import axios from 'axios'
+
 export default {
-    created() {
+    async created() {
         const { tab } = this.$route.query;
 
         this.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+
+        const user_profile = await axios.get(`/profile/${this.$route.params.username}?apiKey=6f654abc45bb5ed9cae9db9c`)
+        this.profile = user_profile.data;
+        
+        const profile = await axios.get('/profile?apiKey=6f654abc45bb5ed9cae9db9c')
+        this.loggedInUser = profile.data;
     },
     data() {
         return {
-            currentTab: 'Posts'
+            profile: null,
+            loggedInUser: null,
+            currentTab: 'Posts',
         }
     },
     methods: {
@@ -129,7 +143,7 @@ export default {
             })
         }
     },
-    components: { PostItem }
+    components: { PostItem },
 }
 </script>
 
@@ -141,6 +155,7 @@ div.profile-container {
 }
 div.backdrop-image {
     border-bottom: 3px solid #e7e9ea;
+    min-height: 200px;
 }
 div.backdrop-image img {
     width: 100%;
