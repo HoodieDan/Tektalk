@@ -140,7 +140,8 @@ export default {
             }
 
             this.reg_in_submission = false;
-            window.location.reload();
+            // window.location.reload();
+            this.$router.push({ name: 'Home' });
         }
     },
     beforeRouteEnter(to, from, next) {
