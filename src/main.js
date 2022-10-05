@@ -6,6 +6,7 @@ import '../includes/axios'
 import VeeValidatePlugin from '../includes/Validation'
 import ProgressBar from '../includes/progress-bar'
 import 'nprogress/nprogress.css'
+import { MotionPlugin } from '@vueuse/motion'
 
 import './assets/main.css'
 
@@ -16,5 +17,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VeeValidatePlugin)
+app.use(MotionPlugin)
 
 app.mount('#app')

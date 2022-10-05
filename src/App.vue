@@ -12,6 +12,7 @@
             <component :is="Component" ></component>
           </transition>
         </router-view>
+        <ImageModal v-if="showImage" v-motion-pop />
       </div>
       <div class="col-lg-3 col-0">
         <Suggestions class="pad"  v-if="!emptyScreen"/>
@@ -27,6 +28,8 @@ import TopBar from './components/TopBar.vue';
 import Suggestions from './components/Suggestions.vue';
 import BottomMenu from './components/BottomMenu.vue';
 import { authStore } from './stores/auth';
+import ImageModal from './components/ImageModal.vue';
+import { postStore } from './stores/post';
 
 export default {
     name: "App",
@@ -50,15 +53,26 @@ export default {
       return {
         // user: null,
         uid: null,
+        showImage: false,
       }
     },
     computed: {
       emptyScreen() {
         return this.$route.name === 'Auth' || this.$route.name === 'SignUp' ||
         this.$route.name === 'SignIn'
+      },
+      ImageModalOpen() {
+        const post = postStore();
+
+        return post.ImageModalIsOpen
       }
     },
-    components: { SideMenu, TopBar, Suggestions, BottomMenu }
+    watch: {
+      ImageModalOpen() {
+        this.showImage = !this.showImage;
+      }
+    },
+    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal }
 }
 </script>
 

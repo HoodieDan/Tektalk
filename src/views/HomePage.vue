@@ -30,10 +30,12 @@ export default {
         postedIn: 'Feed'
       }
     },
-    async created() {
+    async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
       const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1`)
-      this.posts = res.data.posts;
+      next((vm) => {
+        vm.posts = res.data.posts;
+      })
     }
 }
 </script>

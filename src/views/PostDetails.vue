@@ -45,7 +45,7 @@
                     </div>
                     <p class="text-gradient">@{{ post.username }}</p>
                     <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
-                    <p class="dark">12:30 · 2 October, 2022</p>
+                    <p class="dark">{{ timePosted }} · {{ datePosted }}</p>
                 </div>
             </div>
             <div class="user-post light mt-3">
@@ -98,6 +98,17 @@ export default {
         return {
             post: {},
         }
+    },
+    computed: {
+        timePosted() {
+            return this.post.postDate.slice(16,21);
+        },
+        datePosted() {
+            return this.post.postDate.slice(4,15);
+        },
+        noOfImages() {
+            return this.images.length;
+        },
     },
     // async created() {
     //     const apiKey = import.meta.env.VITE_API_KEY;

@@ -4,7 +4,8 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 export const postStore = defineStore('post', {
     state: () => ({
-        selectedPost: {},
+        ImageModalIsOpen: false,
+        selectedImage: '',
     }),
     getters: {
     },
@@ -13,8 +14,16 @@ export const postStore = defineStore('post', {
             const response = await axios.post(`post?apiKey=${apiKey}`, formData);
             console.log(response);
         },
-        viewPost(post) {
-            this.selectedPost = post
+        viewImage(image) {
+            console.log(image);
+            this.selectedImage = image;
+
+            this.ImageModalIsOpen = true;
+        },
+        closeImage() {
+            this.ImageModalIsOpen = false
+
+            this.selectedImage = ''
         }
     }
 });

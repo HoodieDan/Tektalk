@@ -78,8 +78,12 @@
 
         <!-- register button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="reg_in_submission">
-            <h4 class="light mt-2 mb-2">Register!</h4>
+            <PageLoader :color="color" :height="30" :width="30" v-motion-pop v-if="reg_in_submission" />
+            <h5 class="light mt-2 mb-2" v-motion-pop v-else>Register!</h5>
         </button>
+
+        <!-- login error message  -->
+        <p class="alert p-0" v-if="reg_show_alert">{{ reg_alert_message }}</p>
 
         <!-- redirect to login  -->
         <p class="subtext">Already have an account? <router-link :to="{ name: 'SignIn' }" class="text-gradient">Sign in</router-link></p>
@@ -89,53 +93,56 @@
 
 <script>
 import { authStore } from '../stores/auth'
+import PageLoader from '../components/PageLoader.vue';
 
 export default {
-    name: 'SignUp',
+    name: "SignUp",
     data() {
         return {
-            stacks: [ 
-                'Frontend Development', 
-                'Backend Development',
-                'Fullstack Development', 
-                'DevOps', 
-                'Design', 
-                'Data Science', 
-                'App Development', 
-                'Game Development',
-                'CyberSecurity',
-                'Guest',
-                'I do not want to put myself in a box',
-                'I am yet to decide',
+            stacks: [
+                "Frontend Development",
+                "Backend Development",
+                "Fullstack Development",
+                "DevOps",
+                "Design",
+                "Data Science",
+                "App Development",
+                "Game Development",
+                "CyberSecurity",
+                "Guest",
+                "I do not want to put myself in a box",
+                "I am yet to decide",
             ],
             schema: {
-                name: 'required|min:3|max:100|alpha_spaces',
-                email: 'required|min:11|max:100|email',
-                username: 'required|min:1|max:25',
-                password: 'required|alpha_num|min:8|max:30',
-                confirm_password: 'passwords_mismatch:@password',
-                location: 'required|min:3',
-                stack: 'required',
+                name: "required|min:3|max:100|alpha_spaces",
+                email: "required|min:11|max:100|email",
+                username: "required|min:1|max:25",
+                password: "required|alpha_num|min:8|max:30",
+                confirm_password: "passwords_mismatch:@password",
+                location: "required|min:3",
+                stack: "required",
             },
             reg_in_submission: false,
             reg_show_alert: false,
-            reg_alert_variant: 'bg-blue-500',
-            reg_alert_message: '',
-        }
+            reg_alert_message: "",
+            color: 'FFF',
+        };
     },
     methods: {
         async register(values) {
             console.log(values);
             this.reg_in_submission = true;
-
             const auth = authStore();
-            
             try {
-                await auth.register(values)
-            } catch (error) {
+                await auth.register(values);
+            }
+            catch (error) {
                 this.reg_in_submission = false;
-                
-                console.error(error)
+                this.reg_show_alert = true;
+                console.error(error.response.data.message);
+
+                this.reg_alert_message = 'An error occured, please try again later'
+
                 return;
             }
 
@@ -145,14 +152,15 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        const token = localStorage.getItem('token');
-
+        const token = localStorage.getItem("token");
         if (token) {
-            next({ name: 'Home' })
-        } else {
+            next({ name: "Home" });
+        }
+        else {
             next();
         }
-    }
+    },
+    components: { PageLoader }
 }
 </script>
 
@@ -191,6 +199,9 @@ input, select {
     font-size: 0.9rem;
     font-weight: 500;
     width: 100%;
+}
+.talk-btn {
+    height: 2.5rem;
 }
 @media (max-width: 768px) {
     input, select {

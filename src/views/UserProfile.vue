@@ -4,14 +4,29 @@
         <!-- backdrop image  -->
         <div class="backdrop-image w-100">
             <div v-if="profile.backdropUrl !== null">
-                <img :src="profile.backdropUrl" alt="backdrop image" class="img-fluid">
+                <img
+                 :src="profile.backdropUrl" 
+                 alt="backdrop image" 
+                 class="img-fluid" 
+                 @click="openImage(profile.backdropUrl)" 
+                >
             </div>
         </div>
         <div class="cover">
             <!-- display image  -->
             <div class="circular" v-if="profile.displayUrl !== null">
-                <img :src="profile.displayUrl" :alt="profile.name" v-if="profile.displayUrl !== null">
-                <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                <img
+                 :src="profile.displayUrl" 
+                 :alt="profile.name" 
+                 v-if="profile.displayUrl !== null" 
+                 @click="openImage(profile.displayUrl)" 
+                >
+                <img
+                 src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
+                 @click="openImage(profile.displayUrl)" 
+                 alt="profile image" 
+                 v-else
+                >
             </div>
         </div>
         <div class="row info">
@@ -136,6 +151,7 @@
 import PostItem from '../components/PostItem.vue';
 import PostBox from '../components/PostBox.vue';
 import axios from 'axios'
+import { postStore } from '../stores/post';
 
 export default {
     async beforeRouteEnter(to, from, next) {
@@ -177,6 +193,11 @@ export default {
             } else {
                 return false
             }
+        },
+        openImage(image) {
+            const post = postStore();
+
+            post.viewImage(image)
         }
     },
     watch: {
@@ -195,12 +216,12 @@ export default {
         }
     },
     computed: {
-       currentRoute() {
+        currentRoute() {
             return this.$route.params.username;
-       },
-       showPostBox() {
+        },
+        showPostBox() {
             return 
-       }
+        },
     },
     components: { PostItem, PostBox },
 }
@@ -222,6 +243,7 @@ div.backdrop-image img {
     height: 200px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    cursor: pointer;
 }
 div.cover {
     height: 120px;
@@ -246,6 +268,9 @@ div.info {
     background: linear-gradient(to right, #20BF55, #01BAEF);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
+    cursor: pointer;
+}
+.circular img {
     cursor: pointer;
 }
 .stack, .location {

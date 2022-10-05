@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 buttons">
                             <div class="attached">
-                                <i class="fa-solid fa-paperclip"></i>
+                                <i class="fa-solid fa-paperclip" :class="iconClass"></i>
                                 <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
                                 <p class="subtext mb-0 p-0 alert" v-else>{{ upload_alert }}</p>
                             </div>
@@ -32,12 +32,14 @@
                                 <label class="file-input__label" for="file_input">
                                     <i class="fa-regular fa-image"></i></label>
                             </div>
-                            <button type="submit" class="talk-btn">
-                                <p class="other-talks">Share</p>
+                            <button type="submit" class="talk-btn" :disabled="loading" >
+                                <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="loading"/>
+                                <p class="other-talks" v-motion-pop v-else>Share</p>
                             </button>
                         </div>
                     </div>
                     <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
+                    <p class="subtext text-gradient p-0" v-if="show_load_alert">{{ load_alert }}</p>
                 </vee-form>
             </div>
         </div>
@@ -47,81 +49,106 @@
 
 <script>
 import axios from 'axios';
+import { postStore } from '../stores/post';
+import PageLoader from './PageLoader.vue';
 
 export default {
-    name: 'PostBox',
+    name: "PostBox",
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`);
         this.user = profile.data;
     },
     data() {
         return {
             schema: {
-                status: 'required|min:1',
-                file_input:'',
+                status: "required|min:1",
+                file_input: "",
             },
-            body: '',
+            body: "",
             files: [],
-            status: '',
+            status: "",
             user: null,
-            file: [],
-            upload_alert: '',
+            upload_alert: "",
+            loading: false,
+            load_alert: "",
+            show_load_alert: "",
             show_upload_alert: false,
-        }
+            color: 'FFF'
+        };
     },
     computed: {
         tooLong() {
-            return this.status.length >= 140
+            return this.status.length >= 140;
         },
         noOfFiles() {
             return this.files.length;
+        },
+        iconClass() {
+            if (this.upload_alert === "") {
+                return "text-gradient";
+            }
+            else {
+                return "alert";
+            }
         }
     },
     methods: {
         handleFileUpload($event) {
-            this.files = [...$event.target.files]
+            this.files = [...$event.target.files];
             // console.log(this.show_upload_alert);
-
             this.files.forEach((file) => {
-                const image = file.type.split('/');
+                const image = file.type.split("/");
                 console.log(image);
-                if (image[0] !== 'image') {
-                    this.upload_alert = 'Upload an image';
-                } else if (this.noOfFiles > 2) {
-                    this.upload_alert = 'maximum of 2 images';
-                } else if (file.size > 8000000) {
-                    this.upload_alert = 'max size is 5mb';
-                } else {
-                    this.upload_alert = ''
+                if (image[0] !== "image") {
+                    this.upload_alert = "Upload an image";
+                }
+                else if (this.noOfFiles > 2) {
+                    this.upload_alert = "maximum of 2 images";
+                }
+                else if (file.size > 8000000) {
+                    this.upload_alert = "max size is 5mb";
+                }
+                else {
+                    this.upload_alert = "";
                 }
                 return;
-            })
+            });
         },
-        async post(values, {resetForm}) {
-            const post = postStore();
+        async post(values, { resetForm }) {
+            this.loading = true;
 
+            const post = postStore();
             var formData = new FormData();
             this.files.forEach((file) => {
-                formData.append('image', file)
-            })
-            formData.append('body', this.body)
-            formData.append('category', this.postedIn)
-
-            if (this.upload_alert === '') {
+                formData.append("image", file);
+            });
+            formData.append("body", this.body);
+            formData.append("category", this.postedIn);
+            if (this.upload_alert === "") {
                 try {
                     await post.post(formData);
-                } catch (err) {
+                }
+                catch (err) {
+                    this.loading = false;
+                    this.show_load_alert = true;
+
+                    this.load_alert = 'Status update failed. Try Again'
+
                     console.log(err);
                 }
             }
 
+            this.show_load_alert = true;
+            this.load_alert = 'Posted Successfully!'
+            this.loading = false;
             resetForm();
             this.files = [];
+            window.location.reload();
         }
     },
-    props: ['placeholder', 'category', 'postedIn']
+    props: ["placeholder", "category", "postedIn"],
+    components: { PageLoader }
 }
 </script>
 
