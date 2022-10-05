@@ -63,8 +63,8 @@ div.backdrop {
 .scroll-div {
     overflow-y: auto;
     position: relative;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
 }
 .close-modal {
     position: absolute;
@@ -84,7 +84,8 @@ div.backdrop {
 @media (max-width: 575px) {
     div.select-modal {
         width: 80vw;
-        height: 80vh;
+        height: auto;
+        max-height: 80vh;
     }
 }
 </style>

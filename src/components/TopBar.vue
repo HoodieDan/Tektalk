@@ -33,7 +33,7 @@
             <i class="fai fa-regular fa-bell"></i>
         </div>
         <div class="col-5 ms-auto" v-else>
-            <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light">
+            <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light fade-in-pro">
                 <p class="mb-0 navi no-hover"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
             </router-link>
         </div>
@@ -54,31 +54,31 @@ import axios from 'axios';
 
 export default {
     name: 'TopBar',
-    mounted() {
-        this.getUser()
-    },
+    // mounted() {
+    //     this.getUser()
+    // },
     data() {
         return {
-            currentUser: null,
-            query: '',
+            // currentUser: null,
+            query: ''
         }
     },
     methods: {
         changeSound() {
             this.sound = !this.sound
         },
-        async getUser() {
-            const apiKey = import.meta.env.VITE_API_KEY;
+        // async getUser() {
+        //     const apiKey = import.meta.env.VITE_API_KEY;
 
-            if (localStorage.getItem('token')) {
-                const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-                this.currentUser = profile.data;
-            } else {
-                return;
-            }
-        }
+        //     if (localStorage.getItem('token')) {
+        //         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        //         this.currentUser = profile.data;
+        //     } else {
+        //         return;
+        //     }
+        // }
     },
-    props: ['userId']
+    props: ['currentUser']
 }
 </script>
 

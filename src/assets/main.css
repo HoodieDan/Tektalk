@@ -100,6 +100,17 @@ button.talk-btn {
 .circular img:hover {
     filter: opacity(0.8) drop-shadow(0 0 0 #000);
 }
+.fade-in-pro {
+    animation: fade-in 2s forwards;
+}
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 @keyframes right-slide {
     from {
         transform: translateX(-150px);

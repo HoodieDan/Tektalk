@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid main-fluid">
-    <TopBar  v-show="!emptyScreen" :userId="uid" />
+    <TopBar  v-show="!emptyScreen" :currentUser="user" />
     <BottomMenu  v-if="!emptyScreen" />
     <div class="row">
       <div class="col-lg-2 col-md-1 side-menu">
@@ -34,7 +34,7 @@ import { postStore } from './stores/post';
 export default {
     name: "App",
     async created() {
-      // const apiKey = import.meta.env.VITE_API_KEY;
+      const apiKey = import.meta.env.VITE_API_KEY;
 
       const auth = authStore();
       const uid = localStorage.getItem('uid');
@@ -44,14 +44,13 @@ export default {
 
       if (token) {
         auth.loggedIn();
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        this.user = profile.data;
       }
-      
-      // const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-      // this.user = profile.data;
     },
     data() {
       return {
-        // user: null,
+        user: null,
         uid: null,
         showImage: false,
       }

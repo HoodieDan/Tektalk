@@ -340,5 +340,8 @@ div.info {
     div.info {
         padding: 1.5rem 30px;
     }
+    .other-talks span {
+        display: none;
+    }
 }
 </style>
