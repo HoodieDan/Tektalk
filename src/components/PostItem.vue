@@ -144,9 +144,6 @@ export default {
             return this.images.length;
         }
     },
-    // mounted() {
-    //     console.log(this.post);
-    // },
     props: ['post', 'images'],
 }
 </script>

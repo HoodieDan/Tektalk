@@ -1,7 +1,16 @@
 <template>
   <div class="container">
-    <PostBox :placeholder="placeholder" />
-    <PostItem v-for="post in posts" :key="post.postId" :post="post" :images="post.images" />
+    <PostBox 
+     :placeholder="placeholder"
+     :category="category"
+     :postedIn="postedIn"
+    />
+    <PostItem
+     v-for="post in posts" 
+     :key="post.postId" 
+     :post="post" 
+     :images="post.images" 
+    />
   </div>
 </template>
 
@@ -16,7 +25,9 @@ export default {
     data() {
       return {
         placeholder: 'What is on your mind?',
-        posts: []
+        posts: [],
+        category: 'Post',
+        postedIn: 'Feed'
       }
     },
     async created() {

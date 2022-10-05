@@ -65,7 +65,6 @@ export default {
             body: '',
             files: [],
             status: '',
-            category: 'Post',
             user: null,
             file: [],
             upload_alert: '',
@@ -108,7 +107,7 @@ export default {
                 formData.append('image', file)
             })
             formData.append('body', this.body)
-            formData.append('category', this.category)
+            formData.append('category', this.postedIn)
 
             if (this.upload_alert === '') {
                 try {
@@ -122,7 +121,7 @@ export default {
             this.files = [];
         }
     },
-    props: ['placeholder']
+    props: ['placeholder', 'category', 'postedIn']
 }
 </script>
 

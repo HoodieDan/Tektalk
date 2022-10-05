@@ -123,7 +123,12 @@
             <PostBox :placeholder="placeholder" v-if="currentTab === 'Posts'" />
         </div>
     </div>
-    <PostItem />
+    <!-- <PostItem
+     v-for="post in posts" 
+     :key="post.postId" 
+     :post="post" 
+     :images="post.images" 
+    /> -->
   </div>
 </template>
 
@@ -136,6 +141,7 @@ export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const user_profile = await axios.get(`/profile/${to.params.username}?apiKey=${apiKey}`);
+        // const posts = await axios.get(``)
         let profile = null;
         if (localStorage.getItem('token')) {
             profile = await axios.get(`/profile?apiKey=${apiKey}`)
@@ -146,6 +152,8 @@ export default {
             vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
             vm.profile = user_profile.data;
+
+            // vm.posts = posts.data.posts;
         
             if (localStorage.getItem('token')) {
                 vm.loggedInUser = profile.data;
@@ -159,6 +167,7 @@ export default {
             loggedInUser: null,
             currentTab: 'Posts',
             placeholder: 'Post something in your Feed?',
+            posts: []
         }
     },
     methods: {
