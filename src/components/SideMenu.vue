@@ -61,7 +61,7 @@
                     <p class="navi"><i class="fa fa-solid fa-arrow-right-from-bracket"></i><span>Sign Out</span></p>
                 </div>
                 <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light mb-2 mt-2" v-else>
-                    <p class="mb-0 navi"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
+                    <p class="mb-0 navi no-hover"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
                 </router-link>
             </div>
         </div>

@@ -1,19 +1,20 @@
 <template>
   <div class="container">
-    <div class="post">
+    <!-- <div class="post">
         <div class="row">
             <div class="col-3">
-                <router-link :to="{name: 'Profile', params: { username: 'hoodiedan' }}">
+                <router-link :to="{name: 'Profile', params: { username: post.username }}">
                     <div class="circular">
-                        <img src="../assets/images/me.jpg" alt="gorgeous">
+                        <img :src="post.authorImage" alt="gorgeous" v-if="post.authorImage">
+                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                     </div>
                 </router-link>
             </div>
             <div class="col-9">
                 <div class="name-and-username">
                     <div class="d-flex align-items-center">
-                    <h4 class="name mb-0">Drew</h4>
-                    <div class="badge">
+                    <h4 class="name mb-0">{{ post.name }}</h4>
+                    <div class="badge" v-if="post.isVerified">
                         <svg
                             width="17px"
                             height="17px"
@@ -42,27 +43,32 @@
                         </svg>
                     </div>
                     </div>
-                    <p class="text-gradient">@Hoodiedan</p>
-                    <p class="mb-2">Posted in <span class="text-gradient">Feed</span></p>
+                    <p class="text-gradient">@{{ post.username }}</p>
+                    <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
                     <p class="dark">12:30 · 2 October, 2022</p>
                 </div>
             </div>
             <div class="user-post light mt-3">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                    Doloribus suscipit itaque odit accusantium quia at nam ad fuga, 
-                    optio tempora non repellat accusamus, cumque porro aspernatur 
-                    voluptatum quasi odio eius voluptatibus distinctio? Culpa dicta 
-                    cumque placeat ea corrupti animi blanditiis vitae, beatae commodi 
-                    dolorum unde natus porro, tempore, doloremque eos.</p>
+                <p>{{ post.postBody }}</p>
+                <div class="mt-2 mb-3 pe-3" v-if="post.images">
+                    <div class="row" >
+                        <img
+                            v-for="(image, i) in post.images" :key="i"
+                            :src="image"
+                            alt=""
+                            class="img-fluid ps-2"
+                            :class="{ 'col-6': post.images.length === 2, 'col-12': post.images.length === 1 }">
+                    </div>
+                </div>
             </div>
             <div class="col-auto">
-                <p>20 <span class="subtext">comments</span></p>
+                <p>{{ post.commentCount }} <span class="subtext">comments</span></p>
             </div>
             <div class="col-auto">
-                <p>20 <span class="subtext">likes</span></p>
+                <p>{{ post.likeCount }} <span class="subtext">likes</span></p>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Like and Share Buttons -->
     <div class="like-and-share row">
@@ -83,9 +89,22 @@
 
 <script>
 import AddComment from '../components/AddComment.vue';
+import axios from 'axios';
+
 export default {
     name: "PostDetails",
-    components: { AddComment }
+    components: { AddComment },
+    data() {
+        return {
+            post: {},
+        }
+    },
+    // async created() {
+    //     const apiKey = import.meta.env.VITE_API_KEY;
+    //     const response = await axios.get(`/post/id/${this.$route.params.postID}?apiKey=${apiKey}&pageNumber=1`);
+    //     this.post = response.data.posts;
+    //     console.log(response.data);
+    // }
 }
 </script>
 
@@ -130,6 +149,9 @@ div.like-and-share {
 .share:hover {
     background-color: #191919;
     color: #01BAEF;
+}
+.img-fluid.col-6 {
+    border-radius: 5px;
 }
 @media (max-width: 575px) {
     div.circular {

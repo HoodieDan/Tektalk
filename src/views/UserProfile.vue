@@ -118,7 +118,11 @@
             </div>
         </div>
     </div>
-    <PostBox :placeholder="placeholder" v-if="currentTab === 'Posts'" />
+    <div v-if="loggedInUser !== null">
+        <div v-if="profile.username === loggedInUser.username">
+            <PostBox :placeholder="placeholder" v-if="currentTab === 'Posts'" />
+        </div>
+    </div>
     <PostItem />
   </div>
 </template>
@@ -149,9 +153,6 @@ export default {
         })
 
     },
-    Updated(to, from) {
-        console.log('Update');
-    },
     data() {
         return {
             profile: null,
@@ -180,9 +181,17 @@ export default {
                 }
             })
         },
-        $route(){
+        currentRoute(){
             window.location.reload();
         }
+    },
+    computed: {
+       currentRoute() {
+            return this.$route.params.username;
+       },
+       showPostBox() {
+            return 
+       }
     },
     components: { PostItem, PostBox },
 }

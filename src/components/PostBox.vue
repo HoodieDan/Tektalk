@@ -12,7 +12,7 @@
                     <div class="row w-100">
                         <div class="col-lg-6 col-md-6 ">
                             <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" :placeholder="placeholder"
-                            v-model="status"></vee-field>
+                            v-model="body"></vee-field>
                         </div>
                         <div class="col-lg-6 col-md-6 buttons">
                             <div class="attached">
@@ -47,7 +47,6 @@
 
 <script>
 import axios from 'axios';
-import { authStore } from '../stores/auth';
 
 export default {
     name: 'PostBox',
@@ -63,7 +62,10 @@ export default {
                 status: 'required|min:1',
                 file_input:'',
             },
+            body: '',
+            files: [],
             status: '',
+            category: 'Post',
             user: null,
             file: [],
             upload_alert: '',
@@ -75,17 +77,15 @@ export default {
             return this.status.length >= 140
         },
         noOfFiles() {
-            return this.file.length;
+            return this.files.length;
         }
     },
     methods: {
         handleFileUpload($event) {
-            this.file = [...$event.target.files]
-            console.log(this.file);
-            console.log(this.upload_alert);
+            this.files = [...$event.target.files]
             // console.log(this.show_upload_alert);
 
-            this.file.forEach((file) => {
+            this.files.forEach((file) => {
                 const image = file.type.split('/');
                 console.log(image);
                 if (image[0] !== 'image') {
@@ -100,27 +100,26 @@ export default {
                 return;
             })
         },
-        async post(values) {
-            const post = authStore();
-            // values.file
-            values.file.forEach((file) => {
-                const image = file.type.split('/');
-                console.log(image);
-                if (image[0] !== 'image') {
-                    this.upload_alert = 'Upload an image';
-                } else if (this.noOfFiles > 2) {
-                    this.upload_alert = 'maximum of 2 images';
-                } else if (file.size > 8000000) {
-                    this.upload_alert = 'max size is 5mb';
-                } else {
-                    try {
-                        post.post(values)
-                    } catch (err) {
+        async post(values, {resetForm}) {
+            const post = postStore();
 
-                    }
-                }
+            var formData = new FormData();
+            this.files.forEach((file) => {
+                formData.append('image', file)
             })
-            console.log(values);
+            formData.append('body', this.body)
+            formData.append('category', this.category)
+
+            if (this.upload_alert === '') {
+                try {
+                    await post.post(formData);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+
+            resetForm();
+            this.files = [];
         }
     },
     props: ['placeholder']

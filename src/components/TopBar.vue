@@ -22,15 +22,20 @@
 
     <!-- mobile top bar -->
     <div class="row mobile fade-in">
-        <router-link :to="{name: 'Home'}" class="col-2 no-underline">
+        <router-link :to="{name: 'Home'}" class="col-2 no-underline d-flex align-items-center">
             <h3 class="logo-text mb-0">Tt</h3>
         </router-link>
-        <div class="col-5">
+        <div class="col-5 d-flex align-items-center">
             <h4 class="mb-0">{{this.$route.name}}</h4>
         </div>
         <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
             <i class="fai fa-regular fa-paper-plane"></i>
             <i class="fai fa-regular fa-bell"></i>
+        </div>
+        <div class="col-5 ms-auto" v-else>
+            <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light">
+                <p class="mb-0 navi no-hover"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
+            </router-link>
         </div>
         <div class="col-2" v-if="currentUser !== null">
             <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
@@ -161,6 +166,9 @@ input:focus {
 .mobile-icons {
     justify-content: space-evenly;
 }
+.navi {
+    font-weight: 700;
+}
 @media (min-width: 992px) {
     .desktop {
       display: flex !important;
@@ -186,6 +194,11 @@ input:focus {
     .circular {
         width: 30px;
         height: 30px;
+    }
+}
+@media (max-width: 300px) {
+    .navi.no-hover span {
+        display: none;
     }
 }
 </style>

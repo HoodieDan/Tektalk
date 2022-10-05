@@ -1,18 +1,19 @@
 <template>
   <div class="">
-    <div class="post" v-for="post in postArr" :key="post">
-        <router-link :to="{ name: 'Post', params: { postID: post } }" class="row no-underline">
-            <router-link :to="{name: 'Profile', params: { username: 'HoodieDan' }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
-                <div class="circular">
-                    <img src="../assets/images/me.jpg" alt="handsome">
+    <div class="post">
+        <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="row no-underline" >
+            <router-link :to="{name: 'Profile', params: { username: post.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
+                <div class="circular" >
+                    <img :src="post.authorImage" alt="handsome" v-if="post.authorImage">
+                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                 </div>
             </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10">
                 <div>
                     <div class="user-details">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0 light">Drew</h6>
-                            <div class="badge">
+                            <h6 class="mb-0 light" :class="{ 'me-2': !post.isVerified }">{{ post.name }}</h6>
+                            <div class="badge" v-if="post.isVerified">
                                 <svg
                                     width="17px"
                                     height="17px"
@@ -43,22 +44,24 @@
                             <!-- add margin start when not verified -->
                             <h6 class="mb-0 light"> · <span class="ms-1 subtext">now</span></h6>
                         </div>
-                        <p class="subtext username">@Hoodiedan</p>
+                        <p class="subtext username">@{{ post.username }}</p>
                     </div>
                     <div class="user-post light">
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
-                            Doloribus suscipit itaque odit accusantium quia at nam ad fuga, 
-                            optio tempora non repellat accusamus, cumque porro aspernatur 
-                            voluptatum quasi odio eius voluptatibus distinctio? Culpa dicta 
-                            cumque placeat ea corrupti animi blanditiis vitae, beatae commodi 
-                            dolorum unde natus porro, tempore, doloremque eos.</p>
+                        <p>{{ post.postBody }}</p>
+                    </div>
+                    <div v-if="noOfImages !== 0">
+                        <div class="row pt-2 pb-3 pe-3" :class="{ 'justify-content-evenly': noOfImages > 1 }">
+                            <img :src="images[0]" alt="" class="img-fluid br-5 p-0 user-img" 
+                             :class="{ 'col-12': noOfImages === 1, 'col-5': noOfImages > 1 }">
+                            <img :src="images[1]" alt="" v-if="noOfImages > 1" class="col-5 img-fluid user-img br-5 p-0">
+                        </div>
                     </div>
                 </div>
             </div>
         </router-link>
         <div class="function-icons">
             <!-- comment lol -->
-            <router-link :to="{ name: 'Post', params: { postID: post } }" class="svg-box no-underline d-flex">
+            <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="svg-box no-underline d-flex">
                 <svg
                     width="16px"
                     height="16px"
@@ -76,7 +79,7 @@
                         />
                     </g>
                 </svg>
-                <p class="subtext">{{ post }}</p>
+                <p class="subtext">{{ post.commentCount }}</p>
             </router-link>
             <!-- Like  -->
             <div class="svg-box">
@@ -97,7 +100,7 @@
                         />
                     </g>
                 </svg>
-                <p class="subtext">1</p>
+                <p class="subtext">{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
             <div class="svg-box">
@@ -128,13 +131,23 @@
 </template>
 
 <script>
+
 export default {
     name: 'PostItem',
     data() {
         return {
             postArr: [1,2,3,4,5,6,7,8,9,10],
         }
-    }
+    },
+    computed: {
+        noOfImages() {
+            return this.images.length;
+        }
+    },
+    // mounted() {
+    //     console.log(this.post);
+    // },
+    props: ['post', 'images'],
 }
 </script>
 
@@ -196,6 +209,9 @@ div.svg-box:nth-of-type(3) {
 }
 h6 span.subtext {
     font-size: 0.9rem;
+}
+.user-img {
+    object-fit: cover;
 }
 @media (max-width: 768px) {
     .function-icons {
