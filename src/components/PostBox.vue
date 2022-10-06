@@ -8,7 +8,7 @@
                 </div>
             </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
-                <vee-form @submit="post" :validation-schema="schema">
+                <vee-form class="form" @submit="post" :validation-schema="schema">
                     <div class="row w-100">
                         <div class="col-lg-6 col-md-6 ">
                             <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" :placeholder="placeholder"
@@ -124,8 +124,7 @@ export default {
                 formData.append("image", file);
             });
             formData.append("body", this.body);
-            formData.append("category", this.category);
-            formData.append("postedIn", this.postedIn)
+            formData.append("postedIn", this.postedIn);
             if (this.upload_alert === "") {
                 try {
                     await post.post(formData);
@@ -137,6 +136,7 @@ export default {
                     this.load_alert = 'Status update failed. Try Again'
 
                     console.log(err);
+                    return;
                 }
             }
 
@@ -161,13 +161,13 @@ div.post-box {
     border-radius: 5px;
     margin-bottom: 0.5rem;
 }
-div.form {
+/* div.form {
     display: flex;
     align-items: center;
 }
 div.form > *, div.buttons > * {
     margin-right: 0.5rem;
-}
+} */
 textarea {
     background: transparent;
     backdrop-filter: blur(45px);

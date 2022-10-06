@@ -81,6 +81,16 @@ div.backdrop {
 .btn:active {
     outline: none;
 }
+.img-fluid:hover {
+    filter: none;
+}
+@media (max-width: 992px) {
+    div.select-modal {
+        width: 80vw;
+        height: auto;
+        max-height: 70vh;
+    }
+}
 @media (max-width: 575px) {
     div.select-modal {
         width: 90vw;

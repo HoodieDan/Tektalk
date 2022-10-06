@@ -15,7 +15,6 @@ export const postStore = defineStore('post', {
             console.log(response);
         },
         viewImage(image) {
-            console.log(image);
             this.selectedImage = image;
 
             this.ImageModalIsOpen = true;

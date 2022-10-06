@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="post" v-if="post !== {}">
+    <div class="post" v-if="post">
         <div class="row">
             <div class="col-3">
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
@@ -110,12 +110,12 @@ import axios from 'axios';
 export default {
     name: "PostDetails",
     components: { AddComment },
-    mounted() {
-        console.log(this.post);
-    },
+    // mounted() {
+    //     console.log(this.post);
+    // },
     data() {
         return {
-            post: {},
+            post: null,
         }
     },
     computed: {
@@ -134,21 +134,24 @@ export default {
             return;
         }
     },
-    async beforeRouteEnter(to, from, next) {
+    async mounted() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const response = await axios.get(`/post/postId/${to.params.postID}?apiKey=${apiKey}`);
+        const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
         console.log(response.data.post[0]);
 
-        next ((vm) => {
-            if (!response.data.post) {
-                vm.$router.push({ name: 'home' });
-                return;
-            }
-            vm.post = response.data.post[0];
+        this.post = response.data.post[0];
 
-            // lodash function 
-            // this.userData = cloneDeep(response.data)
-        });
+        // next ((vm) => {
+        //     if (!response.data.post) {
+        //         vm.$router.push({ name: 'home' });
+        //         return;
+        //     }
+        //     vm.post = response.data.post[0];
+
+        //     console.log(vm.post);
+        //     // lodash function 
+        //     // this.userData = cloneDeep(response.data)
+        // });
     }
 }
 </script>

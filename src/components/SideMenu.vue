@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="bottom-nav">
-                <div class="link sign-out" @click.prevent="signOut" v-if="user !== null">
+                <div class="link sign-out" @click.prevent="signOut" v-if="loggedIn">
                     <p class="navi"><i class="fa fa-solid fa-arrow-right-from-bracket"></i><span>Sign Out</span></p>
                 </div>
                 <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light mb-2 mt-2" v-else>
@@ -74,17 +74,15 @@ import { authStore } from '../stores/auth';
 
 export default {
     name: 'SideMenu',
-    async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
+    created() {
             
         if (localStorage.getItem('token')) {
-            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-            this.user = profile.data;
+            this.loggedIn = true;
         }
     },
     data() {
         return {
-            user: null,
+            loggedIn: false,
         }
     },
     methods: {

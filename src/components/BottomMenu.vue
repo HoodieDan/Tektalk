@@ -36,7 +36,7 @@ export default {
 .fa {
     color: #e7e9ea;
 }
-@media (min-width: 768px) {
+@media (min-width: 769px) {
     .bottom-menu {
         display: none;
     }

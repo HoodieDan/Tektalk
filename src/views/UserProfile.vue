@@ -23,7 +23,7 @@
                 >
                 <img
                  src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
-                 @click="openImage(profile.displayUrl)" 
+                 @click="openImage('https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png')" 
                  alt="profile image" 
                  v-else
                 >
@@ -66,13 +66,19 @@
                 </div>
                 <p class="username">@{{ profile.username }}</p>
             </div>
-            <div class="follow col-5" v-if="loggedInUser !== null">
+            <div class="follow col-5">
                 <!-- follow button  -->
-                <div class="talk-btn" v-if="profile.username !== loggedInUser.username">
-                    <p class="other-talks mb-0">Follow</p>
-                </div>
+                <button class="talk-btn w-100" v-if="profile.username !== loggedInUser.username && profile.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow">
+                    <p class="other-talks mb-0" v-if="!follow_in_progress" >Follow</p>
+                    <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
+                </button>
+                <!-- unfollow button  -->
+                <button class="talk-btn w-100" v-if="profile.username !== loggedInUser.username && profile.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow">
+                    <p class="other-talks mb-0" v-if="!follow_in_progress" >Unfollow</p>
+                    <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
+                </button>
                 <!-- edit profile button -->
-                <div class="talk-btn" v-else>
+                <div class="talk-btn" v-motion-pop v-if="profile.username === loggedInUser.username">
                     <p class="mb-0 other-talks"><i class="light fa-solid fa-pen-nib"></i><span>Edit Profile</span></p>
                 </div>
             </div>
@@ -118,17 +124,17 @@
     <div class="tabs mt-3 mb-3">
         <div class="row">
             <!-- posts  -->
-            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': isActive('Posts') }" @click="this.currentTab = 'Posts'">
+            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': this.$route.query.tab === 'Posts' }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
 
             <!-- Contributions  -->
-            <div class="col-lg-4 col-md-4 col-6 b-r text-center tab" :class="{ 'active-tab': isActive('Contributions') }" @click="this.currentTab = 'Contributions'">
+            <div class="col-lg-4 col-md-4 col-6 b-r text-center tab" :class="{ 'active-tab': this.$route.query.tab === 'Contributions' }" @click="this.currentTab = 'Contributions'">
                 <h6 class="mt-2 mb-2">Contributions</h6>
             </div>
 
             <!-- Talks  -->
-            <div class="col-lg-4 col-md-4 col-3 text-center tab" :class="{ 'active-tab': isActive('Talks') }" @click="this.currentTab = 'Talks'">
+            <div class="col-lg-4 col-md-4 col-3 text-center tab" :class="{ 'active-tab': this.$route.query.tab === 'Talks' }" @click="this.currentTab = 'Talks'">
                 <h6 class="mt-2 mb-2">Talks</h6>
             </div>
         </div>
@@ -159,6 +165,7 @@
 <script>
 import PostItem from '../components/PostItem.vue';
 import PostBox from '../components/PostBox.vue';
+import PageLoader from '../components/PageLoader.vue'
 import axios from 'axios'
 import { postStore } from '../stores/post';
 
@@ -166,39 +173,48 @@ export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+        let posts;
         let profile = null;
-        console.log(user_profile.data);
         if (localStorage.getItem('token')) {
             profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        }            
+        }
+
+        if (to.query.tab === 'Talks') {
+            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+        } else if (to.query.tab === 'Contributions') {
+            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
+        } else {
+            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+        }
+
         next(async (vm) => {
             const { tab } = vm.$route.query;
 
             vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
             vm.profile = user_profile.data;
+
+            vm.posts = posts.data.posts;
+            
+            if (vm.$route.query.tab === 'Contributions') {
+                vm.contributionPageNumber = 2;
+            } else if (vm.$route.query.tab === 'Contributions') {
+                vm.talkPageNumber = 2;
+            } else {
+                vm.postPageNumber = 2;
+            }
         
             if (localStorage.getItem('token')) {
                 vm.loggedInUser = profile.data;
             }
+            console.log(vm.profile.userId);
 
+            // vm.following = user_profile.data.isFollowing;
         })
 
     },
-    async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-
-        if (this.currentTab === 'Posts') {
-            const posts = await axios.get(`/post/userId/${this.profile.userId}?apiKey=${apiKey}&pageNumber=${this.postPageNumber}`)
-
-            this.pageNumber += 1
-            this.posts = posts.data.posts;
-        } else if (this.currentTab === 'Contributions') {
-            const posts = await axios.get(`/posts/feed/false?apiKey=${apiKey}`)
-
-            this.pageNumber += 1
-            this.posts = posts.data.posts;
-        }
+    mounted() {
+        console.log(this.currentTab);
     },
     data() {
         return {
@@ -209,8 +225,12 @@ export default {
             posts: [],
             contributionPageNumber: 1,
             postPageNumber: 1,
+            talkPageNumber: 1,
             category: 'Post',
             postedIn: 'Feed',
+            color: 'FFF',
+            follow_in_progress: false,
+            following: false,
         }
     },
     methods: {
@@ -227,15 +247,21 @@ export default {
             post.viewImage(image)
         },
         async getMorePosts() {
-            if (this.currentTab === 'Posts') {
-                const posts = await axios.get(`/post/userId/${this.profile.userId}?apiKey=${apiKey}&pageNumber=${this.postPageNumber}`)
+            const apiKey = import.meta.env.VITE_API_KEY;
+            if (this.currentTab === 'Talks') {
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
 
-                this.pageNumber += 1
+                this.postPageNumber += 1
                 this.posts.push(posts.data.posts);
             } else if (this.currentTab === 'Contributions') {
-                const posts = await axios.get(`/posts/feed/false?apiKey=${apiKey}`)
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
 
-                this.pageNumber += 1
+                this.contributionPageNumber += 1
+                this.posts.push(posts.data.posts);
+            } else {
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+
+                this.postPageNumber += 1
                 this.posts.push(posts.data.posts);
             }
         },
@@ -256,6 +282,50 @@ export default {
             }
 
         },
+        async follow() {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            if (this.loggedInUser === null) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
+            this.follow_in_progress = true;
+            const followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${this.profile.userId}`)
+            
+            console.log(followed);
+
+            if (followed.status === 200) {
+                this.follow_in_progress = false;
+                // check if following then update button content to following 
+                this.profile.isFollowing = true;
+                this.profile.followersCount += 1;
+            } else {
+                this.follow_in_progress = false;
+                return;
+            }
+            console.log(this.profile.isFollowing);
+        },
+        async unfollow() {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            // if (this.loggedInUser === null) {
+            //     this.$router.push({ name: 'Auth' })
+            //     return;
+            // }
+            this.follow_in_progress = true;
+            const unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${this.profile.userId}`);
+            
+            console.log(unfollowed);
+
+            if (unfollowed.status === 200) {
+                this.follow_in_progress = false;
+                // check if following then update button content to following 
+                this.profile.isFollowing = false;
+                this.profile.followersCount -= 1;
+            } else {
+                this.follow_in_progress = false;
+                return;
+            }
+            console.log(this.profile.isFollowing);
+        }
     },
     watch: {
         currentTab(newVal) {
@@ -280,7 +350,7 @@ export default {
             return 
         },
     },
-    components: { PostItem, PostBox },
+    components: { PostItem, PostBox, PageLoader },
 }
 </script>
 
@@ -379,6 +449,9 @@ div.info {
 .active-tab {
     background-color: #191919;
     color: #20BF55;
+}
+button.talk-btn {
+    height: 2rem;
 }
 @media (max-width: 575px) {
     .container {
