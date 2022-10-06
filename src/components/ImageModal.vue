@@ -83,7 +83,7 @@ div.backdrop {
 }
 @media (max-width: 575px) {
     div.select-modal {
-        width: 80vw;
+        width: 90vw;
         height: auto;
         max-height: 80vh;
     }

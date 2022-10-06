@@ -183,7 +183,8 @@ export default {
             loggedInUser: null,
             currentTab: 'Posts',
             placeholder: 'Post something in your Feed?',
-            posts: []
+            posts: [],
+            pageNumber: 1
         }
     },
     methods: {
@@ -198,7 +199,21 @@ export default {
             const post = postStore();
 
             post.viewImage(image)
-        }
+        },
+        async handleScroll() {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+            const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
+
+            if (bottomOfWindow) {
+            const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
+
+            if (res.data.posts === []) {
+                this.posts.push(res.data.posts);
+                this.pageNumber += 1;
+            }
+            }
+        },
     },
     watch: {
         currentTab(newVal) {

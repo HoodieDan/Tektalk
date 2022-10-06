@@ -52,21 +52,29 @@
                         </div>
                     </router-link>
                     <div v-if="noOfImages !== 0">
-                        <div class="row pt-2 pb-3 pe-3 ps-3 img-wrapper" :class="{ 'justify-content-evenly': noOfImages > 1 }">
-                            <img
-                             :src="images[0]" 
-                              alt="" 
-                              class="img-fluid br-5 p-0 user-img" 
-                             :class="{ 'col-12': noOfImages === 1, 'col-5': noOfImages > 1 }"
-                             @click="openImage(images[0])"
-                             >
-                            <img
-                             :src="images[1]" 
-                             alt="" 
-                             v-if="noOfImages > 1" 
-                             class="col-5 img-fluid br-5 p-0 user-img"
-                             @click="openImage(images[1])"
-                             >
+                        <div
+                         class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
+                        >
+                            <div :class="{ 'col-12': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                                <img
+                                    :src="images[0]" 
+                                    alt="" 
+                                    class="br-5 p-0 user-img"
+                                    :class="{ 'br-right': noOfImages > 1 }"
+                                    @click="openImage(images[0])"
+                                >
+                            </div>
+                            <div
+                             class="col-6 ps-1" 
+                             v-if="noOfImages > 1"
+                            >
+                                <img
+                                    :src="images[1]" 
+                                    alt="" 
+                                    class="br-5 p-0 user-img br-left"
+                                    @click="openImage(images[1])"
+                                >
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,7 +158,6 @@ export default {
     name: 'PostItem',
     data() {
         return {
-            postArr: [1,2,3,4,5,6,7,8,9,10],
         }
     },
     methods: {
@@ -162,7 +169,11 @@ export default {
     },
     computed: {
         noOfImages() {
-            return this.images.length;
+            if (this.images) {
+                return this.images.length;
+            } else {
+                return 0
+            }
         },
         timePosted() {
             const date = new Date().toString();
@@ -248,13 +259,26 @@ div.svg-box:nth-of-type(3) {
 h6 span.subtext {
     font-size: 0.9rem;
 }
-.user-img {
-    object-fit: cover;
+img.user-img {
+    object-fit: cover !important;
+    height: 100%;
+    width: 100%;
     z-index: 10;
     max-height: 400px;
 }
 .user-img:hover {
     filter: opacity(0.8) drop-shadow(0 0 0 #000);
+}
+.col-6 {
+    padding: 0;
+}
+.br-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.br-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 @media (max-width: 992px) {
     .function-icons {
