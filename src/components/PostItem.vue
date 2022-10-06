@@ -55,7 +55,7 @@
                         <div
                          class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
                         >
-                            <div :class="{ 'col-12': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                            <div :class="{ 'col-12 ps-0': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
                                 <img
                                     :src="images[0]" 
                                     alt="" 

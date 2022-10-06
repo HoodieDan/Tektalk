@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!-- <div class="post">
+    <div class="post" v-if="post !== {}">
         <div class="row">
             <div class="col-3">
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
@@ -45,21 +45,37 @@
                     </div>
                     <p class="text-gradient">@{{ post.username }}</p>
                     <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
-                    <p class="dark">{{ timePosted }} · {{ datePosted }}</p>
+                    <!-- <p class="dark">{{ timePosted }} · {{ datePosted }}</p> -->
                 </div>
             </div>
             <div class="user-post light mt-3">
                 <p>{{ post.postBody }}</p>
-                <div class="mt-2 mb-3 pe-3" v-if="post.images">
-                    <div class="row" >
-                        <img
-                            v-for="(image, i) in post.images" :key="i"
-                            :src="image"
-                            alt=""
-                            class="img-fluid ps-2"
-                            :class="{ 'col-6': post.images.length === 2, 'col-12': post.images.length === 1 }">
+                <!-- <div v-if="noOfImages !== 0">
+                    <div
+                        class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
+                    >
+                        <div :class="{ 'col-12': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                            <img
+                                :src="images[0]" 
+                                alt="" 
+                                class="br-5 p-0 user-img"
+                                :class="{ 'br-right': noOfImages > 1 }"
+                                @click="openImage(images[0])"
+                            >
+                        </div>
+                        <div
+                            class="col-6 ps-1" 
+                            v-if="noOfImages > 1"
+                        >
+                            <img
+                                :src="images[1]" 
+                                alt="" 
+                                class="br-5 p-0 user-img br-left"
+                                @click="openImage(images[1])"
+                            >
+                        </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-auto">
                 <p>{{ post.commentCount }} <span class="subtext">comments</span></p>
@@ -68,7 +84,7 @@
                 <p>{{ post.likeCount }} <span class="subtext">likes</span></p>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <!-- Like and Share Buttons -->
     <div class="like-and-share row">
@@ -94,6 +110,9 @@ import axios from 'axios';
 export default {
     name: "PostDetails",
     components: { AddComment },
+    mounted() {
+        console.log(this.post);
+    },
     data() {
         return {
             post: {},
@@ -107,15 +126,30 @@ export default {
             return this.post.postDate.slice(4,15);
         },
         noOfImages() {
-            return this.images.length;
+            return this.post.images.length;
         },
     },
-    // async created() {
-    //     const apiKey = import.meta.env.VITE_API_KEY;
-    //     const response = await axios.get(`/post/id/${this.$route.params.postID}?apiKey=${apiKey}&pageNumber=1`);
-    //     this.post = response.data.posts;
-    //     console.log(response.data);
-    // }
+    methods: {
+        getComments() {
+            return;
+        }
+    },
+    async beforeRouteEnter(to, from, next) {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const response = await axios.get(`/post/postId/${to.params.postID}?apiKey=${apiKey}`);
+        console.log(response.data.post[0]);
+
+        next ((vm) => {
+            if (!response.data.post) {
+                vm.$router.push({ name: 'home' });
+                return;
+            }
+            vm.post = response.data.post[0];
+
+            // lodash function 
+            // this.userData = cloneDeep(response.data)
+        });
+    }
 }
 </script>
 
@@ -163,6 +197,27 @@ div.like-and-share {
 }
 .img-fluid.col-6 {
     border-radius: 5px;
+}
+img.user-img {
+    object-fit: cover !important;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    max-height: 400px;
+}
+.user-img:hover {
+    filter: opacity(0.8) drop-shadow(0 0 0 #000);
+}
+.col-6 {
+    padding: 0;
+}
+.br-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.br-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 @media (max-width: 575px) {
     div.circular {

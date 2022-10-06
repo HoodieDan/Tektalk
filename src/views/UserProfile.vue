@@ -14,7 +14,7 @@
         </div>
         <div class="cover">
             <!-- display image  -->
-            <div class="circular" v-if="profile.displayUrl !== null">
+            <div class="circular">
                 <img
                  :src="profile.displayUrl" 
                  :alt="profile.name" 
@@ -135,15 +135,24 @@
     </div>
     <div v-if="loggedInUser !== null">
         <div v-if="profile.username === loggedInUser.username">
-            <PostBox :placeholder="placeholder" v-if="currentTab === 'Posts'" />
+            <PostBox 
+                :placeholder="placeholder" 
+                v-if="currentTab === 'Posts'" 
+                :category="category"
+                :postedIn="postedIn"
+            />
         </div>
     </div>
-    <!-- <PostItem
-     v-for="post in posts" 
-     :key="post.postId" 
-     :post="post" 
-     :images="post.images" 
-    /> -->
+    <div
+        v-if="currentTab === 'Posts' || currentTab === 'Contributions' || posts !== []"
+    >
+        <PostItem
+            v-for="post in posts" 
+            :key="post.postId" 
+            :post="post" 
+            :images="post.images" 
+        />
+    </div>
   </div>
 </template>
 
@@ -156,26 +165,40 @@ import { postStore } from '../stores/post';
 export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const user_profile = await axios.get(`/profile/${to.params.username}?apiKey=${apiKey}`);
-        // const posts = await axios.get(``)
+        const user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
         let profile = null;
+        console.log(user_profile.data);
         if (localStorage.getItem('token')) {
             profile = await axios.get(`/profile?apiKey=${apiKey}`)
         }            
-        next((vm) => {
+        next(async (vm) => {
             const { tab } = vm.$route.query;
 
             vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
             vm.profile = user_profile.data;
-
-            // vm.posts = posts.data.posts;
         
             if (localStorage.getItem('token')) {
                 vm.loggedInUser = profile.data;
             }
+
         })
 
+    },
+    async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+
+        if (this.currentTab === 'Posts') {
+            const posts = await axios.get(`/post/userId/${this.profile.userId}?apiKey=${apiKey}&pageNumber=${this.postPageNumber}`)
+
+            this.pageNumber += 1
+            this.posts = posts.data.posts;
+        } else if (this.currentTab === 'Contributions') {
+            const posts = await axios.get(`/posts/feed/false?apiKey=${apiKey}`)
+
+            this.pageNumber += 1
+            this.posts = posts.data.posts;
+        }
     },
     data() {
         return {
@@ -184,7 +207,10 @@ export default {
             currentTab: 'Posts',
             placeholder: 'Post something in your Feed?',
             posts: [],
-            pageNumber: 1
+            contributionPageNumber: 1,
+            postPageNumber: 1,
+            category: 'Post',
+            postedIn: 'Feed',
         }
     },
     methods: {
@@ -200,19 +226,35 @@ export default {
 
             post.viewImage(image)
         },
+        async getMorePosts() {
+            if (this.currentTab === 'Posts') {
+                const posts = await axios.get(`/post/userId/${this.profile.userId}?apiKey=${apiKey}&pageNumber=${this.postPageNumber}`)
+
+                this.pageNumber += 1
+                this.posts.push(posts.data.posts);
+            } else if (this.currentTab === 'Contributions') {
+                const posts = await axios.get(`/posts/feed/false?apiKey=${apiKey}`)
+
+                this.pageNumber += 1
+                this.posts.push(posts.data.posts);
+            }
+        },
         async handleScroll() {
             const apiKey = import.meta.env.VITE_API_KEY;
             const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
             const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
 
             if (bottomOfWindow) {
-            const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
+                const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
 
-            if (res.data.posts === []) {
-                this.posts.push(res.data.posts);
-                this.pageNumber += 1;
+                if (res.data.posts === []) {
+                    this.posts.push(res.data.posts);
+                    this.pageNumber += 1;
+                }
+
+                this.getMorePosts();
             }
-            }
+
         },
     },
     watch: {

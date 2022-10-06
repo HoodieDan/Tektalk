@@ -124,7 +124,8 @@ export default {
                 formData.append("image", file);
             });
             formData.append("body", this.body);
-            formData.append("category", this.postedIn);
+            formData.append("category", this.category);
+            formData.append("postedIn", this.postedIn)
             if (this.upload_alert === "") {
                 try {
                     await post.post(formData);
