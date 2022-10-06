@@ -43,7 +43,7 @@
                                     </svg>
                                 </div>
                                 <!-- add margin start when not verified -->
-                                <h6 class="mb-0 light"> · <span class="ms-1 subtext">{{ timePosted }}</span></h6>
+                                <h6 class="mb-0 light no-underline"> · <span class="ms-1 subtext">{{ timePosted }}</span></h6>
                             </div>
                             <p class="subtext username">@{{ post.username }}</p>
                         </div>
@@ -257,7 +257,7 @@ div.svg-box:nth-of-type(3) {
     fill: #01BAEF;
 }
 h6 span.subtext {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
 img.user-img {
     object-fit: cover !important;
