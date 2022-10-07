@@ -186,7 +186,6 @@ export default {
 
             if (this.post.postDate) {
                 time = this.post.postDate.slice(16,21);
-                console.log(time);
             }
             if (time === currentTime) {
                 return 'now'
