@@ -58,15 +58,14 @@ export default {
 
         if (bottomOfWindow) {
           const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
-          
-          if (res) {
-            this.loading = false;
-          }
-
-          if (res.data.posts === []) {
-            this.loading = false;
-            this.posts.push(res.data.posts);
+          if (res.data.posts.length !== 0) {
+            // this.loading = false;
+            res.data.posts.forEach((post) => {
+              this.posts.push(post);
+            })
             this.pageNumber += 1;
+          } else {
+            // this.loading = true;
           }
         }
       },

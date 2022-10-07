@@ -201,7 +201,7 @@ export default {
             
             if (vm.$route.query.tab === 'Contributions') {
                 vm.contributionPageNumber = 2;
-            } else if (vm.$route.query.tab === 'Contributions') {
+            } else if (vm.$route.query.tab === 'Talks') {
                 vm.talkPageNumber = 2;
             } else {
                 vm.postPageNumber = 2;
@@ -214,6 +214,12 @@ export default {
             // vm.following = user_profile.data.isFollowing;
         })
 
+    },
+    mounted() {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    beforeUnmount() {
+      window.removeEventListener('scroll', this.handleScroll);
     },
     data() {
         return {
@@ -252,20 +258,39 @@ export default {
         async getMorePosts() {
             const apiKey = import.meta.env.VITE_API_KEY;
             if (this.currentTab === 'Talks') {
-                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.talkPageNumber}&username=${this.$route.params.username}`);
 
-                this.postPageNumber += 1
-                this.posts.push(posts.data.posts);
+                if (posts.data.posts.length !== 0) {
+                    this.loading = false;
+                    posts.data.posts.forEach((post) => {
+                    this.posts.push(post);
+                    })
+                    this.talkPageNumber += 1;
+                } else {
+                    this.loading = true;
+                }
             } else if (this.currentTab === 'Contributions') {
-                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=${this.contributionPageNumber}&username=${this.$route.params.username}`);
 
-                this.contributionPageNumber += 1
-                this.posts.push(posts.data.posts);
+                if (posts.data.posts.length !== 0) {
+                    this.loading = false;
+                    posts.data.posts.forEach((post) => {
+                    this.posts.push(post);
+                    })
+                    this.contributionPageNumber += 1;
+                } else {
+                    this.loading = true;
+                }
             } else {
-                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.postPageNumber}&username=${this.$route.params.username}`);
 
-                this.postPageNumber += 1
-                this.posts.push(posts.data.posts);
+                if (posts.data.posts.length !== 0) {
+                    this.loading = false;
+                    posts.data.posts.forEach((post) => {
+                    this.posts.push(post);
+                    })
+                    this.postPageNumber += 1;
+                } 
             }
         },
         async handleScroll() {
@@ -274,6 +299,7 @@ export default {
             const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
 
             if (bottomOfWindow) {
+
                 const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
 
                 if (res.data.posts === []) {
