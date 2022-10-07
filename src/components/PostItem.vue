@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="" v-motion-pop >
     <div class="post">
         <div class="row">
             <router-link :to="{name: 'Profile', params: { username: post.username }}" class="col-lg-1 col-md-2 col-sm-2 col-2">

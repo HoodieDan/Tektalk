@@ -146,6 +146,7 @@
                 v-if="currentTab === 'Posts'" 
                 :category="category"
                 :postedIn="postedIn"
+                @posted="pushPost"
             />
         </div>
     </div>
@@ -241,6 +242,9 @@ export default {
             const post = postStore();
 
             post.viewImage(image)
+        },
+        pushPost(data) {
+            this.posts.unshift(data);
         },
         async getMorePosts() {
             const apiKey = import.meta.env.VITE_API_KEY;

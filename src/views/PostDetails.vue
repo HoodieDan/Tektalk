@@ -45,7 +45,7 @@
                     </div>
                     <p class="text-gradient">@{{ post.username }}</p>
                     <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
-                    <p class="dark">{{ timePosted }} · {{ datePosted }}</p>
+                    <p class="dark">{{ timePosted }} · {{ datePosted }} · GMT</p>
                 </div>
             </div>
             <div class="user-post light mt-3">
@@ -182,6 +182,9 @@ export default {
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
+        if (response.status !== 200) {
+            this.$router.push({ name: home })
+        }
 
         console.log(response.data.post[0]);
 

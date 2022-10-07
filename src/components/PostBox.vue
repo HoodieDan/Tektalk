@@ -55,8 +55,8 @@
 <script>
 import axios from 'axios';
 import { postStore } from '../stores/post';
-import { authStore } from '../stores/auth';
 import PageLoader from './PageLoader.vue';
+import url from '../../includes/ImgUrl';
 
 export default {
     name: "PostBox",
@@ -64,8 +64,6 @@ export default {
         const apiKey = import.meta.env.VITE_API_KEY;
         const profile = await axios.get(`/profile?apiKey=${apiKey}`);
         this.user = profile.data;
-        // const auth = authStore();
-        // this.user = auth.user;
     },
     data() {
         return {
@@ -82,7 +80,8 @@ export default {
             load_alert: "",
             show_load_alert: "",
             show_upload_alert: false,
-            color: 'FFF'
+            color: 'FFF',
+            images: [],
         };
     },
     computed: {
@@ -102,7 +101,13 @@ export default {
         handleFileUpload($event) {
             this.files = [...$event.target.files];
             // console.log(this.show_upload_alert);
+            let pics = [];
             this.files.forEach((file) => {
+                // get url function takes in uploaded object and returns a base64 encoded string that can be read inside the img tag 
+                url.getUrl(file).then((value) => {
+                    this.images.push(value)
+                })
+                console.log(pics);
                 const image = file.type.split("/");
                 console.log(image);
                 if (image[0] !== "image") {
@@ -122,6 +127,8 @@ export default {
         },
         async post(values, { resetForm }) {
             this.loading = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
 
             const post = postStore();
             var formData = new FormData();
@@ -129,10 +136,12 @@ export default {
                 formData.append("image", file);
             });
             formData.append("body", this.body);
+            formData.append("category", this.category);
             formData.append("postedIn", this.postedIn);
             if (this.upload_alert === "") {
                 try {
-                    await post.post(formData);
+                    res = await axios.post(`post?apiKey=${apiKey}`, formData);
+                    console.log(res);
                 }
                 catch (err) {
                     this.loading = false;
@@ -148,9 +157,22 @@ export default {
             this.show_load_alert = true;
             this.load_alert = 'Posted Successfully!'
             this.loading = false;
+            this.$emit('posted', {
+                authorId: this.user.userId,
+                authorImage: this.user.displayUrl,
+                commentCount: 0,
+                images: this.images,
+                isVerified: this.user.isVerified,
+                likeCount: 0,
+                name: this.user.name,
+                postBody: this.body,
+                postDate: new Date().toString(),
+                postId: res.data.postId,
+                postedIn: this.postedIn,
+                username: this.user.username,
+            })
             resetForm();
             this.files = [];
-            window.location.reload();
         }
     },
     props: ["placeholder", "category", "postedIn"],

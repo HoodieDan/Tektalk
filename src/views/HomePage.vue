@@ -4,6 +4,7 @@
      :placeholder="placeholder"
      :category="category"
      :postedIn="postedIn"
+     @posted="pushPost"
     />
     <PostItem
      v-for="post in posts" 
@@ -68,6 +69,9 @@ export default {
             this.pageNumber += 1;
           }
         }
+      },
+      pushPost(data) {
+          this.posts.unshift(data);
       },
     }
 }
