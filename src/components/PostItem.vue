@@ -82,7 +82,7 @@
         </div>
         <div class="function-icons">
             <!-- comment lol -->
-            <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="svg-box no-underline d-flex">
+            <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="svg-box no-underline d-flex pe-4 ps-4">
                 <svg
                     width="16px"
                     height="16px"
@@ -103,8 +103,9 @@
                 <p class="subtext">{{ post.commentCount }}</p>
             </router-link>
             <!-- Like  -->
-            <div class="svg-box">
+            <div class="svg-box pe-4 ps-4" @click="likeOrUnlike(post.isLiked)" >
                 <svg
+                    :class="{'liked': post.isLiked}" 
                     width="16px"
                     height="16px"
                     fill="#A9A9A9"
@@ -124,7 +125,7 @@
                 <p class="subtext">{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
-            <div class="svg-box">
+            <div class="svg-box pe-4 ps-4">
                 <svg
                     width="16px"
                     height="16px"
@@ -165,7 +166,28 @@ export default {
             const post = postStore();
 
             post.viewImage(image)
-        }
+        },
+        async like() {
+            this.post.likeCount += 1;
+            this.post.isLiked = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const like = await axios.put(`/like?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+
+            console.log(like);
+        },
+        async unlike() {
+            this.post.likeCount -= 1;
+            this.post.isLiked = false;
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const unlike = await axios.patch(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+        },
+        likeOrUnlike(isLiked) {
+            if (isLiked) {
+                this.unlike()
+            } else {
+                this.like()
+            }
+        },
     },
     computed: {
         noOfImages() {
@@ -215,6 +237,10 @@ div.post {
 .post:hover {
     background-color: #191919;
 }
+.liked {
+    color: #01BAEF;
+    fill: #01BAEF;
+}
 .circular {
     border: 1px solid #A9A9A9;
 }
@@ -237,7 +263,7 @@ div.post {
 }
 .function-icons {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-left: 8.33%;
 }
 div.svg-box {

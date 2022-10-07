@@ -54,7 +54,7 @@
                     <div
                         class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
                     >
-                        <div :class="{ 'col-12': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                        <div :class="{ 'col-12 ps-0': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
                             <img
                                 :src="post.images[0]" 
                                 alt="" 
@@ -77,11 +77,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-auto">
-                <p>{{ post.commentCount }} <span class="subtext">comments</span></p>
+            <div class="col-auto d-flex">
+                <p class="me-2" v-motion-pop >{{ post.commentCount }}</p>
+                <span class="subtext pt-1">comments</span>
             </div>
-            <div class="col-auto">
-                <p>{{ post.likeCount }} <span class="subtext">likes</span></p>
+            <div class="col-auto d-flex">
+                <p class="me-2" v-motion-pop >{{ post.likeCount }}</p>
+                <span class="subtext pt-1">likes</span>
             </div>
         </div>
     </div>
@@ -90,11 +92,11 @@
 
     <!-- Like and Share Buttons -->
     <div class="like-and-share row" >
-        <div class="like col-6 text-center">
-            <h6>Like</h6>
+        <div class="like col-6 text-center" :class="{ 'is-liked': post.isLiked }" @click="likeOrUnlike(post.isLiked)">
+            <h6 class="mt-2" v-motion-pop >Like<span v-if="post.isLiked" >d</span></h6>
         </div>
         <div class="share col-6 text-center">
-            <h6>Share</h6>
+            <h6 class="mt-2" >Share</h6>
         </div>
     </div>
 
@@ -116,7 +118,6 @@
 <script>
 import AddComment from '../components/AddComment.vue';
 import { postStore } from '../stores/post';
-import { authStore } from '../stores/auth';
 import axios from 'axios';
 import PageLoader from '../components/PageLoader.vue';
 import Comment from '../components/Comment.vue';
@@ -143,6 +144,15 @@ export default {
         },
         noOfImages() {
             return this.post.images.length;
+        },
+        sortedComments() {
+            return this.comments.slice().sort((a, b) => {
+                if (this.sort === '1') {
+                return new Date(b.datePosted) - new Date(a.datePosted);
+                }
+
+                return new Date(a.datePosted) - new Date(b.datePosted);
+            });
         },
     },
     methods: {
@@ -171,17 +181,36 @@ export default {
             })
         },
         async like() {
+            this.post.likeCount += 1;
+            this.post.isLiked = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
             const like = await axios.put(`/like?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+
+            console.log(like);
         },
         async unlike() {
-            const unlike = await axios.put(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+            this.post.likeCount -= 1;
+            this.post.isLiked = false;
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const unlike = await axios.patch(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+        },
+        likeOrUnlike(isLiked) {
+            if (isLiked) {
+                this.unlike()
+            } else {
+                this.like()
+            }
         },
     },
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        this.user = profile.data;
+        
+        if (localStorage.getItem('token')) {
+            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            this.user = profile.data;
+        }
+
         if (response.status !== 200) {
             this.$router.push({ name: home })
         }
@@ -238,6 +267,10 @@ div.like-and-share {
 }
 .like:hover,
 .share:hover {
+    background-color: #191919;
+    color: #01BAEF;
+}
+.is-liked {
     background-color: #191919;
     color: #01BAEF;
 }
