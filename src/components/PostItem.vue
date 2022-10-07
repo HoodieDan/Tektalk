@@ -90,7 +90,7 @@
             <div class="svg-box pe-4" @click="likeOrUnlike(post.isLiked, post.postId)" >
                 <i class="fa-regular fa-heart pt-0 pb-0 ps-0 pe-2 dark" v-motion-pop v-if="!post.isLiked"></i>
                 <i class="fa-solid fa-heart pt-0 pb-0 ps-0 pe-2 liked" v-motion-pop v-else ></i>
-                <p class="subtext">{{ post.likeCount }}</p>
+                <p class="subtext" :class="{ 'liked': post.isLiked }" >{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
             <div class="svg-box pe-4">
@@ -253,6 +253,10 @@ img.user-img {
 .br-left {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+.fa-regular,
+.fa-solid {
+    transition: none;
 }
 .fa-solid:hover,
 .fa-regular:hover {

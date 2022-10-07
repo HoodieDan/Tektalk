@@ -299,6 +299,14 @@ img.user-img {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+.fa-regular,
+.fa-solid {
+    transition: none;
+}
+.fa-solid:hover,
+.fa-regular:hover {
+    background-color: transparent;
+}
 @media (max-width: 575px) {
     div.circular {
         width: 65px;
