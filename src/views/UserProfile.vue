@@ -150,6 +150,7 @@
             />
         </div>
     </div>
+    <PageLoader :color="color" :height="40" :width="40" class="mt-5 mb-5" v-if="posts_loading" />
     <div
         v-if="currentTab === 'Posts' || currentTab === 'Contributions' || posts !== []"
     >
@@ -193,6 +194,7 @@ export default {
 
             vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
+            vm.currentTab = to.query.tab;
             vm.profile = user_profile.data;
 
             vm.posts = posts.data.posts;
@@ -228,6 +230,7 @@ export default {
             color: 'FFF',
             follow_in_progress: false,
             following: false,
+            posts_loading: false,
         }
     },
     methods: {
@@ -321,13 +324,24 @@ export default {
             }
         },
         async getProfile() {
+            this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
-            const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+            let posts;
+
+            if (this.$route.query.tab === 'Contributions') {
+                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+            } else {
+                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+            }
+
+            if (posts.status === 200) {
+                this.posts_loading = false;
+            }
 
             this.profile = user_profile.data;
             this.posts = posts.data.posts;
-        }
+        },
     },
     watch: {
         currentTab(newVal) {
@@ -342,11 +356,18 @@ export default {
         },
         currentRoute(){
             this.getProfile();
+        },
+        thisTab() {
+            this.posts = [];
+            this.getProfile();
         }
     },
     computed: {
         currentRoute() {
             return this.$route.params.username;
+        },
+        thisTab() {
+            return this.$route.query.tab
         },
         showPostBox() {
             return 

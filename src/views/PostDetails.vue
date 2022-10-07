@@ -93,10 +93,11 @@
     <!-- Like and Share Buttons -->
     <div class="like-and-share row" >
         <div class="like col-6 text-center" :class="{ 'is-liked': post.isLiked }" @click="likeOrUnlike(post.isLiked)">
-            <h6 class="mt-2" v-motion-pop >Like<span v-if="post.isLiked" >d</span></h6>
+            <h6 class="mt-2" v-if="!post.isLiked" v-motion-pop ><i class="fa-solid fa-heart"></i>Like</h6>
+            <h6 class="mt-2" v-motion-pop v-else ><i class="fa-solid fa-heart"></i>Liked</h6>
         </div>
         <div class="share col-6 text-center">
-            <h6 class="mt-2" >Share</h6>
+            <h6 class="mt-2" ><i class="fa-solid fa-share-nodes"></i>Share</h6>
         </div>
     </div>
 
