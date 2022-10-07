@@ -14,7 +14,7 @@
         </div>
         <div class="cover">
             <!-- display image  -->
-            <div class="circular">
+            <div class="circular" v-motion-pop >
                 <img
                  :src="profile.displayUrl" 
                  :alt="profile.name" 
@@ -34,8 +34,8 @@
             <!-- name, verification badge and username  -->
             <div class="name-and-username col-7">
                 <div class="d-flex align-items-center">
-                    <h4 class="name mb-0">{{ profile.name }}</h4>
-                    <div class="badge" v-if="profile.verified">
+                    <h4 class="name mb-0"  v-motion-pop >{{ profile.name }}</h4>
+                    <div class="badge" v-if="profile.verified" v-motion-pop >
                         <svg
                             width="17px"
                             height="17px"
@@ -64,7 +64,7 @@
                         </svg>
                     </div>
                 </div>
-                <p class="username">@{{ profile.username }}</p>
+                <p class="username" v-motion-pop >@{{ profile.username }}</p>
             </div>
             <div class="follow col-5" v-if="loggedInUser !== null" >
                 <!-- follow button  -->
@@ -84,30 +84,30 @@
             </div>
 
             <!-- stack -->
-            <div class="stack">
+            <div class="stack" v-motion-pop >
                 <i class="fa-solid fa-code"></i>
                 <p class="mb-0">{{ profile.stack }}</p>
             </div>
 
             <!-- location  -->
-            <div class="location">
+            <div class="location" v-motion-pop >
                 <i class="fa-solid fa-earth-africa"></i>
                 <p class="mb-0">{{ profile.location }}</p>
             </div>
 
             <!-- email  -->
-            <div class="location">
+            <div class="location" v-motion-pop >
                 <i class="fa-regular fa-envelope normal-fa"></i>
                 <p class="mb-0">{{ profile.email }}</p>
             </div>
 
             <!-- user bio  -->
-            <div class="bio mt-3">
+            <div class="bio mt-3" v-motion-pop >
                 <p>{{ profile.bio }}</p>
             </div>
 
             <!-- followers and following  -->
-            <div class="row mt-4">
+            <div class="row mt-4" v-motion-pop >
                 <div class="col-6 b-r text-center foll">
                     <h6>{{ profile.followersCount }}</h6>
                     <p class="dark mb-0">Followers</p>
@@ -319,6 +319,12 @@ export default {
                 this.follow_in_progress = false;
                 return;
             }
+        },
+        async getProfile() {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
+
+            this.profile = user_profile.data;
         }
     },
     watch: {
@@ -333,7 +339,8 @@ export default {
             })
         },
         currentRoute(){
-            window.location.reload();
+            // window.location.reload();
+            this.getProfile();
         }
     },
     computed: {
