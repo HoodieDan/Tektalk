@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="post" v-if="post">
+    <div class="post" v-if="post !== {}">
         <div class="row">
             <div class="col-3">
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
@@ -45,12 +45,12 @@
                     </div>
                     <p class="text-gradient">@{{ post.username }}</p>
                     <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
-                    <!-- <p class="dark">{{ timePosted }} · {{ datePosted }}</p> -->
+                    <p class="dark">{{ timePosted }} · {{ datePosted }}</p>
                 </div>
             </div>
             <div class="user-post light mt-3">
                 <p>{{ post.postBody }}</p>
-                <!-- <div v-if="noOfImages !== 0">
+                <div v-if="noOfImages !== 0">
                     <div
                         class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
                     >
@@ -75,7 +75,7 @@
                             >
                         </div>
                     </div>
-                </div> -->
+                </div>
             </div>
             <div class="col-auto">
                 <p>{{ post.commentCount }} <span class="subtext">comments</span></p>
@@ -115,7 +115,7 @@ export default {
     // },
     data() {
         return {
-            post: null,
+            post: {},
         }
     },
     computed: {
@@ -134,25 +134,39 @@ export default {
             return;
         }
     },
-    async mounted() {
+    async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
+        const response = await axios.get(`/post/postId/${to.params.postID}?apiKey=${apiKey}`);
+
         console.log(response.data.post[0]);
+        next((vm) => {
+            vm.post = {...response.data.post[0]}; 
+            console.log(vm.post);
+        });
 
-        this.post = response.data.post[0];
+    },
+    // async created() {
+    //     const apiKey = import.meta.env.VITE_API_KEY;
+    //     const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
+    //     console.log(response.data.post[0]);
+    //     if (response.data.post[0] === [{}]) {
+    //         return;
+    //     }
 
-        // next ((vm) => {
-        //     if (!response.data.post) {
-        //         vm.$router.push({ name: 'home' });
-        //         return;
-        //     }
-        //     vm.post = response.data.post[0];
+    //     this.post = response.data.post[0];
 
-        //     console.log(vm.post);
-        //     // lodash function 
-        //     // this.userData = cloneDeep(response.data)
-        // });
-    }
+    //     // next ((vm) => {
+    //     //     if (!response.data.post) {
+    //     //         vm.$router.push({ name: 'home' });
+    //     //         return;
+    //     //     }
+    //     //     vm.post = response.data.post[0];
+
+    //     //     console.log(vm.post);
+    //     //     // lodash function 
+    //     //     // this.userData = cloneDeep(response.data)
+    //     // });
+    // }
 }
 </script>
 

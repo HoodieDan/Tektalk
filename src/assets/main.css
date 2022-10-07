@@ -103,6 +103,20 @@ button.talk-btn {
 .fade-in-pro {
     animation: fade-in 2s forwards;
 }
+.talk-outline-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #20BF55;
+    height: 2rem;
+    background: transparent;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.talk-outline-btn:hover {
+    background: #343434;
+}
 @keyframes fade-in {
     from {
         opacity: 0;

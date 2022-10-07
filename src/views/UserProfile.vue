@@ -66,14 +66,14 @@
                 </div>
                 <p class="username">@{{ profile.username }}</p>
             </div>
-            <div class="follow col-5">
+            <div class="follow col-5" v-if="loggedInUser !== null" >
                 <!-- follow button  -->
                 <button class="talk-btn w-100" v-if="profile.username !== loggedInUser.username && profile.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow">
                     <p class="other-talks mb-0" v-if="!follow_in_progress" >Follow</p>
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                 </button>
                 <!-- unfollow button  -->
-                <button class="talk-btn w-100" v-if="profile.username !== loggedInUser.username && profile.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow">
+                <button class="talk-outline-btn w-100" v-if="profile.username !== loggedInUser.username && profile.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow">
                     <p class="other-talks mb-0" v-if="!follow_in_progress" >Unfollow</p>
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                 </button>
@@ -207,14 +207,10 @@ export default {
             if (localStorage.getItem('token')) {
                 vm.loggedInUser = profile.data;
             }
-            console.log(vm.profile.userId);
 
             // vm.following = user_profile.data.isFollowing;
         })
 
-    },
-    mounted() {
-        console.log(this.currentTab);
     },
     data() {
         return {
@@ -291,8 +287,6 @@ export default {
             this.follow_in_progress = true;
             const followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${this.profile.userId}`)
             
-            console.log(followed);
-
             if (followed.status === 200) {
                 this.follow_in_progress = false;
                 // check if following then update button content to following 
@@ -302,7 +296,6 @@ export default {
                 this.follow_in_progress = false;
                 return;
             }
-            console.log(this.profile.isFollowing);
         },
         async unfollow() {
             const apiKey = import.meta.env.VITE_API_KEY;
@@ -312,8 +305,6 @@ export default {
             // }
             this.follow_in_progress = true;
             const unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${this.profile.userId}`);
-            
-            console.log(unfollowed);
 
             if (unfollowed.status === 200) {
                 this.follow_in_progress = false;
@@ -324,7 +315,6 @@ export default {
                 this.follow_in_progress = false;
                 return;
             }
-            console.log(this.profile.isFollowing);
         }
     },
     watch: {

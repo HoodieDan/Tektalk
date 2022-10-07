@@ -4,7 +4,12 @@
         <div class="row">
             <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
-                    <img :src="user.displayUrl" alt="handsome">
+                    <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl !== null" >
+                    <img
+                        src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
+                        alt="profile image" 
+                        v-else
+                    >
                 </div>
             </router-link>
             <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">

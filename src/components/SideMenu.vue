@@ -232,7 +232,7 @@ h6 {
         margin-bottom: auto;
     }
 }
-@media (max-height: 600px) {
+@media (max-height: 650px) {
     .link {
         margin: auto;
     }
