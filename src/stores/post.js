@@ -23,7 +23,7 @@ export const postStore = defineStore('post', {
             this.ImageModalIsOpen = false
 
             this.selectedImage = ''
-        }
+        },
     }
 });
 

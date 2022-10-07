@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="post" v-if="post !== {}">
+    <div class="post" v-if="!loading">
         <div class="row">
             <div class="col-3">
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
@@ -56,11 +56,11 @@
                     >
                         <div :class="{ 'col-12': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
                             <img
-                                :src="images[0]" 
+                                :src="post.images[0]" 
                                 alt="" 
                                 class="br-5 p-0 user-img"
                                 :class="{ 'br-right': noOfImages > 1 }"
-                                @click="openImage(images[0])"
+                                @click="openImage(post.images[0])"
                             >
                         </div>
                         <div
@@ -68,10 +68,10 @@
                             v-if="noOfImages > 1"
                         >
                             <img
-                                :src="images[1]" 
+                                :src="post.images[1]" 
                                 alt="" 
                                 class="br-5 p-0 user-img br-left"
-                                @click="openImage(images[1])"
+                                @click="openImage(post.images[1])"
                             >
                         </div>
                     </div>
@@ -86,8 +86,10 @@
         </div>
     </div>
 
+    <PageLoader class="mb-5" :width="60" :color="color" :height="60" v-else />
+
     <!-- Like and Share Buttons -->
-    <div class="like-and-share row">
+    <div class="like-and-share row" >
         <div class="like col-6 text-center">
             <h6>Like</h6>
         </div>
@@ -97,25 +99,38 @@
     </div>
 
     <!-- comment box  -->
-    <div>
-        <AddComment />
+    <div v-if="loggedIn">
+        <AddComment @increase-comment="addOne" />
+    </div>
+
+    <div class="post">
+        <h4 class="mb-0">Comments</h4>
+    </div>
+
+    <div v-if="comments !== null" >
+        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" />
     </div>
   </div>
 </template>
 
 <script>
 import AddComment from '../components/AddComment.vue';
+import { postStore } from '../stores/post';
+
 import axios from 'axios';
+import PageLoader from '../components/PageLoader.vue';
+import Comment from '../components/Comment.vue';
 
 export default {
     name: "PostDetails",
-    components: { AddComment },
-    // mounted() {
-    //     console.log(this.post);
-    // },
+    components: { AddComment, PageLoader, Comment },
     data() {
         return {
             post: {},
+            loading: true,
+            color: 'FFF',
+            loggedIn: false,
+            comments: null,
         }
     },
     computed: {
@@ -130,43 +145,47 @@ export default {
         },
     },
     methods: {
-        getComments() {
-            return;
-        }
+        async getComments() {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const comment = await axios.get(`/comment/?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+            console.log(comment.data);
+            this.comments = comment.data.comments;
+        },
+        openImage(image) {
+            const post = postStore();
+
+            post.viewImage(image)
+        },
+        addOne(comment) {
+            this.post.commentCount += 1;
+            // this.comments.push({
+
+            // })
+        },
+        async like() {
+            const like = await axios.put(`/like?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+        },
+        async unlike() {
+            const unlike = await axios.put(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+        },
     },
-    async beforeRouteEnter(to, from, next) {
+    async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const response = await axios.get(`/post/postId/${to.params.postID}?apiKey=${apiKey}`);
-
+        const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
+        // if (response.data.status !== 200 ) {
+        //     this.loading = false;
+        //     return;
+        // }
         console.log(response.data.post[0]);
-        next((vm) => {
-            vm.post = {...response.data.post[0]}; 
-            console.log(vm.post);
-        });
 
+        this.post = response.data.post[0];
+        this.loading = false;
+
+        if (localStorage.getItem('token')) {
+            this.loggedIn = true;
+        }
+        this.getComments();
     },
-    // async created() {
-    //     const apiKey = import.meta.env.VITE_API_KEY;
-    //     const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
-    //     console.log(response.data.post[0]);
-    //     if (response.data.post[0] === [{}]) {
-    //         return;
-    //     }
-
-    //     this.post = response.data.post[0];
-
-    //     // next ((vm) => {
-    //     //     if (!response.data.post) {
-    //     //         vm.$router.push({ name: 'home' });
-    //     //         return;
-    //     //     }
-    //     //     vm.post = response.data.post[0];
-
-    //     //     console.log(vm.post);
-    //     //     // lodash function 
-    //     //     // this.userData = cloneDeep(response.data)
-    //     // });
-    // }
 }
 </script>
 

@@ -40,7 +40,7 @@
         <ErrorMessage class="error mb-2 text-gradient" name="location"></ErrorMessage>
 
         <!-- stack  -->
-        <label for="name">Stack:</label>
+        <label for="name">Area of Expertise:</label>
         <div class="form-item mt-2 mb-3">
             <i class="fa-solid fa-code icon"></i>
             <vee-field as="select" name="stack" id="stack" class="input field" placeholder="Email" >

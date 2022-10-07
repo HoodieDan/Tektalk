@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="post-box">
+    <div class="post-box" v-if="user">
         <div class="row">
             <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
@@ -12,21 +12,26 @@
                     >
                 </div>
             </router-link>
-            <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
+            <vee-form
+             :validation-schema="schema"
+             @submit="comment"
+             class="col-lg-11 col-md-11 col-sm-10 col-10 form"
+            >
                 <div class="row w-100">
                     <div class="col-8 ">
-                        <textarea name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="Drop a comment?"
-                        v-model="status"></textarea>
+                        <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="Drop a comment?"
+                        v-model="status"></vee-field>
+                        <ErrorMessage name="status" class="subtext alert p-0" ></ErrorMessage>
                     </div>
                     <div class="col-4 buttons">
-                        <button class="talk-btn" @click="comment()" :disabled="loading" >
-                            <p class="other-talks" v-if="loading" >Share</p>
+                        <button type="submit" class="talk-btn w-100" @click="comment()" :disabled="loading" >
+                            <p class="other-talks" v-if="!loading" >Share</p>
                             <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                         </button>
                     </div>
                 </div>
-                <p class="subtext text-gradient" v-if="comment_message !== ''" >{{ comment_message }}</p>
-            </div>
+            </vee-form>
+            <p class="subtext text-gradient mb-0" v-if="comment_message !== ''" >{{ comment_message }}</p>
         </div>
     </div>
   </div>
@@ -51,7 +56,10 @@ export default {
             color: 'FFF',
             loading: false,
             commentBody: '',
-            comment_message: ''
+            comment_message: '',
+            schema: {
+                status: 'required|min:1'
+            }
         }
     },
     computed: {
@@ -60,30 +68,25 @@ export default {
         }
     },
     methods: {
-        async comment() {
+        async comment(values) {
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
         
-            if (this.commentBody.length > 0) {
-                const comment = await axios.post(`/comment?apiKey=${apiKey}`, {
-                    postId: this.postId,
-                    body: this.commentBody
-                });
+            const comment = await axios.post(`/comment?apiKey=${apiKey}`, {
+                postId: this.$route.params.postID,
+                body: this.commentBody
+            });
 
-                if (comment.data.status === 200) {
-                    this.comment_message = 'Comment Posted!';
-                    this.loading = false;
-                } else {
-                    this.comment_message = 'An error occured, please try again later!';
-                    this.loading = false;
-                }
-            } else {
+            if (comment.data.status === 200) {
+                this.comment_message = 'Comment Posted!';
                 this.loading = false;
-                return;
+                this.$emit('increase-comment', values.status)
+            } else {
+                this.comment_message = 'An error occured, please try again later!';
+                this.loading = false;
             }
         }
     },
-    props: ['postId'],
     components: { PageLoader }
 }
 </script>
