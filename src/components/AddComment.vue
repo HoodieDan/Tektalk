@@ -19,12 +19,12 @@
             >
                 <div class="row w-100">
                     <div class="col-8 ">
-                        <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" placeholder="Drop a comment?"
+                        <vee-field as="textarea" name="status" id="status" rows="2" placeholder="Drop a comment?"
                         v-model="status"></vee-field>
                         <ErrorMessage name="status" class="subtext alert p-0" ></ErrorMessage>
                     </div>
                     <div class="col-4 buttons">
-                        <button type="submit" class="talk-btn w-100" @click="comment()" :disabled="loading" >
+                        <button type="submit" class="talk-btn w-100" :disabled="loading" >
                             <p class="other-talks" v-if="!loading" >Share</p>
                             <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                         </button>
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import PageLoader from '../components/PageLoader.vue'
+import PageLoader from '../components/PageLoader.vue';
+import { authStore } from '../stores/auth';
 import axios from 'axios';
 
 export default {
@@ -48,6 +49,9 @@ export default {
         
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
+        // const auth = authStore();
+
+        // this.user = auth.user;
     },
     data() {
         return {
@@ -58,26 +62,27 @@ export default {
             commentBody: '',
             comment_message: '',
             schema: {
-                status: 'required|min:1'
+                status: 'required|min:1|max:140'
             }
         }
     },
     computed: {
-        tooLong() {
-            return this.status.length >= 140
-        }
+        // tooLong() {
+        //     return this.status.length >= 140
+        // }
     },
     methods: {
-        async comment(values) {
+        async comment(values, {resetForm}) {
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
         
             const comment = await axios.post(`/comment?apiKey=${apiKey}`, {
                 postId: this.$route.params.postID,
-                body: this.commentBody
+                body: values.status
             });
+            console.log(comment);
 
-            if (comment.data.status === 200) {
+            if (comment.status === 200) {
                 this.comment_message = 'Comment Posted!';
                 this.loading = false;
                 this.$emit('increase-comment', values.status)
@@ -85,6 +90,8 @@ export default {
                 this.comment_message = 'An error occured, please try again later!';
                 this.loading = false;
             }
+
+            resetForm();
         }
     },
     components: { PageLoader }

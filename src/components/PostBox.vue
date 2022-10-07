@@ -16,7 +16,7 @@
                 <vee-form class="form" @submit="post" :validation-schema="schema">
                     <div class="row w-100">
                         <div class="col-lg-6 col-md-6 ">
-                            <vee-field as="textarea" name="status" id="status" :class="{ 'stop-typing': tooLong }" rows="2" :placeholder="placeholder"
+                            <vee-field as="textarea" name="status" id="status" rows="2" :placeholder="placeholder"
                             v-model="body"></vee-field>
                         </div>
                         <div class="col-lg-6 col-md-6 buttons">
@@ -55,6 +55,7 @@
 <script>
 import axios from 'axios';
 import { postStore } from '../stores/post';
+import { authStore } from '../stores/auth';
 import PageLoader from './PageLoader.vue';
 
 export default {
@@ -63,11 +64,13 @@ export default {
         const apiKey = import.meta.env.VITE_API_KEY;
         const profile = await axios.get(`/profile?apiKey=${apiKey}`);
         this.user = profile.data;
+        // const auth = authStore();
+        // this.user = auth.user;
     },
     data() {
         return {
             schema: {
-                status: "required|min:1",
+                status: "required|min:1|max:200",
                 file_input: "",
             },
             body: "",
@@ -83,9 +86,6 @@ export default {
         };
     },
     computed: {
-        tooLong() {
-            return this.status.length >= 140;
-        },
         noOfFiles() {
             return this.files.length;
         },

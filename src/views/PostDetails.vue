@@ -100,15 +100,15 @@
 
     <!-- comment box  -->
     <div v-if="loggedIn">
-        <AddComment @increase-comment="addOne" />
+        <AddComment @increase-comment="addOne" v-motion-pop />
     </div>
 
-    <div class="post">
+    <div class="post" v-if="comments !== []">
         <h4 class="mb-0">Comments</h4>
     </div>
 
     <div v-if="comments !== null" >
-        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" />
+        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" v-motion-pop />
     </div>
   </div>
 </template>
@@ -116,7 +116,7 @@
 <script>
 import AddComment from '../components/AddComment.vue';
 import { postStore } from '../stores/post';
-
+import { authStore } from '../stores/auth';
 import axios from 'axios';
 import PageLoader from '../components/PageLoader.vue';
 import Comment from '../components/Comment.vue';
@@ -131,6 +131,7 @@ export default {
             color: 'FFF',
             loggedIn: false,
             comments: null,
+            user: null,
         }
     },
     computed: {
@@ -148,7 +149,6 @@ export default {
         async getComments() {
             const apiKey = import.meta.env.VITE_API_KEY;
             const comment = await axios.get(`/comment/?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
-            console.log(comment.data);
             this.comments = comment.data.comments;
         },
         openImage(image) {
@@ -158,9 +158,17 @@ export default {
         },
         addOne(comment) {
             this.post.commentCount += 1;
-            // this.comments.push({
-
-            // })
+            this.comments.push({
+                authorId: this.user.userId,
+                authorImage: this.user.displayUrl,
+                commentBody: comment,
+                commentDate: new Date().toString(),
+                commentId: "anything",
+                isVerified: this.user.isVerified,
+                name: this.user.name,
+                postId: this.$route.params.postID,
+                username: this.user.username,
+            })
         },
         async like() {
             const like = await axios.put(`/like?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
@@ -172,10 +180,9 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
-        // if (response.data.status !== 200 ) {
-        //     this.loading = false;
-        //     return;
-        // }
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        this.user = profile.data;
+
         console.log(response.data.post[0]);
 
         this.post = response.data.post[0];

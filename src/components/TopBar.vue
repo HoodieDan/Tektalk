@@ -54,12 +54,8 @@ import axios from 'axios';
 
 export default {
     name: 'TopBar',
-    // mounted() {
-    //     this.getUser()
-    // },
     data() {
         return {
-            // currentUser: null,
             query: ''
         }
     },
@@ -67,16 +63,6 @@ export default {
         changeSound() {
             this.sound = !this.sound
         },
-        // async getUser() {
-        //     const apiKey = import.meta.env.VITE_API_KEY;
-
-        //     if (localStorage.getItem('token')) {
-        //         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        //         this.currentUser = profile.data;
-        //     } else {
-        //         return;
-        //     }
-        // }
     },
     props: ['currentUser']
 }

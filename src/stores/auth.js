@@ -49,5 +49,9 @@ export const authStore = defineStore('auth', {
         signOut() {
             this.userLoggedIn = false;
         },
+        async getCurrentUser () {
+            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            this.user = profile.data;
+        }
     }
 });

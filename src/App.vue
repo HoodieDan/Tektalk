@@ -46,6 +46,9 @@ export default {
         auth.loggedIn();
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
+        // auth.getCurrentUser();
+
+        // this.user = auth.user;
       }
     },
     data() {
