@@ -323,8 +323,10 @@ export default {
         async getProfile() {
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
+            const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
 
             this.profile = user_profile.data;
+            this.posts = posts.data.posts;
         }
     },
     watch: {
@@ -339,7 +341,6 @@ export default {
             })
         },
         currentRoute(){
-            // window.location.reload();
             this.getProfile();
         }
     },
