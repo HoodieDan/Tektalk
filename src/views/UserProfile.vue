@@ -92,7 +92,7 @@
 
             <!-- location  -->
             <div class="location" v-motion-pop >
-                <i class="fa-solid fa-earth-africa"></i>
+                <i class="fa-solid fa-location-dot"></i>
                 <p class="mb-0">{{ profile.location }}</p>
             </div>
 
@@ -125,7 +125,7 @@
     <div class="tabs mt-3 mb-3">
         <div class="row">
             <!-- posts  -->
-            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': this.$route.query.tab === 'Posts' }" @click="this.currentTab = 'Posts'">
+            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': currentTab === 'Posts' }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
 
@@ -227,6 +227,8 @@ export default {
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
+      console.log(this.currentTab);
+      console.log(this.$route.query.tab);
     },
     beforeUnmount() {
       window.removeEventListener('scroll', this.handleScroll);

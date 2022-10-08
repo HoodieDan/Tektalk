@@ -2,7 +2,14 @@
   <div class="container">
     <div class="post" v-if="!loading">
         <!-- delete post -->
-        <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username" ></i>
+        <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username && !deleting" @click="deletePost" ></i>
+        <div class="loader-div" v-if="deleting">
+            <page-loader :color="color" :height="20" :width="20" />
+        </div>
+
+        <!-- ERROR MESSAGE  -->
+        <p class="alert p-0" v-if="show_alert">{{ delete_alert }}</p>
+
         <div class="row">
             <div class="col-3">
                 <!-- user display url  -->
@@ -148,6 +155,9 @@ export default {
             comments: null,
             user: null,
             likeModalOpen: false,
+            deleting: false,
+            delete_alert: '',
+            show_alert: false,
         }
     },
     computed: {
@@ -226,6 +236,19 @@ export default {
             const index = this.comments.indexOf(deletedComment);
             this.comments.splice(index, 1);
             this.post.commentCount -= 1;
+        },
+        async deletePost() {
+            this.deleting = true;
+            this.show_alert = false;
+            const apiKey = import.meta.env.VITE_API_KEY;
+            try {
+                await axios.delete(`post?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+            } catch (error) {
+                this.show_alert = true;
+                this.delete_alert = 'an error occured, please try again later'
+                return;
+            }
+            this.$router.push({ name: 'Home' })
         }
     },
     async created() {
@@ -261,6 +284,12 @@ div.post {
     margin-bottom: 0.5rem;
     cursor: pointer;
     position: relative;
+}
+.loader-div {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 1rem;
 }
 .delete {
     position: absolute;

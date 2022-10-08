@@ -141,7 +141,6 @@ export default {
             if (this.upload_alert === "") {
                 try {
                     res = await axios.post(`post?apiKey=${apiKey}`, formData);
-                    console.log(res);
                 }
                 catch (err) {
                     this.loading = false;
@@ -162,7 +161,7 @@ export default {
                 authorImage: this.user.displayUrl,
                 commentCount: 0,
                 images: this.images,
-                isVerified: this.user.isVerified,
+                isVerified: this.user.verified,
                 likeCount: 0,
                 name: this.user.name,
                 postBody: this.body,

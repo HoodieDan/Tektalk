@@ -1,12 +1,16 @@
 <template>
   <div class="backdrop" @click.self="close" >
     <div class="select-modal">
-        <button class="close-modal" @click="close()">
-            <i class="fa-solid fa-xmark light" />
-        </button>
-        <div class="w-100 p-3 header mb-2 sticky-top">
-            <h6 v-if="field === 'followers'"><span class="text-gradient">{{ this.$route.params.username }}'s</span> Followers</h6>
-            <h6 v-else> <span class="text-gradient">{{ this.$route.params.username }}'s</span> Following</h6>
+        <div class="w-100 p-3 header mb-2 sticky-top d-flex">
+            <div class="name">
+                <h6 v-if="field === 'followers'"><span class="text-gradient">{{ this.$route.params.username }}'s</span> Followers</h6>
+                <h6 v-else> <span class="text-gradient">{{ this.$route.params.username }}'s</span> Following</h6>
+            </div>
+            
+            <!-- modal close button -->
+            <button class="close-modal ms-auto" @click="close()">
+                <i class="fa-solid fa-xmark light" />
+            </button>
         </div>
         <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" />
         <div v-if="users !== []" class="p-1">
@@ -85,9 +89,6 @@ div.header {
     border-bottom: 1px solid #A9A9A9;
 }
 .close-modal {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
     background: transparent;
     border: none;
     z-index: 100001;

@@ -223,9 +223,9 @@ export default {
             this.loading = true;
             let formData = new FormData();
             if (this.profileImg !== []) {
-                formData.append('profile', values.profileImage);
+                formData.append('display', values.profileImage);
             } else {
-                formData.append('profile', this.user.displayUrl);
+                formData.append('display', this.user.displayUrl);
             }
             if (this.backdropImg !== []) {
                 formData.append('backdrop', values.backdropImage);
@@ -309,8 +309,7 @@ div.circular {
     height: 200px;
 }
 .circular img {
-    left: 0;
-    top: 0;
+    transform: translate(-50%, -50%) !important;
 }
 .clear {
     cursor: pointer;

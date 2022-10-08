@@ -48,12 +48,12 @@
             <div class="col-3" v-if="loggedInUser !== null" >
                 <!-- follow button  -->
                 <button class="talk-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow(user.userId)">
-                    <p class="other-talks mb-0" v-if="!follow_in_progress" >Follow</p>
-                    <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
+                    <p class="other-talks mb-0 foll" v-if="!follow_in_progress" >Follow</p>
+                    <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="follow_in_progress" />
                 </button>
                 <!-- unfollow button  -->
                 <button class="talk-outline-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow(user.userId)">
-                    <p class="other-talks mb-0" v-if="!follow_in_progress" >Unfollow</p>
+                    <p class="other-talks mb-0 foll" v-if="!follow_in_progress" >Unfollow</p>
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                 </button>
             </div>
@@ -64,12 +64,14 @@
 
 <script>
 import PageLoader from '../components/PageLoader.vue';
+import axios from 'axios';
 
 export default {
     name: 'user',
     data() {
         return {
             follow_in_progress: false,
+            color: 'FFF',
         }
     },
     methods: {
@@ -127,5 +129,13 @@ div.user {
 }
 .circular {
     border: 1px solid #A9A9A9;
+}
+.talk-btn {
+    height: 2rem;
+}
+@media (max-width: 500px) {
+    .foll {
+        font-size: 0.7rem;
+    }
 }
 </style>
