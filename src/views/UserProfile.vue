@@ -204,7 +204,11 @@ export default {
 
             vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
-            vm.currentTab = to.query.tab;
+            vm.currentTab = vm.$route.query.tab;
+            if (!vm.$route.query.tab) {
+                vm.currentTab = 'Posts';
+                vm.$route.query.tab = 'Posts';
+            }
             vm.profile = user_profile.data;
 
             vm.posts = posts.data.posts;
