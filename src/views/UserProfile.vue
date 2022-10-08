@@ -79,9 +79,9 @@
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                 </button>
                 <!-- edit profile button -->
-                <div class="talk-btn" v-motion-pop v-if="profile.username === loggedInUser.username">
+                <router-link :to="{ name: 'EditProfile' }" class="no-underline light talk-btn" v-motion-pop v-if="profile.username === loggedInUser.username">
                     <p class="mb-0 other-talks"><i class="light fa-solid fa-pen-nib"></i><span>Edit Profile</span></p>
-                </div>
+                </router-link>
             </div>
 
             <!-- stack -->

@@ -1,6 +1,7 @@
 <template>
   <div class="container p-0">
     <div class="comment">
+        <i class="fa-solid fa-trash delete dark" v-if="comment.username === user.username" @click="deleteComment(comment.commentId)" ></i>
         <div class="row">
             <router-link :to="{name: 'Profile', params: { username: comment.username }}" class="col-lg-1 col-md-2 col-sm-2 col-2">
                 <div class="circular" >
@@ -55,11 +56,20 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Comment',
     data() {
         return {
             // comment: null,
+        }
+    },
+    methods: {
+        async deleteComment(commentId) {
+            this.$emit('delete', commentId);
+            const apiKey = import.meta.env.VITE_API_KEY;
+            const deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}&postId=${this.$route.params.postID}`);
         }
     },
     computed: {
@@ -84,7 +94,7 @@ export default {
             }
         }
     },
-    props: ['comment']
+    props: ['comment', 'user']
 }
 </script>
 
@@ -96,6 +106,13 @@ div.comment {
     border-radius: 5px;
     margin-bottom: 0.5rem;
     cursor: pointer;
+    position: relative;
+}
+.delete {
+    position: absolute;
+    right: 1rem;
+    transition: all 0.5s !important;
+    z-index: 10;
 }
 .comment:hover {
     background-color: #191919;

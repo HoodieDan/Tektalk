@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <div class="post" v-if="!loading">
+        <!-- delete post -->
         <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username" ></i>
         <div class="row">
             <div class="col-3">
+                <!-- user display url  -->
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
                     <div class="circular">
                         <img :src="post.authorImage" alt="gorgeous" v-if="post.authorImage">
@@ -113,7 +115,7 @@
     </div>
 
     <div v-if="comments !== null" >
-        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" v-motion-pop />
+        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" :user="user" @delete="removeFromArray" v-motion-pop />
     </div>
     <div>
         <LikersModal
@@ -217,6 +219,13 @@ export default {
         openLikeModal() {
             this.likeModalOpen = true;
         },
+        removeFromArray(commentId) {
+            const deletedComment = this.comments.find((comment) => {
+                comment.commentId === commentId;
+            })
+            const index = this.comments.indexOf(deletedComment);
+            this.comments.splice(index, 1)
+        }
     },
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;

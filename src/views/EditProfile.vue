@@ -13,11 +13,12 @@
                 <div class="file-input">
                     <div class="d-flex">
                         <h6>Backdrop Image:</h6>
-                        <p class="ms-auto clear" v-if="backdropUrl !== ''" @click="backdropUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" @click="backdropUrl = ''; user.backdropUrl = null">remove<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" v-if="backdropUrl !== ''" @click="backdropUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
                     </div>
                     <div class="backdrop">
-                        <img v-if="user.backdropUrl !== null && backdropUrl === ''" :src="user.backdropUrl" alt="profile image" v-motion-pop >
-                        <img v-if="backdropUrl !== ''" :src="backdropUrl" alt="profile image" v-motion-pop >
+                        <img v-if="user.backdropUrl !== null && backdropUrl === ''" :src="user.backdropUrl" alt="backdrop image" v-motion-pop >
+                        <img v-if="backdropUrl !== ''" :src="backdropUrl" alt="backdrop image" v-motion-pop >
                     </div>
                     <vee-field
                         type="file"
@@ -34,7 +35,8 @@
                 <div class="file-input">
                     <div class="d-flex">
                         <h6>Profile Image:</h6>
-                        <p class="ms-auto clear" v-if="profileUrl !== ''" @click="profileUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" @click="profileUrl = ''; user.displayUrl = null">revome<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" v-if="profileUrl !== ''" @click="profileUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
                     </div>
                     <div class="circular">
                         <img v-if="profileUrl !== ''" :src="profileUrl" alt="profile image" v-motion-pop >
@@ -113,14 +115,24 @@
                 <!-- Bio  -->
                 <label for="paswword">Bio:</label>
                 <div class="form-item mt-2 mb-3">
-                    <vee-field as="textarea" rows="3" name="bio" id="bio" type="text" class="input field" placeholder="Let others know something about you!" />
+                    <i class="fa-solid fa-user-pen bio-icon"></i>
+                    <vee-field
+                     as="textarea" 
+                     rows="3" 
+                     name="bio" 
+                     id="bio" 
+                     type="text" 
+                     class="input field" 
+                     placeholder="Let others know something about you!" 
+                     v-model="user.bio"
+                    />
                 </div>
                 <ErrorMessage class="error mb-2 text-gradient" name="bio"></ErrorMessage>
 
                 <!-- update button  -->
                 <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="loading">
-                    <PageLoader :color="color" :height="30" :width="30" v-motion-pop v-if="loading" />
-                    <h5 class="light mt-2 mb-2" v-motion-pop v-else>Update!</h5>
+                    <h5 class="light mt-2 mb-2 update" v-motion-pop v-if="!loading">Update!</h5>
+                    <PageLoader :color="color" :height="30" :width="30" v-motion-pop v-else />
                 </button>
 
                 <!-- update error message  -->
@@ -150,6 +162,7 @@ export default {
             vm.user.email = profile.data.email;
             vm.user.location = profile.data.location;
             vm.user.stack = profile.data.stack;
+            vm.user.bio = profile.data.bio;
             vm.user.displayUrl = profile.data.displayUrl;
             vm.user.backdropUrl = profile.data.backdropUrl;
         })
@@ -171,6 +184,8 @@ export default {
                 "I am yet to decide",
             ],
             schema: {
+                backdropImage: '',
+                profileImage: '',
                 name: "required|min:3|max:100|alpha_spaces",
                 email: "required|min:11|max:100|email",
                 username: "required|min:1|max:25",
@@ -184,6 +199,7 @@ export default {
                 email: '',
                 location: '',
                 stack: '',
+                bio: '',
                 displayUrl: null,
                 backdropUrl: null,
             },
@@ -202,6 +218,7 @@ export default {
     methods: {
         async update(values) {
             const apiKey = import.meta.env.VITE_API_KEY;
+            this.show_alert = false;
             console.log(values);
             this.loading = true;
             let formData = new FormData();
@@ -222,17 +239,32 @@ export default {
             formData.append('location', values.location);
             formData.append('bio', values.bio);
 
-            const updated = await axios.patch(`/profile/edit?apiKey=${apiKey}`, formData);
-            console.log(updated);
-
+            let updated;
+            try {
+                updated = await axios.patch(`/profile/edit?apiKey=${apiKey}`, formData);
+                console.log(updated);
+            } catch (error) {
+                this.show_alert = true;
+                this.loading = false;
+            
+                if (error.response.data.message === 'Email address already exists!') {
+                    this.alert_message = 'A user with this email already exixts.';
+                } else if (error.response.data.message === 'The username is already taken.') {
+                    this.alert_message = 'A user with this username already exists.';
+                } else {
+                    this.alert_message = 'An error occured, please try again later';
+                }
+                return;
+            }
             if (updated.status !== 200) {
                 this.loading = false;
                 this.show_alert = true;
                 this.alert_message = 'An error occured, please try again later.'
+                return;
             }
 
             this.loading = false;
-            this.$router.push({ name: 'Profile' });
+            this.$router.push({ name: 'Home' });
         },
         profileImageUpload($event) {
             this.profileImg = [...$event.target.files];
@@ -240,7 +272,7 @@ export default {
             this.profileImg.forEach((file) => {
                 // get url function takes in uploaded object and returns a base64 encoded string that can be read inside the img tag 
                 url.getUrl(file).then((value) => {
-                    this.displayUrl = value
+                    this.profileUrl = value;
                     console.log(this.displayUrl);
                 })
             });
@@ -264,11 +296,13 @@ export default {
 div.backdrop {
     width: 100%;
     height: 150px;
+    border-radius: 5px;
 }
 .backdrop img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 5px;
 }
 div.circular {
     width: 200px;
@@ -319,7 +353,14 @@ div.circular {
     min-width: 2.3rem;
     z-index: 10;
     color: #999999;
-}   
+}
+.bio-icon {
+    padding-bottom: 3.9rem;
+    padding-left: 10px;
+    min-width: 2.3rem;
+    z-index: 10;
+    color: #999999;
+}
 .input-field {
     padding: 10px;
     text-align: center;
@@ -344,6 +385,9 @@ textarea {
 }
 .talk-btn {
     height: 2.5rem;
+}
+.update {
+    z-index: 10;
 }
 @media (max-width: 768px) {
     input, select {

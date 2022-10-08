@@ -1,7 +1,7 @@
 <template>
 <div class="container p-0">
     <div class="user">
-        <div class="row">
+        <div class="row w-100">
             <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-2">
                 <div class="circular" >
                     <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl">
@@ -45,18 +45,18 @@
                     <p class="subtext text-gradient">@{{ user.username }}</p>
                 </div>
             </router-link>
-            <!-- <div class="col-3" v-if="loggedInUser !== null" > -->
+            <div class="col-3" v-if="loggedInUser !== null" >
                 <!-- follow button  -->
-                <!-- <button class="talk-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow(user.userId)">
+                <button class="talk-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow(user.userId)">
                     <p class="other-talks mb-0" v-if="!follow_in_progress" >Follow</p>
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
-                </button> -->
+                </button>
                 <!-- unfollow button  -->
-                <!-- <button class="talk-outline-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow(user.userId)">
+                <button class="talk-outline-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === true" :disabled="follow_in_progress" v-motion-pop @click="unfollow(user.userId)">
                     <p class="other-talks mb-0" v-if="!follow_in_progress" >Unfollow</p>
                     <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
-                </button> -->
-            <!-- </div> -->
+                </button>
+            </div>
         </div>
     </div>
 </div>

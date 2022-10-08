@@ -141,7 +141,13 @@ export default {
                 this.reg_show_alert = true;
                 console.error(error.response.data.message);
 
-                this.reg_alert_message = 'An error occured, please try again later'
+                if (error.response.data.message === 'Email address already exists!') {
+                    this.reg_alert_message = 'A user with this email already exixts.';
+                } else if (error.response.data.message === 'The username is already taken.') {
+                    this.reg_alert_message = 'A user with this username already exists.';
+                } else {
+                    this.reg_alert_message = 'An error occured, please try again later';
+                }
 
                 return;
             }
