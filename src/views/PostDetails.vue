@@ -123,6 +123,8 @@
         <h4 class="mb-0">Comments</h4>
     </div>
 
+    <page-loader class="mt-5 mb-5" :color="color" :height="40" :width="40" v-if="getting_comments" />
+
     <div v-if="comments !== null" >
         <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" :user="user" @delete="removeFromArray" v-motion-pop />
     </div>
@@ -160,6 +162,7 @@ export default {
             deleting: false,
             delete_alert: '',
             show_alert: false,
+            getting_comments: false,
         }
     },
     computed: {
@@ -189,9 +192,14 @@ export default {
     },
     methods: {
         async getComments() {
+            this.comments = [];
+            this.getting_comments = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const comment = await axios.get(`/comment/?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
             this.comments = comment.data.comments;
+            if (comment.status === 200) {
+                this.getting_comments = false;
+            }
         },
         openImage(image) {
             const post = postStore();
