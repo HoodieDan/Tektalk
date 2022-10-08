@@ -219,7 +219,6 @@ export default {
         async update(values) {
             const apiKey = import.meta.env.VITE_API_KEY;
             this.show_alert = false;
-            console.log(values);
             this.loading = true;
             let formData = new FormData();
             if (this.profileImg !== []) {
@@ -264,7 +263,7 @@ export default {
             }
 
             this.loading = false;
-            this.$router.push({ name: 'Home' });
+            this.$router.back();
         },
         profileImageUpload($event) {
             this.profileImg = [...$event.target.files];

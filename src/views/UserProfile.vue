@@ -125,7 +125,7 @@
     <div class="tabs mt-3 mb-3">
         <div class="row">
             <!-- posts  -->
-            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': currentTab === 'Posts' }" @click="this.currentTab = 'Posts'">
+            <div class="col-lg-4 col-md-4 col-3 b-r text-center tab" :class="{ 'active-tab': this.$route.query.tab === 'Posts' }" @click="this.currentTab = 'Posts'">
                 <h6 class="mt-2 mb-2">Posts</h6>
             </div>
 
@@ -227,8 +227,9 @@ export default {
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
-      console.log(this.currentTab);
-      console.log(this.$route.query.tab);
+      if (!this.$route.query.tab) {
+        this.$route.query.tab = 'Posts';
+      }
     },
     beforeUnmount() {
       window.removeEventListener('scroll', this.handleScroll);
@@ -251,6 +252,7 @@ export default {
             posts_loading: false,
             followModalOpen: false,
             field: '',
+            talks: [],
         }
     },
     methods: {
@@ -390,7 +392,7 @@ export default {
     watch: {
         currentTab(newVal) {
             if (newVal === this.$route.query.tab) {
-                return
+                return;
             }
             this.$router.push({
                 query: {
@@ -405,6 +407,7 @@ export default {
         thisTab() {
             this.followModalOpen = false;
             this.posts = [];
+            this.talks = [];
             this.getProfile();
         }
     },

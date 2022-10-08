@@ -1,7 +1,9 @@
 <template>
   <div class="container p-0">
     <div class="comment">
-        <i class="fa-solid fa-trash delete dark" v-if="comment.username === user.username && !loading" @click="deleteComment(comment.commentId)" ></i>
+        <div class="delete" v-if="user !== null" >
+            <i class="fa-solid fa-trash delete dark" v-if="comment.username === user.username && !loading" @click="deleteComment(comment.commentId)" ></i>
+        </div>
         <div class="loader-div" v-if="loading">
             <page-loader :color="color" :height="20" :width="20" />
         </div>

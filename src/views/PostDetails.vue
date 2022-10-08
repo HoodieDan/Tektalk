@@ -2,7 +2,9 @@
   <div class="container">
     <div class="post" v-if="!loading">
         <!-- delete post -->
-        <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username && !deleting" @click="deletePost" ></i>
+        <div class="delete" v-if="user !== null">
+            <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username && !deleting" @click="deletePost" ></i>
+        </div>
         <div class="loader-div" v-if="deleting">
             <page-loader :color="color" :height="20" :width="20" />
         </div>
@@ -248,7 +250,7 @@ export default {
                 this.delete_alert = 'an error occured, please try again later'
                 return;
             }
-            this.$router.push({ name: 'Home' })
+            this.$router.back();
         }
     },
     async created() {
