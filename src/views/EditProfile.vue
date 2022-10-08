@@ -138,6 +138,7 @@
                 <!-- update error message  -->
                 <p class="alert p-0" v-if="show_alert">{{ alert_message }}</p>
             </vee-form>
+            <p class="text-gradient" v-if="successful" >{{ success_message }}</p>
         </div>
     </div>
   </div>
@@ -153,7 +154,6 @@ export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const profile = await axios.get(`/profile?apiKey=${apiKey}`);
-        console.log(profile.data);
         
         next((vm) => {
             vm.profile = profile.data;
@@ -212,7 +212,9 @@ export default {
             profileUrl: '',
             backdropImg: [],
             backdropUrl: '',
-            images: []
+            images: [],
+            successful: false,
+            success_message: '',
         };
     },
     methods: {
@@ -241,7 +243,6 @@ export default {
             let updated;
             try {
                 updated = await axios.patch(`/profile/edit?apiKey=${apiKey}`, formData);
-                console.log(updated);
             } catch (error) {
                 this.show_alert = true;
                 this.loading = false;
@@ -260,19 +261,18 @@ export default {
                 this.show_alert = true;
                 this.alert_message = 'An error occured, please try again later.'
                 return;
+            } else {
+                this.successful = true;
+                this.success_message = 'Profile updated successfuly!'
+                window.location.reload();
             }
-
-            this.loading = false;
-            this.$router.back();
         },
         profileImageUpload($event) {
             this.profileImg = [...$event.target.files];
-            console.log(this.profileImg);
             this.profileImg.forEach((file) => {
                 // get url function takes in uploaded object and returns a base64 encoded string that can be read inside the img tag 
                 url.getUrl(file).then((value) => {
                     this.profileUrl = value;
-                    console.log(this.displayUrl);
                 })
             });
         },
@@ -281,7 +281,6 @@ export default {
             this.backdropImg.forEach((file) => {
                 // get url function takes in uploaded object and returns a base64 encoded string that can be read inside the img tag 
                 url.getUrl(file).then((value) => {
-                    console.log(value);
                     this.backdropUrl = value
                 })
             });

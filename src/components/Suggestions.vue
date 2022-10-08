@@ -28,7 +28,6 @@ export default {
     //     const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
 
     //     if (bottomOfWindow) {
-    //       console.log('bottom');
     //       this.bottom = true;
     //     }
     //   },

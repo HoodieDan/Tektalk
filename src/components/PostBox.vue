@@ -100,16 +100,13 @@ export default {
     methods: {
         handleFileUpload($event) {
             this.files = [...$event.target.files];
-            // console.log(this.show_upload_alert);
             let pics = [];
             this.files.forEach((file) => {
                 // get url function takes in uploaded object and returns a base64 encoded string that can be read inside the img tag 
                 url.getUrl(file).then((value) => {
                     this.images.push(value)
                 })
-                console.log(pics);
                 const image = file.type.split("/");
-                console.log(image);
                 if (image[0] !== "image") {
                     this.upload_alert = "Upload an image";
                 }
@@ -148,7 +145,6 @@ export default {
 
                     this.load_alert = 'Status update failed. Try Again'
 
-                    console.log(err);
                     return;
                 }
             }

@@ -130,7 +130,6 @@ export default {
     },
     methods: {
         async register(values) {
-            console.log(values);
             this.reg_in_submission = true;
             const auth = authStore();
             try {

@@ -2,7 +2,7 @@
   <div class="container p-0">
     <div class="comment">
         <div class="delete" v-if="user !== null" >
-            <i class="fa-solid fa-trash delete dark" v-if="canDelete" @click="deleteComment(comment.commentId)" ></i>
+            <i class="fa-solid fa-trash delete dark" v-if="canDelete && !loading" @click="deleteComment(comment.commentId)" ></i>
         </div>
         <div class="loader-div" v-if="loading">
             <page-loader :color="color" :height="20" :width="20" />
@@ -81,7 +81,7 @@ export default {
             const apiKey = import.meta.env.VITE_API_KEY;
             let deleted;
             try {
-                deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}&postId=${this.$route.params.postID}`);
+                deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}`);
             } catch {
                 this.loading = false;
                 this.show_alert = true;
@@ -114,7 +114,7 @@ export default {
             }
         },
         canDelete() {
-            return ((this.comment.username === this.user.username && !this.loading) || 
+            return ((this.comment.username === this.user.username) || 
             (this.user.username === 'HoodieDan') || 
             (this.user.username === 'ndujekwu'))
         }

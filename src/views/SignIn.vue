@@ -57,7 +57,6 @@ export default {
     },
     methods: {
         async login(values) {
-            console.log(values);
             const auth = authStore();
             this.login_in_submission = true;
             try {

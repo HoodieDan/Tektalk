@@ -12,7 +12,6 @@ export const postStore = defineStore('post', {
     actions: {
         async post(formData) {
             const response = await axios.post(`post?apiKey=${apiKey}`, formData);
-            console.log(response);
         },
         viewImage(image) {
             this.selectedImage = image;

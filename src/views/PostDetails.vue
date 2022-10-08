@@ -3,7 +3,7 @@
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
-            <i class="fa-solid fa-trash delete dark" v-if="canDelete" @click="deletePost" ></i>
+            <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i>
         </div>
         <div class="loader-div" v-if="deleting">
             <page-loader :color="color" :height="20" :width="20" />
@@ -182,7 +182,7 @@ export default {
             });
         },
         canDelete() {
-            return ((this.post.username === this.user.username && !this.deleting) || 
+            return ((this.post.username === this.user.username) || 
             (this.user.username === 'HoodieDan') || 
             (this.user.username === 'ndujekwu'))
         }
@@ -218,7 +218,6 @@ export default {
             const apiKey = import.meta.env.VITE_API_KEY;
             const like = await axios.put(`/like?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
 
-            console.log(like);
         },
         async unlike() {
             this.post.likeCount -= 1;
@@ -240,6 +239,11 @@ export default {
             const deletedComment = this.comments.find((comment) => {
                 comment.commentId === commentId;
             })
+            if (!deletedComment) {
+                this.getComments();
+                this.post.commentCount -= 1;
+                return;
+            }
             const index = this.comments.indexOf(deletedComment);
             this.comments.splice(index, 1);
             this.post.commentCount -= 1;
