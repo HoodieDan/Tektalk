@@ -223,14 +223,14 @@ export default {
             this.loading = true;
             let formData = new FormData();
             if (this.profileImg !== []) {
-                formData.append('profileImage', values.profileImage);
+                formData.append('profile', values.profileImage);
             } else {
-                formData.append('profileImage', this.user.displayUrl);
+                formData.append('profile', this.user.displayUrl);
             }
             if (this.backdropImg !== []) {
-                formData.append('backdropImage', values.backdropImage);
+                formData.append('backdrop', values.backdropImage);
             } else {
-                formData.append('backdropImage', this.user.backdropUrl);
+                formData.append('backdrop', this.user.backdropUrl);
             }
             formData.append('name', values.name);
             formData.append('username', values.username);

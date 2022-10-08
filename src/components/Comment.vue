@@ -1,7 +1,10 @@
 <template>
   <div class="container p-0">
     <div class="comment">
-        <i class="fa-solid fa-trash delete dark" v-if="comment.username === user.username" @click="deleteComment(comment.commentId)" ></i>
+        <i class="fa-solid fa-trash delete dark" v-if="comment.username === user.username && !loading" @click="deleteComment(comment.commentId)" ></i>
+        <div class="loader-div" v-if="loading">
+            <page-loader :color="color" :height="20" :width="20" />
+        </div>
         <div class="row">
             <router-link :to="{name: 'Profile', params: { username: comment.username }}" class="col-lg-1 col-md-2 col-sm-2 col-2">
                 <div class="circular" >
@@ -51,50 +54,66 @@
                 </div>
             </div>
         </div>
+        <p class="alert p-0 m-0 subtext" v-if="show_alert" >{{ alert_message }}</p>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import PageLoader from './PageLoader.vue';
 
 export default {
-    name: 'Comment',
+    name: "Comment",
     data() {
         return {
-            // comment: null,
-        }
+            color: 'FFF',
+            loading: false,
+            show_alert: false,
+            alert_message: '',
+        };
     },
     methods: {
         async deleteComment(commentId) {
-            this.$emit('delete', commentId);
+            this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
-            const deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}&postId=${this.$route.params.postID}`);
+            let deleted;
+            try {
+                deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}&postId=${this.$route.params.postID}`);
+            } catch {
+                this.loading = false;
+                this.show_alert = true;
+                this.alert_message = 'Could not delete comment, try again later'
+                return;
+            }
+            this.$emit("delete", commentId);
+            this.loading = false;
         }
     },
     computed: {
         timePosted() {
             const date = new Date().toString();
-            const currentTime = date.slice(16,21);
-            const day = date.slice(4,15);
-            const dayPosted = this.comment.commentDate.slice(4,15);
+            const currentTime = date.slice(16, 21);
+            const day = date.slice(4, 15);
+            const dayPosted = this.comment.commentDate.slice(4, 15);
             const dayAndMonth = this.comment.commentDate.slice(4, 11);
-
             let time;
-
             if (this.comment.commentDate) {
-                time = this.comment.commentDate.slice(16,21);
+                time = this.comment.commentDate.slice(16, 21);
             }
             if (time === currentTime) {
-                return 'now'
-            } else if (day === dayPosted) {
+                return "now";
+            }
+            else if (day === dayPosted) {
                 return time;
-            } else {
+            }
+            else {
                 return dayAndMonth;
             }
         }
     },
-    props: ['comment', 'user']
+    props: ["comment", "user"],
+    components: { PageLoader }
 }
 </script>
 
@@ -107,6 +126,12 @@ div.comment {
     margin-bottom: 0.5rem;
     cursor: pointer;
     position: relative;
+}
+.loader-div {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 1rem;
 }
 .delete {
     position: absolute;
