@@ -3,7 +3,7 @@
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
-            <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username && !deleting" @click="deletePost" ></i>
+            <i class="fa-solid fa-trash delete dark" v-if="canDelete" @click="deletePost" ></i>
         </div>
         <div class="loader-div" v-if="deleting">
             <page-loader :color="color" :height="20" :width="20" />
@@ -181,6 +181,11 @@ export default {
                 return new Date(a.datePosted) - new Date(b.datePosted);
             });
         },
+        canDelete() {
+            return ((this.post.username === this.user.username && !this.deleting) || 
+            (this.user.username === 'HoodieDan') || 
+            (this.user.username === 'ndujekwu'))
+        }
     },
     methods: {
         async getComments() {
