@@ -63,6 +63,7 @@
                             </g>
                         </svg>
                     </div>
+                    <p class="subtext mb-0 ms-2" v-if="profile.isFollowedBy && loggedInUser !== null" >Follows you</p>
                 </div>
                 <p class="username" v-motion-pop >@{{ profile.username }}</p>
             </div>
@@ -108,11 +109,11 @@
 
             <!-- followers and following  -->
             <div class="row mt-4" v-motion-pop >
-                <div class="col-6 b-r text-center foll">
+                <div class="col-6 b-r text-center foll" @click="openFollowModal('followers')" >
                     <h6>{{ profile.followersCount }}</h6>
                     <p class="dark mb-0">Followers</p>
                 </div>
-                <div class="col-6 text-center foll">
+                <div class="col-6 text-center foll" @click="openFollowModal('following')">
                     <h6>{{ profile.followingCount }}</h6>
                     <p class="dark mb-0">Following</p>
                 </div>
@@ -151,6 +152,7 @@
         </div>
     </div>
     <PageLoader :color="color" :height="40" :width="40" class="mt-5 mb-5" v-if="posts_loading" />
+    <!-- user's posts -->
     <div
         v-if="currentTab === 'Posts' || currentTab === 'Contributions' || posts !== []"
     >
@@ -161,6 +163,13 @@
             :images="post.images" 
         />
     </div>
+    <FollowModal
+     v-if="followModalOpen"
+     @close="followModalOpen = false"
+     :field="field"
+     :loggedInUser="loggedInUser"
+     v-motion-pop
+    />
   </div>
 </template>
 
@@ -168,6 +177,7 @@
 import PostItem from '../components/PostItem.vue';
 import PostBox from '../components/PostBox.vue';
 import PageLoader from '../components/PageLoader.vue'
+import FollowModal from '../components/FollowModal.vue'
 import axios from 'axios'
 import { postStore } from '../stores/post';
 
@@ -237,6 +247,8 @@ export default {
             follow_in_progress: false,
             following: false,
             posts_loading: false,
+            followModalOpen: false,
+            field: '',
         }
     },
     methods: {
@@ -368,6 +380,10 @@ export default {
             this.profile = user_profile.data;
             this.posts = posts.data.posts;
         },
+        openFollowModal(field) {
+            this.field = field;
+            this.followModalOpen = true;
+        },
     },
     watch: {
         currentTab(newVal) {
@@ -381,9 +397,11 @@ export default {
             })
         },
         currentRoute(){
+            this.followModalOpen = false;
             this.getProfile();
         },
         thisTab() {
+            this.followModalOpen = false;
             this.posts = [];
             this.getProfile();
         }
@@ -399,7 +417,7 @@ export default {
             return 
         },
     },
-    components: { PostItem, PostBox, PageLoader },
+    components: { PostItem, PostBox, PageLoader, FollowModal },
 }
 </script>
 

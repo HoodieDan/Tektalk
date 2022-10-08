@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="post" v-if="!loading">
+        <i class="fa-solid fa-trash delete dark" v-if="post.username === user.username" ></i>
         <div class="row">
             <div class="col-3">
                 <router-link :to="{name: 'Profile', params: { username: post.username }}">
@@ -13,7 +14,7 @@
             <div class="col-9">
                 <div class="name-and-username">
                     <div class="d-flex align-items-center">
-                    <h4 class="name mb-0">{{ post.name }}</h4>
+                        <router-link :to="{ name: 'Profile', params: { username: post.username } }" class="mb-0 light no-underline name" :class="{ 'me-2': !post.isVerified }">{{ post.name }}</router-link>
                     <div class="badge" v-if="post.isVerified">
                         <svg
                             width="17px"
@@ -43,7 +44,7 @@
                         </svg>
                     </div>
                     </div>
-                    <p class="text-gradient">@{{ post.username }}</p>
+                    <router-link :to="{ name: 'Profile', params: { username: post.username } }" class="text-gradient subtext">@{{ post.username }}</router-link>
                     <p class="mb-2">Posted in <span class="text-gradient">{{ post.postedIn }}</span></p>
                     <p class="dark">{{ timePosted }} · {{ datePosted }} · GMT</p>
                 </div>
@@ -81,7 +82,8 @@
                 <p class="me-2" v-motion-pop >{{ post.commentCount }}</p>
                 <span class="subtext pt-1">comments</span>
             </div>
-            <div class="col-auto d-flex">
+            <!-- link to get likers -->
+            <div class="col-auto d-flex likes" @click="openLikeModal" >
                 <p class="me-2" v-motion-pop >{{ post.likeCount }}</p>
                 <span class="subtext pt-1">likes</span>
             </div>
@@ -113,6 +115,14 @@
     <div v-if="comments !== null" >
         <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" v-motion-pop />
     </div>
+    <div>
+        <LikersModal
+         :loggedInUser="user" 
+         v-if="likeModalOpen" 
+         @close="likeModalOpen = false"
+         v-motion-pop
+         />
+    </div>
   </div>
 </template>
 
@@ -122,10 +132,11 @@ import { postStore } from '../stores/post';
 import axios from 'axios';
 import PageLoader from '../components/PageLoader.vue';
 import Comment from '../components/Comment.vue';
+import LikersModal from '../components/LikersModal.vue'
 
 export default {
     name: "PostDetails",
-    components: { AddComment, PageLoader, Comment },
+    components: { AddComment, PageLoader, Comment, LikersModal },
     data() {
         return {
             post: {},
@@ -134,6 +145,7 @@ export default {
             loggedIn: false,
             comments: null,
             user: null,
+            likeModalOpen: false,
         }
     },
     computed: {
@@ -202,6 +214,9 @@ export default {
                 this.like()
             }
         },
+        openLikeModal() {
+            this.likeModalOpen = true;
+        },
     },
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
@@ -215,8 +230,6 @@ export default {
         if (response.status !== 200) {
             this.$router.push({ name: home })
         }
-
-        console.log(response.data.post[0]);
 
         this.post = response.data.post[0];
         this.loading = false;
@@ -237,6 +250,16 @@ div.post {
     border-radius: 5px;
     margin-bottom: 0.5rem;
     cursor: pointer;
+    position: relative;
+}
+.delete {
+    position: absolute;
+    right: 1rem;
+    transition: all 0.5s !important;
+    z-index: 10;
+}
+.delete:hover {
+    color: #01BAEF;
 }
 div.circular {
     width: 100px;
@@ -306,6 +329,12 @@ img.user-img {
 .fa-solid:hover,
 .fa-regular:hover {
     background-color: transparent;
+}
+.likes {
+    transition: all 0.5s;
+}
+.likes:hover {
+    color: #01BAEF;
 }
 @media (max-width: 575px) {
     div.circular {

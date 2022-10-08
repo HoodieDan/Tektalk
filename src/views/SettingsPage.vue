@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="setting">
-        <div class="hov">
+        <router-link :to="{ name: 'EditProfile' }" class="hov light no-underline">
             <p class="mb-0"><i class="fa-solid fa-pen-nib"></i><span>Edit Profile</span></p>
-        </div>
+        </router-link>
     </div>
     <div class="setting">
         <div class="hov">
@@ -55,6 +55,9 @@ div.hov {
 }
 div.hov:hover {
     color: #01BAEF;
+}
+.light.no-underline:hover {
+    color: #01BAEF !important;
 }
 @media (max-width: 575px) {
     div.setting {

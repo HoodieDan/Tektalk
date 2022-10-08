@@ -116,7 +116,7 @@ export default {
                 else if (this.noOfFiles > 2) {
                     this.upload_alert = "maximum of 2 images";
                 }
-                else if (file.size > 8000000) {
+                else if (file.size > 5000000) {
                     this.upload_alert = "max size is 5mb";
                 }
                 else {

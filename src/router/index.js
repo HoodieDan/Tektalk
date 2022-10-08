@@ -48,12 +48,24 @@ const router = createRouter({
       component: () => import('../views/SettingsPage.vue')
     },
     {
+      path: '/Settings/EditProfile',
+      name: 'EditProfile',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/EditProfile.vue')
+    },
+    {
       path: '/Talks',
       name: 'Talks',
       meta: {
         requiresAuth: true,
       },
       component: () => import('../views/TalksPage.vue')
+    },
+    {
+      path: '/:catchAll(.*)*',
+      redirect: { name: 'home' },
     },
   ]
 })
