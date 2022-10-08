@@ -85,7 +85,7 @@ export default {
             if (comment.status === 200) {
                 this.comment_message = 'Comment Posted!';
                 this.loading = false;
-                this.$emit('increase-comment', values.status)
+                this.$emit('increase-comment', values.status, comment.data.commentId)
             } else {
                 this.comment_message = 'An error occured, please try again later!';
                 this.loading = false;

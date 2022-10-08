@@ -181,14 +181,14 @@ export default {
 
             post.viewImage(image)
         },
-        addOne(comment) {
+        addOne(comment, id) {
             this.post.commentCount += 1;
             this.comments.push({
                 authorId: this.user.userId,
                 authorImage: this.user.displayUrl,
                 commentBody: comment,
                 commentDate: new Date().toString(),
-                commentId: "anything",
+                commentId: id,
                 isVerified: this.user.isVerified,
                 name: this.user.name,
                 postId: this.$route.params.postID,
@@ -224,7 +224,8 @@ export default {
                 comment.commentId === commentId;
             })
             const index = this.comments.indexOf(deletedComment);
-            this.comments.splice(index, 1)
+            this.comments.splice(index, 1);
+            this.post.commentCount -= 1;
         }
     },
     async created() {
