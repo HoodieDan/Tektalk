@@ -148,6 +148,7 @@
 import PageLoader from '../components/PageLoader.vue';
 import axios from 'axios';
 import url from '../../includes/ImgUrl';
+import file from '../../includes/sourceToFile';
 
 export default {
     name: "EditProfile",
@@ -225,6 +226,12 @@ export default {
         async update(values) {
             console.log(this.profile.displayUrl);
             console.log(this.profile.backdropUrl);
+            let sameProfile;
+            file.getFile(this.profile.displayUrl).then((value) => {
+                sameProfile = value;
+            });
+            console.log(sameProfile);
+            let sameBackdrop;
             const apiKey = import.meta.env.VITE_API_KEY;
             this.show_alert = false;
             this.loading = true;
@@ -272,9 +279,10 @@ export default {
                 this.alert_message = 'An error occured, please try again later.'
                 return;
             } else {
+                this.loading = false
                 this.successful = true;
                 this.success_message = 'Profile updated successfuly!'
-                window.location.reload();
+                // window.location.reload();
             }
         },
         profileImageUpload($event) {
