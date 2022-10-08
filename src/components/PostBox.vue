@@ -168,6 +168,7 @@ export default {
             })
             resetForm();
             this.files = [];
+            this.images = [];
         }
     },
     props: ["placeholder", "category", "postedIn"],
