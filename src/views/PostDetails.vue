@@ -195,13 +195,13 @@ export default {
         },
         addOne(comment, id) {
             this.post.commentCount += 1;
-            this.comments.push({
+            this.comments.unshift({
                 authorId: this.user.userId,
                 authorImage: this.user.displayUrl,
                 commentBody: comment,
                 commentDate: new Date().toString(),
                 commentId: id,
-                isVerified: this.user.isVerified,
+                isVerified: this.user.verified,
                 name: this.user.name,
                 postId: this.$route.params.postID,
                 username: this.user.username,

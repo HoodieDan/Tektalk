@@ -80,7 +80,6 @@ export default {
                 postId: this.$route.params.postID,
                 body: values.status
             });
-            console.log(comment);
 
             if (comment.status === 200) {
                 this.comment_message = 'Comment Posted!';
