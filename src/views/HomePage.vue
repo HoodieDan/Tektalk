@@ -53,8 +53,9 @@ export default {
     methods: {
       async handleScroll() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-        const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
+        const { scrollTop, offsetHeight } = document.documentElement;
+        const { innerHeight } = window;
+        const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
 
         if (bottomOfWindow) {
           const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
