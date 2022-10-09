@@ -340,9 +340,9 @@ div.circular {
     width: 200px;
     height: 200px;
 }
-.circular img {
+/* .circular img {
     transform: translate(-50%, -50%) !important;
-}
+} */
 .clear {
     cursor: pointer;
 }
