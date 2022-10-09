@@ -236,10 +236,7 @@ export default {
             if (this.profileImg !== []) {
                 formData.append('display', values.profileImage);
             } else if (!this.user.displayUrl) {
-                formData.append('display', 'null' )
-            } else {
-                var f = new File([""], "filename.txt", {type: "text/plain", lastModified: date})
-                formData.append('display', f);
+                formData.append('noDisplay', 'true' );
             }
             // fetch(this.profile.backdropUrl)
             //     .then(async response => {
@@ -253,10 +250,7 @@ export default {
             if (this.backdropImg !== []) {
                 formData.append('backdrop', values.backdropImage);
             } else if (!this.user.backdropUrl) {
-                formData.append('backdrop', 'null' )
-            } else { 
-                var f = new File([""], "filename.txt", {type: "text/plain", lastModified: date})
-                formData.append('backdrop', f);
+                formData.append('noBackdrop', 'true');
             }
             formData.append('name', values.name);
             formData.append('username', values.username);
