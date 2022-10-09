@@ -63,7 +63,7 @@ div.select-modal {
     position: relative;
     overflow-y: initial !important;
     overflow-x: hidden;
-    border: 1px solid #A9A9A9;
+    /* border: 1px solid #A9A9A9; */
 }
 div.backdrop {
     display: flex;
@@ -81,7 +81,7 @@ div.header {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     background-color: #000;
-    border-bottom: 1px solid #A9A9A9;
+    /* border-bottom: 1px solid #A9A9A9; */
 }
 .close-modal {
     position: absolute;

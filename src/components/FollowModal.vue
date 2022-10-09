@@ -59,6 +59,19 @@ export default {
 </script>
 
 <style scoped>
+*::-webkit-scrollbar {
+  width: 0.3em;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #000;
+  outline: 1px solid #000;
+}
 div.select-modal {
     width: 50vw;
     max-height: 70vh;
@@ -68,7 +81,7 @@ div.select-modal {
     position: relative;
     overflow-y: initial !important;
     overflow-x: hidden;
-    border: 1px solid #A9A9A9;
+    /* border: 1px solid #A9A9A9; */
 }
 div.backdrop {
     display: flex;
@@ -86,7 +99,7 @@ div.header {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     background-color: #000;
-    border-bottom: 1px solid #A9A9A9;
+    /* border-bottom: 1px solid #A9A9A9; */
 }
 .close-modal {
     background: transparent;

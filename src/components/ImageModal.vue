@@ -37,6 +37,19 @@ export default {
 </script>
 
 <style scoped>
+*::-webkit-scrollbar {
+  width: 0.3em;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #A9A9A9;
+  outline: 1px solid #A9A9A9;
+}
 div.select-modal {
     width: 50vw;
     height: auto;

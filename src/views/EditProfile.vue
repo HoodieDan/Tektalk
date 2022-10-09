@@ -389,7 +389,7 @@ input, select, textarea {
     border: 1px solid #e7e9ea;
     border-radius: 5px;
     height: 2rem;
-    padding-left: 2.5rem !important;
+    text-indent: 2.5rem;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;

@@ -1,18 +1,31 @@
 <template>
-  <div class="recommended">
-    <h6 class="card-head">Recommended Talks</h6>
+  <div>
+    <div class="recommended">
+      <h6 class="card-head">Recommended Talks</h6>
 
-    <div class="recommendation" v-for="list in first_list" :key="list">
-      <div class="circular">
-        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a67XH0QN--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/i/xndmxrfhliweofif9jty.png" alt="">
+      <div class="recommendation" v-for="list in first_list" :key="list">
+        <div class="circular">
+          <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a67XH0QN--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/i/xndmxrfhliweofif9jty.png" alt="">
+        </div>
+        <div class="details">
+          <h6 class="talk-name">Frontend</h6>
+          <p class="subtext">{{list}}k members</p>
+        </div>
+        <div class="talk-btn">
+          <p class="other-talks">Join</p>
+        </div>
       </div>
-      <div class="details">
-        <h6 class="talk-name">Frontend</h6>
-        <p class="subtext">{{list}}k members</p>
-      </div>
-      <div class="talk-btn">
-        <p class="other-talks">Join</p>
-      </div>
+    </div>
+    <!-- Policy -->
+    <div class="cont">
+      <p>Terms of Service</p>
+      <p>Privacy Policy</p>
+      <p>Cookie Policy</p>
+      <p>Imprint</p>
+      <p>Ads into</p>
+      <p>The Team</p>
+      <p>More...</p>
+      <p class="no-cursor">© 2022 Tektalk, Inc</p>
     </div>
   </div>
 </template>
@@ -63,6 +76,17 @@ div.recommendation {
 }
 .talk-name {
   margin-bottom: 0.1rem;
+}
+div.cont {
+  width: 100%;
+  padding: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.cont p {
+  font-size: 0.8rem;
+  margin-right: 0.7rem;
+  color: #A9A9A9;
 }
 @media (max-width: 1100px) {
     div.circular {

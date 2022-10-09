@@ -1,7 +1,7 @@
 <template>
-  <div class="container fade-in">
-    <RecommendedTalks />
+  <div class="container fade-in suggestions">
     <RecommendedUsers />
+    <RecommendedTalks class="sticky-top" />
   </div>
 </template>
 
@@ -37,6 +37,12 @@ export default {
 </script>
 
 <style>
+div.suggestions {
+  height: 100%;
+}
+.sticky-top {
+  top: 6rem;
+}
 div.recommendation:hover {
   background-color: #191919;
 }

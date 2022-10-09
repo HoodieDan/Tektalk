@@ -11,7 +11,7 @@
             <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-7 no-underline">
                 <div class="user-details">
                     <div class="d-flex align-items-center">
-                        <router-link :to="{name: 'Profile', params: { username: user.username }}" class="mb-0 light no-underline light" :class="{ 'me-2': !user.isVerified }">{{ user.name }}</router-link>
+                        <router-link :to="{name: 'Profile', params: { username: user.username }}" class="mb-0 light no-underline light name" :class="{ 'me-2': !user.isVerified }">{{ user.name }}</router-link>
                         <div class="badge" v-if="user.verified">
                             <svg
                                 width="17px"
@@ -45,7 +45,7 @@
                     <p class="subtext text-gradient">@{{ user.username }}</p>
                 </div>
             </router-link>
-            <div class="col-3" v-if="loggedInUser !== null" >
+            <div class="col-3 button-div" v-if="loggedInUser !== null" >
                 <!-- follow button  -->
                 <button class="talk-btn w-100" v-if="user.username !== loggedInUser.username && user.isFollowing === false" :disabled="follow_in_progress" v-motion-pop @click="follow(user.userId)">
                     <p class="other-talks mb-0 foll" v-if="!follow_in_progress" >Follow</p>
@@ -136,6 +136,15 @@ div.user {
 @media (max-width: 500px) {
     .foll {
         font-size: 0.7rem;
+    }
+    .button-div {
+        padding-left: 0;
+    }
+    .name {
+        font-size: 0.8rem;
+    }
+    .subtext {
+        font-size: 0.6rem;
     }
 }
 </style>
