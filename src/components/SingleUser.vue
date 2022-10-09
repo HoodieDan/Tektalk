@@ -134,9 +134,6 @@ div.user {
     height: 2rem;
 }
 @media (max-width: 500px) {
-    .foll {
-        font-size: 0.7rem;
-    }
     .button-div {
         padding-left: 0;
     }
@@ -144,6 +141,12 @@ div.user {
         font-size: 0.8rem;
     }
     .subtext {
+        font-size: 0.6rem;
+    }
+    .name {
+        margin-right: 0 !important;
+    }
+    .foll {
         font-size: 0.6rem;
     }
 }

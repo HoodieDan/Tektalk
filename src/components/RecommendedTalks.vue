@@ -97,5 +97,8 @@ div.cont {
   div.recommended {
     display: none;
   }
+  div.cont {
+    display: none;
+  }
 }
 </style>

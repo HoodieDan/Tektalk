@@ -1,7 +1,7 @@
 <template>
   <div class="backdrop" @click.self="close" >
     <div class="select-modal">
-        <div class="w-100 p-3 header mb-2 sticky-top d-flex">
+        <div class="w-100 p-3 header sticky-top mb-2 d-flex">
             <div class="name">
                 <h6 v-if="field === 'followers'"><span class="text-gradient">{{ this.$route.params.username }}'s</span> Followers</h6>
                 <h6 v-else> <span class="text-gradient">{{ this.$route.params.username }}'s</span> Following</h6>
@@ -116,8 +116,7 @@ div.header {
 @media (max-width: 575px) {
     div.select-modal {
         width: 90vw;
-        height: auto;
-        max-height: 80vh;
+        max-height: 75vh;
     }
 }
 </style>
