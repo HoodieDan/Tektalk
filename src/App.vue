@@ -2,7 +2,7 @@
   <div class="container-fluid main-fluid">
     <TopBar  v-show="!emptyScreen" :currentUser="user" />
     <BottomMenu  v-if="!emptyScreen" />
-    <div class="row">
+    <div class="row main-row">
       <div class="col-lg-2 col-md-1 side-menu">
         <SideMenu  v-if="!emptyScreen" />
       </div>
@@ -163,6 +163,12 @@ p {
   }
   .main-fluid {
     padding-left: 0;
+  }
+  /* .main-row {
+    margin-right: 0;
+  } */
+  .col-md-11 {
+    width: 100%;
   }
 }
 @media (max-width: 575px) {

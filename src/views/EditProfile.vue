@@ -234,38 +234,36 @@ export default {
             this.show_alert = false;
             this.loading = true;
             let formData = new FormData();
-            if (this.profileImg !== []) {
-                formData.append('display', values.profileImage);
-            } else if (!this.user.displayUrl) {
-                formData.append('display', null )
-            } else {
-                fetch(this.profile.displayUrl)
+            fetch(this.profile.displayUrl)
                 .then(async response => {
                     const contentType = response.headers.get('content-type')
                     const blob = await response.blob()
                     const file = new File([blob], `${this.profile.name} profile`, { contentType })
                     // access file here
-                    
+                    if (this.profileImg !== []) {
+                        formData.append('display', values.profileImage);
+                    } else if (!this.user.displayUrl) {
+                        formData.append('display', null )
+                    } else {
+                        formData.append('display', file);
+                    }
                     console.log(file);
-                    formData.append('display', file);
-                })
-            }
-            if (this.backdropImg !== []) {
-                formData.append('backdrop', values.backdropImage);
-            } else if (!this.user.backdropUrl) {
-                formData.append('backdrop', null )
-            } else { 
-                fetch(this.profile.backdropUrl)
+            })
+            fetch(this.profile.backdropUrl)
                 .then(async response => {
                     const contentType = response.headers.get('content-type')
                     const blob = await response.blob()
                     const file = new File([blob], `${this.profile.name} backdrop`, { contentType })
                     // access file here
-
-                    formData.append('backdrop', file);
+                    if (this.backdropImg !== []) {
+                        formData.append('backdrop', values.backdropImage);
+                    } else if (!this.user.backdropUrl) {
+                        formData.append('backdrop', null )
+                    } else { 
+                        formData.append('backdrop', file);
+                    }
                     console.log(file);
-                })
-            }
+            })
             formData.append('name', values.name);
             formData.append('username', values.username);
             formData.append('email', values.email);

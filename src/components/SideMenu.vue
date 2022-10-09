@@ -243,4 +243,14 @@ h6 {
         margin-bottom: 0.5rem;
     }
 }
+@media (min-height: 900px) {
+    .top-nav > * {
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+    .mid > * {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+}
 </style>

@@ -22,7 +22,7 @@ export default {
     name: 'RecommendedTalks',
     data() {
       return {
-        first_list: [1,2,3,4,5]
+        first_list: [1,2,3,4]
       }
     }
 }

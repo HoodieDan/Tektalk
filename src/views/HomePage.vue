@@ -58,15 +58,17 @@ export default {
         const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
 
         if (bottomOfWindow) {
+          this.loading = true;
           const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
           if (res.data.posts.length !== 0) {
-            // this.loading = false;
+            this.loading = false;
             res.data.posts.forEach((post) => {
               this.posts.push(post);
             })
             this.pageNumber += 1;
           } else {
-            // this.loading = true;
+            this.loading = false;
+            window.removeEventListener('scroll', this.handleScroll);
           }
         }
       },
