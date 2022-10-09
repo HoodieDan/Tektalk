@@ -49,6 +49,9 @@ margin-bottom: 0.5rem;
 border-radius: 32px;
 cursor: pointer;
 }
+div.recommendation:hover {
+  background-color: #191919;
+}
 .circular {
 border: 1px solid #A9A9A9;
 }
