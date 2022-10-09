@@ -233,7 +233,7 @@ export default {
                     
             //         console.log(file);
             // })
-            if (this.profileImg !== []) {
+            if (this.profileUrl) {
                 formData.append('display', values.profileImage);
             } else if (!this.user.displayUrl) {
                 formData.append('noDisplay', 'true' );
@@ -247,7 +247,7 @@ export default {
                     
             //         console.log(file);
             // })
-            if (this.backdropImg !== []) {
+            if (this.backdropUrl) {
                 formData.append('backdrop', values.backdropImage);
             } else if (!this.user.backdropUrl) {
                 formData.append('noBackdrop', 'true');
