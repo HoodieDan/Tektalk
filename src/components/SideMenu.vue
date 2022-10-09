@@ -52,7 +52,7 @@
                     <router-link to="/" class="talk-group"><span>DevOps</span></router-link>
                     <p class="members">5k members</p>
                 </div> -->
-                <div class="talk-btn">
+                <div class="talk-btn mt-2">
                     <router-link to="/" class="other-talks">Other talks</router-link>
                 </div>
             </div>
@@ -171,6 +171,7 @@ h6 {
 }
 .talk {
     display: flex;
+    margin-top: 1rem;
 }
 .circular {
     border: 1px solid #A9A9A9;
