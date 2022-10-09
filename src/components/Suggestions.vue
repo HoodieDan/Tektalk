@@ -40,9 +40,6 @@ export default {
 div.suggestions {
   height: 100%;
 }
-.sticky-top {
-  top: 6rem;
-}
 div.recommendation:hover {
   background-color: #191919;
 }
