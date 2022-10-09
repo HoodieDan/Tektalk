@@ -298,7 +298,7 @@ export default {
                 this.loading = false
                 this.successful = true;
                 this.success_message = 'Profile updated successfuly!'
-                // window.location.reload();
+                window.location.reload();
             }
         },
         profileImageUpload($event) {
