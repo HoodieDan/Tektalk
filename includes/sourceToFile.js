@@ -29,10 +29,13 @@ export default {
         .then(dataUrl => {
             console.log('Here is Base64 Url', dataUrl)
             fileData = dataURLtoFile(dataUrl, "image.jpg");
+            console.log(fileData);
+            return fileData;
             console.log("Here is JavaScript File Object",fileData)
             // fileArr.push(fileData)
+            // return fileData;
         })
         console.log(fileData);
-        return fileData;
+        // return fileData;
     }
 }

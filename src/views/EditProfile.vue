@@ -168,10 +168,6 @@ export default {
             vm.user.backdropUrl = profile.data.backdropUrl;
         })
     },
-    monuted() {
-        console.log(this.profile.displayUrl);
-        console.log(this.profile.backdropUrl);
-    },
     data() {
         return {
             stacks: [
@@ -224,14 +220,16 @@ export default {
     },
     methods: {
         async update(values) {
-            console.log(this.profile.displayUrl);
-            console.log(this.profile.backdropUrl);
-            let sameProfile;
-            file.getFile(this.profile.displayUrl).then((value) => {
-                sameProfile = value;
-            });
-            console.log(sameProfile);
-            let sameBackdrop;
+            // const fileName = 'myFile.jpg'
+
+            // let sameProfile = file.getFile(this.profile.displayUrl)
+            // blobToFile(theBlob, fileName){
+            //     //A Blob() is almost a File() - it's just missing the two properties below which we will add
+            //     theBlob.lastModifiedDate = new Date();
+            //     theBlob.name = fileName;
+            //     return theBlob;
+            // }
+            // let sameBackdrop;
             const apiKey = import.meta.env.VITE_API_KEY;
             this.show_alert = false;
             this.loading = true;
@@ -241,14 +239,32 @@ export default {
             } else if (!this.user.displayUrl) {
                 formData.append('display', null )
             } else {
-                formData.append('display', this.profile.displayUrl);
+                fetch(this.profile.displayUrl)
+                .then(async response => {
+                    const contentType = response.headers.get('content-type')
+                    const blob = await response.blob()
+                    const file = new File([blob], `${this.profile.name} profile`, { contentType })
+                    // access file here
+                    
+                    console.log(file);
+                    formData.append('display', file);
+                })
             }
             if (this.backdropImg !== []) {
                 formData.append('backdrop', values.backdropImage);
             } else if (!this.user.backdropUrl) {
                 formData.append('backdrop', null )
-            } else {
-                formData.append('backdrop', this.profile.backdropUrl);
+            } else { 
+                fetch(this.profile.backdropUrl)
+                .then(async response => {
+                    const contentType = response.headers.get('content-type')
+                    const blob = await response.blob()
+                    const file = new File([blob], `${this.profile.name} backdrop`, { contentType })
+                    // access file here
+
+                    formData.append('backdrop', file);
+                    console.log(file);
+                })
             }
             formData.append('name', values.name);
             formData.append('username', values.username);
