@@ -238,7 +238,8 @@ export default {
             } else if (!this.user.displayUrl) {
                 formData.append('display', 'null' )
             } else {
-                formData.append('display', 'same image');
+                var f = new File([""], "filename.txt", {type: "text/plain", lastModified: date})
+                formData.append('display', f);
             }
             // fetch(this.profile.backdropUrl)
             //     .then(async response => {
@@ -254,7 +255,8 @@ export default {
             } else if (!this.user.backdropUrl) {
                 formData.append('backdrop', 'null' )
             } else { 
-                formData.append('backdrop', 'same image');
+                var f = new File([""], "filename.txt", {type: "text/plain", lastModified: date})
+                formData.append('backdrop', f);
             }
             formData.append('name', values.name);
             formData.append('username', values.username);
