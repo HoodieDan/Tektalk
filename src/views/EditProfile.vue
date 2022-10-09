@@ -14,7 +14,7 @@
                     <div class="d-flex">
                         <h6>Backdrop Image:</h6>
                         <p class="ms-auto clear mb-0" @click="backdropUrl = ''; user.backdropUrl = null">remove<i class="fa-solid fa-eraser"></i></p>
-                        <p class="ms-auto clear mb-0" v-if="backdropUrl !== ''" @click="backdropUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" v-if="backdropUrl !== ''" @click="backdropUrl = ''">revert<i class="fa-solid fa-eraser"></i></p>
                     </div>
                     <div class="backdrop">
                         <img v-if="user.backdropUrl !== null && backdropUrl === ''" :src="user.backdropUrl" alt="backdrop image" v-motion-pop >
@@ -36,7 +36,7 @@
                     <div class="d-flex">
                         <h6>Profile Image:</h6>
                         <p class="ms-auto clear mb-0" @click="profileUrl = ''; user.displayUrl = null">revome<i class="fa-solid fa-eraser"></i></p>
-                        <p class="ms-auto clear mb-0" v-if="profileUrl !== ''" @click="profileUrl = ''">clear<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" v-if="profileUrl !== ''" @click="profileUrl = ''">revert<i class="fa-solid fa-eraser"></i></p>
                     </div>
                     <div class="circular">
                         <img v-if="profileUrl !== ''" :src="profileUrl" alt="profile image" v-motion-pop >
@@ -220,50 +220,42 @@ export default {
     },
     methods: {
         async update(values) {
-            // const fileName = 'myFile.jpg'
-
-            // let sameProfile = file.getFile(this.profile.displayUrl)
-            // blobToFile(theBlob, fileName){
-            //     //A Blob() is almost a File() - it's just missing the two properties below which we will add
-            //     theBlob.lastModifiedDate = new Date();
-            //     theBlob.name = fileName;
-            //     return theBlob;
-            // }
-            // let sameBackdrop;
             const apiKey = import.meta.env.VITE_API_KEY;
             this.show_alert = false;
             this.loading = true;
             let formData = new FormData();
-            fetch(this.profile.displayUrl)
-                .then(async response => {
-                    const contentType = response.headers.get('content-type')
-                    const blob = await response.blob()
-                    const file = new File([blob], `${this.profile.name} profile`, { contentType })
-                    // access file here
-                    if (this.profileImg !== []) {
-                        formData.append('display', values.profileImage);
-                    } else if (!this.user.displayUrl) {
-                        formData.append('display', null )
-                    } else {
-                        formData.append('display', file);
-                    }
-                    console.log(file);
-            })
-            fetch(this.profile.backdropUrl)
-                .then(async response => {
-                    const contentType = response.headers.get('content-type')
-                    const blob = await response.blob()
-                    const file = new File([blob], `${this.profile.name} backdrop`, { contentType })
-                    // access file here
-                    if (this.backdropImg !== []) {
-                        formData.append('backdrop', values.backdropImage);
-                    } else if (!this.user.backdropUrl) {
-                        formData.append('backdrop', null )
-                    } else { 
-                        formData.append('backdrop', file);
-                    }
-                    console.log(file);
-            })
+            // fetch(this.profile.displayUrl)
+            //     .then(async response => {
+            //         const contentType = response.headers.get('content-type')
+            //         const blob = await response.blob()
+            //         const file = new File([blob], `${this.profile.name} profile`, { contentType })
+            //         // access file here
+                    
+            //         console.log(file);
+            // })
+            if (this.profileImg !== []) {
+                formData.append('display', values.profileImage);
+            } else if (!this.user.displayUrl) {
+                formData.append('display', 'null' )
+            } else {
+                formData.append('display', 'same image');
+            }
+            // fetch(this.profile.backdropUrl)
+            //     .then(async response => {
+            //         const contentType = response.headers.get('content-type')
+            //         const blob = await response.blob()
+            //         const file = new File([blob], `${this.profile.name} backdrop`, { contentType })
+            //         // access file here
+                    
+            //         console.log(file);
+            // })
+            if (this.backdropImg !== []) {
+                formData.append('backdrop', values.backdropImage);
+            } else if (!this.user.backdropUrl) {
+                formData.append('backdrop', 'null' )
+            } else { 
+                formData.append('backdrop', 'same image');
+            }
             formData.append('name', values.name);
             formData.append('username', values.username);
             formData.append('email', values.email);
