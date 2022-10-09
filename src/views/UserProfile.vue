@@ -103,7 +103,7 @@
             </div>
 
             <!-- user bio  -->
-            <div class="bio mt-3" v-motion-pop >
+            <div class="bio mt-3" v-if="profile.bio" v-motion-pop >
                 <p>{{ profile.bio }}</p>
             </div>
 
