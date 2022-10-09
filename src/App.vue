@@ -6,7 +6,7 @@
       <div class="col-lg-2 col-md-1 side-menu">
         <SideMenu  v-if="!emptyScreen" />
       </div>
-      <div class="col-lg-7 col-md-11 pad">
+      <div class="col-lg-7 col-md-11 pad middle">
         <router-view v-slot="{ Component }" >
           <transition name="fade" mode="out-in">
             <component :is="Component" ></component>
@@ -167,7 +167,7 @@ p {
   /* .main-row {
     margin-right: 0;
   } */
-  .col-md-11 {
+  .middle {
     width: 100%;
   }
 }
