@@ -95,8 +95,10 @@
                 <p class="subtext" :class="{ 'liked': post.isLiked }" >{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
-            <div class="svg-box pe-4" @click="shareViaWebShare(post)" >
-                <i class="fa-solid fa-share-nodes dark p-0"></i>
+            <div v-if="webShareApiSupported" >
+                <div class="svg-box pe-4" @click="shareViaWebShare(post)" >
+                    <i class="fa-solid fa-share-nodes dark p-0"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -139,10 +141,22 @@ export default {
             }
         },
         shareViaWebShare(post) {
+            const blob = await (await fetch(post.authorImage)).blob();
+            const filesArray = [
+                new File(
+                [blob],
+                'animation.png',
+                {
+                    type: blob.type,
+                    lastModified: new Date().getTime()
+                }
+                )
+            ];
             navigator.share({
                 title: `Post by @${post.username}`,
                 text: `${post.postBody}`,
-                url: `https:tektalk.vercel.app/post/${post.postId}`
+                url: `https:tektalk.vercel.app/post/${post.postId}`,
+                files: filesArray
             })
         }
     },
@@ -173,6 +187,9 @@ export default {
             } else {
                 return dayAndMonth;
             }
+        },
+        webShareApiSupported() {
+            return navigator.share
         }
     },
     props: ['post', 'images'],

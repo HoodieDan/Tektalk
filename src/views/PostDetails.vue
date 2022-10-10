@@ -188,6 +188,9 @@ export default {
             return ((this.post.username === this.user.username) || 
             (this.user.username === 'HoodieDan') || 
             (this.user.username === 'ndujekwu'))
+        },
+        webShareApiSupported() {
+            return navigator.share
         }
     },
     methods: {
@@ -269,11 +272,23 @@ export default {
             }
             this.$router.back();
         },
-        shareViaWebShare() {
+        async shareViaWebShare() {
+            const blob = await (await fetch(this.post.authorImage)).blob();
+            const filesArray = [
+                new File(
+                [blob],
+                'animation.png',
+                {
+                    type: blob.type,
+                    lastModified: new Date().getTime()
+                }
+                )
+            ];
             navigator.share({
                 title: `Post by @${this.post.username}`,
                 text: `${this.post.postBody}`,
-                url: `https:tektalk.vercel.app${this.$route.path}`
+                url: `https:tektalk.vercel.app${this.$route.path}`,
+                files: filesArray
             })
         }
     },
