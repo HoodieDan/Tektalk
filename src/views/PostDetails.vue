@@ -287,7 +287,7 @@ export default {
             navigator.share({
                 title: `Post by @${this.post.username}`,
                 text: `${this.post.postBody}`,
-                url: `https:tektalk.vercel.app${this.$route.path}`,
+                url: `${this.$route.path}`,
                 // files: filesArray
             })
         }

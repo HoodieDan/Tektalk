@@ -155,7 +155,7 @@ export default {
             navigator.share({
                 title: `Post by @${post.username}`,
                 text: `${post.postBody}`,
-                url: `https:tektalk.vercel.app/post/${post.postId}`,
+                url: `/post/${post.postId}`,
                 // files: filesArray
             })
         }

@@ -33,6 +33,12 @@ import { postStore } from './stores/post';
 
 export default {
     name: "App",
+    // metaInfo: {
+    //   // if no subcomponents specify a metaInfo.title, this title will be used
+    //   title: 'Tektalk',
+    //   // all titles will be injected into this template
+    //   titleTemplate: '%s | The Community for Techies!'
+    // },
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
 

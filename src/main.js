@@ -7,7 +7,7 @@ import VeeValidatePlugin from '../includes/Validation'
 import ProgressBar from '../includes/progress-bar'
 import 'nprogress/nprogress.css'
 import { MotionPlugin } from '@vueuse/motion'
-// import VueSocialSharing from 'vue-social-sharing'
+// import VueMeta from 'vue-meta'
 
 import './assets/main.css'
 
@@ -19,6 +19,6 @@ app.use(createPinia())
 app.use(router)
 app.use(VeeValidatePlugin)
 app.use(MotionPlugin)
-// app.use(VueSocialSharing)
+// app.use(VueMeta)
 
 app.mount('#app')
