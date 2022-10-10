@@ -141,22 +141,22 @@ export default {
             }
         },
         async shareViaWebShare(post) {
-            const blob = await (await fetch(post.authorImage)).blob();
-            const filesArray = [
-                new File(
-                [blob],
-                'animation.png',
-                {
-                    type: blob.type,
-                    lastModified: new Date().getTime()
-                }
-                )
-            ];
+            // const blob = await (await fetch(post.authorImage)).blob();
+            // const filesArray = [
+            //     new File(
+            //     [blob],
+            //     'animation.png',
+            //     {
+            //         type: blob.type,
+            //         lastModified: new Date().getTime()
+            //     }
+            //     )
+            // ];
             navigator.share({
                 title: `Post by @${post.username}`,
                 text: `${post.postBody}`,
                 url: `https:tektalk.vercel.app/post/${post.postId}`,
-                files: filesArray
+                // files: filesArray
             })
         }
     },

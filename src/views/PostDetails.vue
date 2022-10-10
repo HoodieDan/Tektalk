@@ -273,22 +273,22 @@ export default {
             this.$router.back();
         },
         async shareViaWebShare() {
-            const blob = await (await fetch(this.post.authorImage)).blob();
-            const filesArray = [
-                new File(
-                [blob],
-                'animation.png',
-                {
-                    type: blob.type,
-                    lastModified: new Date().getTime()
-                }
-                )
-            ];
+            // const blob = await (await fetch(this.post.authorImage)).blob();
+            // const filesArray = [
+            //     new File(
+            //     [blob],
+            //     'animation.png',
+            //     {
+            //         type: blob.type,
+            //         lastModified: new Date().getTime()
+            //     }
+            //     )
+            // ];
             navigator.share({
                 title: `Post by @${this.post.username}`,
                 text: `${this.post.postBody}`,
                 url: `https:tektalk.vercel.app${this.$route.path}`,
-                files: filesArray
+                // files: filesArray
             })
         }
     },
