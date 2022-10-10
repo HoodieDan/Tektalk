@@ -140,7 +140,7 @@ export default {
                 this.like(Id)
             }
         },
-        shareViaWebShare(post) {
+        async shareViaWebShare(post) {
             const blob = await (await fetch(post.authorImage)).blob();
             const filesArray = [
                 new File(
