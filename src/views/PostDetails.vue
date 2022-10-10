@@ -109,7 +109,7 @@
             <h6 class="mt-2" v-if="!post.isLiked" v-motion-pop ><i class="fa-solid fa-heart"></i>Like</h6>
             <h6 class="mt-2" v-motion-pop v-else ><i class="fa-solid fa-heart"></i>Liked</h6>
         </div>
-        <div class="share col-6 text-center">
+        <div class="share col-6 text-center" @click="shareViaWebShare" >
             <h6 class="mt-2" ><i class="fa-solid fa-share-nodes"></i>Share</h6>
         </div>
     </div>
@@ -268,6 +268,13 @@ export default {
                 return;
             }
             this.$router.back();
+        },
+        shareViaWebShare() {
+            navigator.share({
+                title: `Post by @${this.post.username}`,
+                text: `${this.post.postBody}`,
+                url: `https:tektalk.vercel.app${this.$route.path}`
+            })
         }
     },
     async created() {

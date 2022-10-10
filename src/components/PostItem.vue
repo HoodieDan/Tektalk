@@ -95,7 +95,7 @@
                 <p class="subtext" :class="{ 'liked': post.isLiked }" >{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
-            <div class="svg-box pe-4">
+            <div class="svg-box pe-4" @click="shareViaWebShare(post)" >
                 <i class="fa-solid fa-share-nodes dark p-0"></i>
             </div>
         </div>
@@ -138,6 +138,13 @@ export default {
                 this.like(Id)
             }
         },
+        shareViaWebShare(post) {
+            navigator.share({
+                title: `Post by @${post.username}`,
+                text: `${post.postBody}`,
+                url: `https:tektalk.vercel.app/post/${post.postId}`
+            })
+        }
     },
     computed: {
         noOfImages() {
