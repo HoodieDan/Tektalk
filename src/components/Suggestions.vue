@@ -1,6 +1,6 @@
 <template>
   <div class="container fade-in suggestions">
-    <RecommendedUsers />
+    <RecommendedUsers :suggested="suggested" />
     <RecommendedTalks class="sticky-top rec-talks" />
   </div>
 </template>
@@ -8,31 +8,20 @@
 <script>
 import RecommendedTalks from './RecommendedTalks.vue';
 import RecommendedUsers from './RecommendedUsers.vue';
+import axios from 'axios';
 export default {
     name: "Suggestions",
-    // mounted() {
-    //   window.addEventListener('scroll', this.handleScroll);
-    // },
-    // beforeUnmount() {
-    //   window.removeEventListener('scroll', this.handleScroll);
-    // },
-    // data() {
-    //   return {
-    //     bottom: false,
-    //   }
-    // },
-    // methods: {
-    //   handleScroll() {
-    //     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    //     // const { innerHeight } = window;
-    //     const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
-
-    //     if (bottomOfWindow) {
-    //       this.bottom = true;
-    //     }
-    //   },
-    // },
-    components: { RecommendedTalks, RecommendedUsers }
+    components: { RecommendedTalks, RecommendedUsers },
+    async created() {
+      const apiKey = import.meta.env.VITE_API_KEY;
+      const res = await axios.get(`/suggestions?apiKey=${apiKey}&pageNumber=1`)
+      this.suggested = res.data.users;
+    },
+    data() {
+      return {
+        suggested: null,
+      }
+    }
 }
 </script>
 

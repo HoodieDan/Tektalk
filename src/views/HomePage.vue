@@ -44,7 +44,7 @@ export default {
     },
     async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
-      const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1`)
+      const res = await axios.get(`/post/related-posts?apiKey=${apiKey}&pageNumber=1`)
       next((vm) => {
         vm.posts = res.data.posts;
         vm.pageNumber = 2;
@@ -59,7 +59,7 @@ export default {
 
         if (bottomOfWindow) {
           this.loading = true;
-          const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
+          const res = await axios.get(`/post/related-posts?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
           if (res.data.posts.length !== 0) {
             this.loading = false;
             res.data.posts.forEach((post) => {

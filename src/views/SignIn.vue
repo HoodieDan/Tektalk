@@ -59,6 +59,7 @@ export default {
         async login(values) {
             const auth = authStore();
             this.login_in_submission = true;
+            this.login_show_alert = false;
             try {
                 await auth.login(values);
             }

@@ -2,29 +2,84 @@
 <div class="recommended">
     <h6 class="card-head">Recommended Users</h6>
 
-    <div class="recommendation" v-for="list in first_list" :key="list">
-    <div class="circular">
-        <img src="../assets/images/me.jpg" alt="handsome">
-    </div>
-    <div class="details">
-        <h6 class="talk-name">Drew</h6>
-        <p class="subtext">{{list}}k followers</p>
-    </div>
-    <div class="talk-btn">
-        <p class="other-talks">Follow</p>
-    </div>
+    <div class="recommendation" v-for="user in suggested" :key="user.userId">
+        <router-link class="row no-underline light" :to="{ name: 'Profile', params: { username: user.username } }" >
+            <div class="col-2">
+                <!-- user display image  -->
+                <div class="circular">
+                    <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl !== null" >
+                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                </div>
+            </div>
+            <div class="details col-6 pe-0 ps-3">
+                <!-- name and username  -->
+                <h6 class="talk-name">{{ user.name }}</h6>
+                <p class="subtext">@{{ user.username }}</p>
+            </div>
+            <div class="col-4 ps-0" >
+                <!-- follow button  -->
+                <button class="talk-btn w-100" v-if="!user.isFollowing" :disabled="follow_in_progress" v-motion-pop @click.prevent="follow(user)">
+                    <p class="other-talks mb-0 foll" >Follow</p>
+                </button>
+                <!-- unfollow button  -->
+                <button class="talk-outline-btn w-100 h-100" :disabled="follow_in_progress" v-motion-pop @click.prevent="unfollow(user)" v-else >
+                    <p class="other-talks mb-0 foll" >Unfollow</p>
+                </button>
+            </div>
+        </router-link>
     </div>
 </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'RecommendedUsers',
     data() {
-    return {
-        first_list: [1,2,3,4]
-    }
-    }
+        return {
+            follow_in_progress: false,
+            color: 'FFF',
+        }
+    },
+    methods: {
+        // follow recommended user 
+        async follow(user) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            if (this.loggedInUser === null) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
+            user.isFollowing = true;
+            this.follow_in_progress = true;
+            const followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${user.userId}`)
+            
+            if (followed.status === 200) {
+                this.follow_in_progress = false;
+                // check if following then update button content to following 
+                user.isFollowing = true;
+            } else {
+                this.follow_in_progress = false;
+                return;
+            }
+        },
+        // unfollow user 
+        async unfollow(user) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            user.isFollowing = false;
+            this.follow_in_progress = true;
+            const unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${user.userId}`);
+
+            if (unfollowed.status === 200) {
+                this.follow_in_progress = false;
+                // check if following then update button content to following 
+                user.isFollowing = false;
+            } else {
+                this.follow_in_progress = false;
+                return;
+            }
+        },
+    },
+    props: [ 'suggested' ]
 }
 </script>
 
@@ -41,10 +96,10 @@ div.recommended {
     margin-bottom: 2rem;
 }
 div.recommendation {
-display: flex;
+/* display: flex; */
 width: 100%;
 align-items: center;
-justify-content: space-between;
+/* justify-content: space-between; */
 margin-bottom: 0.5rem;
 border-radius: 32px;
 cursor: pointer;
@@ -65,11 +120,23 @@ margin: 0;
 margin: 0;
 }
 .talk-name {
-margin-bottom: 0.1rem;
+    margin-bottom: 0.1rem;
+    font-size: 0.9rem;
 }
-@media (max-width: 1100px) {
-    div.circular {
+.foll {
+    font-size: 0.7rem;
+}
+@media (max-width: 1250px) {
+    div.col-2 {
         display: none;
+    }
+    div.col-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    div.col-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
     }
 }
 @media (max-width: 992px) {

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <vue-headful
+    <!-- <vue-headful
         :title="'Tektalk - Post by ' + post.name"
         description="Tektalk is the ultimate community for techies to meet like minded individuals."
         keywords="Tektalk"
@@ -8,8 +8,8 @@
         :ogTitle="'Tektalk - Post by ' + post.name"
         :ogDescription="post.postBody"
         url="https://tektalk.vercel.app"
-    />
-    <!-- <Head>
+    /> -->
+    <Head>
         <title>Tektalk - Post by {{ post.name }}</title>
 
         
@@ -22,7 +22,7 @@
         <meta name="twitter:description" :content="post.postBody">
         <meta name="twitter:image" :content="post.authorImage">
         <meta name="twitter:card" content="summary_large_image">
-    </Head> -->
+    </Head>
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
