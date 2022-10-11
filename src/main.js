@@ -7,7 +7,7 @@ import VeeValidatePlugin from '../includes/Validation'
 import ProgressBar from '../includes/progress-bar'
 import 'nprogress/nprogress.css'
 import { MotionPlugin } from '@vueuse/motion'
-// import VueMeta from 'vue-meta'
+import {createHead} from '@vueuse/head'
 
 import './assets/main.css'
 
@@ -19,6 +19,6 @@ app.use(createPinia())
 app.use(router)
 app.use(VeeValidatePlugin)
 app.use(MotionPlugin)
-// app.use(VueMeta)
+app.use(createHead())
 
 app.mount('#app')

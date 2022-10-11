@@ -11,13 +11,13 @@
   },
   "dependencies": {
     "@vee-validate/rules": "^4.6.10",
+    "@vueuse/head": "^0.9.8",
     "@vueuse/motion": "^2.0.0-beta.12",
     "axios": "^0.27.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.21",
     "vee-validate": "^4.6.10",
     "vue": "^3.2.38",
-    "vue-meta": "^2.4.0",
     "vue-router": "^4.1.5"
   },
   "devDependencies": {

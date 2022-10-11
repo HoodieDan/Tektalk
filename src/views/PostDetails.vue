@@ -1,5 +1,19 @@
 <template>
   <div class="container">
+    <Head>
+        <title>Tektalk - Post by {{ post.name }}</title>
+
+        <!-- Social -->
+        <meta property="og:title" :content="'Tektalk post by '+ post.name">
+        <meta property="og:description" :content="post.postBody">
+        <meta property="og:image" :content="post.authorImage">
+
+        <!-- Twitter -->
+        <meta name="twitter:title" :content="'Tektalk post by '+ post.name">
+        <meta name="twitter:description" :content="post.postBody">
+        <meta name="twitter:image" :content="post.authorImage">
+        <meta name="twitter:card" content="summary_large_image">
+    </Head>
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
@@ -146,10 +160,11 @@ import axios from 'axios';
 import PageLoader from '../components/PageLoader.vue';
 import Comment from '../components/Comment.vue';
 import LikersModal from '../components/LikersModal.vue'
+import { Head } from '@vueuse/head'
 
 export default {
     name: "PostDetails",
-    components: { AddComment, PageLoader, Comment, LikersModal },
+    components: { AddComment, PageLoader, Comment, LikersModal, Head },
     data() {
         return {
             post: {},
