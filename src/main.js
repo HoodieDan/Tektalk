@@ -8,6 +8,7 @@ import ProgressBar from '../includes/progress-bar'
 import 'nprogress/nprogress.css'
 import { MotionPlugin } from '@vueuse/motion'
 import {createHead} from '@vueuse/head'
+import meta from 'vue-headful'
 
 import './assets/main.css'
 
@@ -20,5 +21,6 @@ app.use(router)
 app.use(VeeValidatePlugin)
 app.use(MotionPlugin)
 app.use(createHead())
+app.component('vue-headful', meta)
 
 app.mount('#app')

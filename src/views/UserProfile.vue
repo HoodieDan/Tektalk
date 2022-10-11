@@ -1,5 +1,14 @@
 <template>
   <div class="container" v-if="profile !== null">
+    <vue-headful
+        :title="profile.name"
+        description="Tektalk is the ultimate community for techies to meet like minded individuals."
+        keywords="Tektalk"
+        :ogImage="profile.displayUrl"
+        :ogTitle="'Tektalk - Profile page of ' + profile.name"
+        :ogDescription="profile.bio"
+        url="https://tektalk.vercel.app"
+    />
     <div class="profile-container w-100">
         <!-- backdrop image  -->
         <div class="backdrop-image w-100">

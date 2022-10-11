@@ -1,5 +1,11 @@
 <template>
   <div class="container-fluid main-fluid">
+    <vue-headful
+        title="Tektalk"
+        description="TekTalk is a social network aimed for tech driven individuals to
+          be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
+          also welcomes everyone, guests included."
+    />
     <TopBar  v-show="!emptyScreen" :currentUser="user" />
     <BottomMenu  v-if="!emptyScreen" />
     <div class="row main-row">
