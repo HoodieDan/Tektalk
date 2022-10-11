@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-if="profile !== null">
     <vue-headful
-        :title="profile.name"
+        :title="profile.name + ' - Tektalk Profile'"
         description="Tektalk is the ultimate community for techies to meet like minded individuals."
         keywords="Tektalk"
         :ogImage="profile.displayUrl"
