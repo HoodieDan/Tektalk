@@ -39,9 +39,11 @@ export default {
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('resize', this.handleScroll);
     },
     beforeUnmount() {
       window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('resize', this.handleScroll);
     },
     async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
@@ -69,12 +71,17 @@ export default {
         }
       },
       handleScroll() {
-        const { scrollTop, offsetHeight } = document.documentElement;
+        // different ways to make sure infinite scroll works
+        const { scrollTop, offsetHeight, clientHeight, scrollHeight } = document.documentElement;
         const { innerHeight } = window;
         const bottomOfWindow2 = Math.round(scrollTop) + innerHeight === offsetHeight;
-        const bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight
+        const bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
+        const bottomOfMac = (window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight;
+        const bottomOfWindow3 = (window.innerHeight + window.scrollY) >= document.body.scrollHeight;
+        const scrolledToEnd = scrollHeight - Math.round(scrollTop) === clientHeight;
+        const bottomOfWindow4 = Math.round(scrollTop) + clientHeight === scrollHeight;
 
-        if (bottomOfWindow || bottomOfWindow2) {
+        if (bottomOfWindow || bottomOfWindow2 || bottomOfMac || bottomOfWindow3 || scrolledToEnd || bottomOfWindow4) {
           this.getPosts();
         }
       },
