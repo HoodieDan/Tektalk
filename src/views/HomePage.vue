@@ -12,6 +12,7 @@
      :post="post" 
      :images="post.images" 
     />
+    <!-- <button @click="getPosts">Get</button> -->
     <PageLoader :width="30" :height="30" :color="color" v-if="loading" v-motion-pop />
   </div>
 </template>
@@ -51,25 +52,30 @@ export default {
       })
     },
     methods: {
-      async handleScroll() {
+      async getPosts() {
         const apiKey = import.meta.env.VITE_API_KEY;
+        if (this.loading) {
+          return;
+        }
+        this.loading = true;
+        const res = await axios.get(`/post/related-posts?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
+        if (res.data.posts.length !== 0) {
+          this.loading = false;
+          this.posts.push(...res.data.posts)
+          this.pageNumber += 1;
+        } else {
+          this.loading = false;
+          window.removeEventListener('scroll', this.handleScroll);
+        }
+      },
+      handleScroll() {
         const { scrollTop, offsetHeight } = document.documentElement;
         const { innerHeight } = window;
-        const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight;
+        const bottomOfWindow2 = Math.round(scrollTop) + innerHeight === offsetHeight;
+        const bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight
 
-        if (bottomOfWindow) {
-          this.loading = true;
-          const res = await axios.get(`/post/related-posts?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
-          if (res.data.posts.length !== 0) {
-            this.loading = false;
-            res.data.posts.forEach((post) => {
-              this.posts.push(post);
-            })
-            this.pageNumber += 1;
-          } else {
-            this.loading = false;
-            window.removeEventListener('scroll', this.handleScroll);
-          }
+        if (bottomOfWindow || bottomOfWindow2) {
+          this.getPosts();
         }
       },
       pushPost(data) {
