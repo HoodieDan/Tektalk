@@ -1,5 +1,5 @@
 <template>
-    <div class="notification mb-3" v-motion-slide-bottom >
+    <div class="notification mb-3" :class="{ 'unseen': notification.seen === false }" v-motion-slide-bottom >
         <!-- if category is post or mention -->
         <div class="post w-100" v-if="notification.class === 'like'" >
             <!-- router link to post -->
@@ -27,7 +27,7 @@
         </div>
         <!-- if category is mention  -->
         <div class="mention w-100" v-if="notification.class === 'mention'" >
-            <router-link :to="{ name: 'Post', params: { postID: notification.postId }, hash: '#' + notification.index }" class="light no-underline" >
+            <router-link :to="{ name: 'Post', params: { postID: notification.postId }, hash: '#' + notification.commentId }" class="light no-underline" >
                 <p class="mb-1"	>
                     <router-link :to="{ name: 'Profile', params: { username: notification.username } }" class="no-underline text-gradient" >
                         @{{ notification.username }}
@@ -38,7 +38,7 @@
         </div>
 
         <div class="comment" v-if="notification.class === 'comment'" >
-            <router-link :to="{ name: 'Post', params: { postID: notification.postId }, hash: '#' + notification.index }" class="light no-underline" >
+            <router-link :to="{ name: 'Post', params: { postID: notification.postId }, hash: '#' + notification.commentId }" class="light no-underline" >
                 <p class="mb-1"	>
                     <router-link :to="{ name: 'Profile', params: { username: notification.username } }" class="no-underline text-gradient" >
                         @{{ notification.username }}
@@ -62,6 +62,9 @@ export default {
     border-radius: 5px;
     background-color: #000;
     padding: 1rem;
+}
+.unseen {
+    background-color: #191919;
 }
 .bold {
     font-weight: 600;

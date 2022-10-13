@@ -18,7 +18,6 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.get(`notifications?apiKey=${apiKey}`);
-        // console.log(res.data);
         this.notifications = res.data.userNotifications;
     },
     data() {
