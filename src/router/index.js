@@ -71,6 +71,14 @@ const router = createRouter({
       component: () => import('../views/TalksPage.vue')
     },
     {
+      path: '/Notifications',
+      name: 'Notifications',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/NotificationPage.vue')
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },

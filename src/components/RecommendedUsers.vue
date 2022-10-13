@@ -101,8 +101,8 @@ width: 100%;
 align-items: center;
 /* justify-content: space-between; */
 margin-bottom: 0.5rem;
-border-radius: 32px;
 cursor: pointer;
+transition: all 0.5s;
 }
 div.recommendation:hover {
   background-color: #191919;

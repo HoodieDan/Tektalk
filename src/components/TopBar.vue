@@ -11,7 +11,10 @@
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane"></i>
-                <i class="fai fa-regular fa-bell"></i>
+                <router-link :to="{ name: 'Notifications' }" class="light no-underline" >
+                    <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
+                    <i class="fai fa-regular fa-bell"></i>
+                </router-link>
                 <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular">
                     <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -30,7 +33,10 @@
         </div>
         <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
             <i class="fai fa-regular fa-paper-plane"></i>
-            <i class="fai fa-regular fa-bell"></i>
+            <router-link :to="{ name: 'Notifications' }" class="light no-underline" >
+                <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
+                <i class="fai fa-regular fa-bell"></i>
+            </router-link>
         </div>
         <div class="col-5 ms-auto" v-else>
             <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light fade-in-pro">
@@ -50,8 +56,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     name: 'TopBar',
     data() {
@@ -69,6 +73,17 @@ export default {
 </script>
 
 <style scoped>
+div.no-underline.light {
+    position: relative;
+}
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #20BF55;
+    position: relative;
+    top: 0.4rem;
+}
 h4 {
     font-weight: 700;
 }
