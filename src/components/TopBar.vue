@@ -32,7 +32,9 @@
             <h4 class="mb-0">{{this.$route.name}}</h4>
         </div>
         <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
-            <i class="fai fa-regular fa-paper-plane"></i>
+            <router-link :to="{ name: 'Home' }" class="light" >
+                <i class="fai fa-regular fa-paper-plane"></i>
+            </router-link>
             <router-link :to="{ name: 'Notifications' }" class="light no-underline" >
                 <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
                 <i class="fai fa-regular fa-bell"></i>
@@ -81,8 +83,8 @@ div.no-underline.light {
     height: 8px;
     border-radius: 50%;
     background-color: #20BF55;
-    position: relative;
-    top: 0.4rem;
+    position: absolute;
+    z-index: 10;
 }
 h4 {
     font-weight: 700;
