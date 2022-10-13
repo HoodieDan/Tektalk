@@ -25,7 +25,17 @@
                 </p>
             </router-link>
         </div>
-        <!-- if category is like  -->
+        <!-- if category is mention  -->
+        <div class="mention w-100" v-if="notification.class === 'mention'" >
+            <router-link :to="{ name: 'Post', params: { postID: notification.postId } }" class="light no-underline" >
+                <p class="mb-1"	>
+                    <router-link :to="{ name: 'Profile', params: { username: notification.username } }" class="no-underline text-gradient" >
+                        @{{ notification.username }}
+                    </router-link> mentioned you in a {{ notification.mentionLocation }}.
+                </p>
+                <p class="subtext mb-0">{{ notification.postBody }}</p>
+            </router-link>
+        </div>
     </div>
 </template>
 

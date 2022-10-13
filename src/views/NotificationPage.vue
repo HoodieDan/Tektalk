@@ -15,7 +15,7 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.get(`notifications?apiKey=${apiKey}`);
-        // console.log(res.data);
+        console.log(res.data);
         this.notifications = res.data.userNotifications;
     },
     data() {
@@ -34,6 +34,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@media (max-width: 768px) {
+    .head {
+        display: none;
+    }
+}
 </style>
