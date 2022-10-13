@@ -415,6 +415,7 @@ export default {
         },
         currentRoute(){
             this.followModalOpen = false;
+            this.currentTab = 'Posts';
             this.getProfile();
         },
         thisTab() {

@@ -52,7 +52,7 @@
                     <p class="subtext text-gradient">@{{ comment.username }}</p>
                 </div>
                 <div class="user-post light">
-                    <p>{{ comment.commentBody }}</p>
+                    <p class="mb-0">{{ comment.commentBody }}</p>
                 </div>
             </div>
         </div>

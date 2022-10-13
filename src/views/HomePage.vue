@@ -92,6 +92,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+}
 </style>
