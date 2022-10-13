@@ -3,6 +3,8 @@
     <div class="head mb-4">
         <h3>Notifications</h3>
     </div>
+    <PageLoader :color="color" :height="100" :width="100" v-if="notifications === null" class="mt-5" />
+    <h4 v-if="notifications === []" >No new notifications to show.</h4>
     <NotificationItem v-for="notification in notifications" :key="notification._id" :notification="notification" />
   </div>
 </template>
@@ -10,12 +12,13 @@
 <script>
 import axios from 'axios'
 import NotificationItem from '../components/NotificationItem.vue';
+import PageLoader from '../components/PageLoader.vue';
 export default {
     name: "NotificationsPage",
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.get(`notifications?apiKey=${apiKey}`);
-        console.log(res.data);
+        // console.log(res.data);
         this.notifications = res.data.userNotifications;
     },
     data() {
@@ -25,7 +28,7 @@ export default {
             color: "FFF"
         };
     },
-    components: { NotificationItem },
+    components: { NotificationItem, PageLoader },
     async beforeRouteLeave (to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.patch(`seen-notifications?apiKey=${apiKey}`);

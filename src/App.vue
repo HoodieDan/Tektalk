@@ -47,6 +47,7 @@ export default {
       this.uid = uid;
       
       const token = localStorage.getItem('token');
+      console.log(this.$route);
 
       if (token) {
         auth.loggedIn();

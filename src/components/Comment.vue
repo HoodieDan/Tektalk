@@ -1,6 +1,6 @@
 <template>
   <div class="container p-0">
-    <div class="comment">
+    <div class="comment" :id="index" >
         <div class="delete" v-if="user !== null" >
             <i class="fa-solid fa-trash delete dark" v-if="canDelete && !loading" @click="deleteComment(comment.commentId)" ></i>
         </div>
@@ -119,7 +119,7 @@ export default {
             (this.user.username === 'ndujekwu'))
         }
     },
-    props: ["comment", "user"],
+    props: ["comment", "user", "index"],
     components: { PageLoader }
 }
 </script>

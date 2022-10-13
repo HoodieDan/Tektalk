@@ -149,7 +149,7 @@
     <page-loader class="mt-5 mb-5" :color="color" :height="40" :width="40" v-if="getting_comments" />
 
     <div v-if="comments !== null" >
-        <Comment v-for="comment in comments" :key="comment.commentId" :comment="comment" :user="user" @delete="removeFromArray" v-motion-pop />
+        <Comment v-for="(comment, i) in comments" :key="comment.commentId" :comment="comment" :user="user" :index="i" @delete="removeFromArray" v-motion-pop />
     </div>
     <div>
         <LikersModal
