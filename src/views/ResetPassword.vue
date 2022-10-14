@@ -11,7 +11,7 @@
             <i class="fa-solid fa-lock icon"></i>
             <vee-field id="password" type="password" name="password" class="input field" placeholder="Password" />
         </div>
-        <ErrorMessage class="error-message mb-2 text-gradient" name="password"></ErrorMessage>
+        <ErrorMessage class="error-message mb-2 text-gradient d-block" name="password"></ErrorMessage>
 
         <!-- confirm password  -->
         <label for="confirm_password">Confirm Password:</label>
@@ -19,7 +19,7 @@
             <i class="fa-solid fa-lock icon"></i>
             <vee-field name="confirm_password" id="confirm_password" type="password" class="input field" placeholder="Confirm Password" />
         </div>
-        <ErrorMessage class="error mb-2 text-gradient" name="confirm_password"></ErrorMessage>
+        <ErrorMessage class="error mb-2 text-gradient`d-block" name="confirm_password"></ErrorMessage>
 
         <!-- password button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5">
@@ -38,6 +38,7 @@
 
 <script>
 import PageLoader from '../components/PageLoader.vue';
+import axios from 'axios';
 
 export default {
     name: "ResetPassword",
@@ -65,7 +66,6 @@ export default {
                 await axios.patch(`update-password?apiKey=${apiKey}&newPassword=${values.password}&email=${this.email}`)
             }
             catch (error) {
-                console.log(error.response.data.status);
                 this.password_in_submission = false;
                 this.password_show_alert = true;
                 this.password_alert_message = "An error occured while changing you password, please try again later.";
@@ -80,10 +80,8 @@ export default {
     },
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const token = to.$route.query.token;
-        console.log(token);
+        const token = to.query.token;
         const res = await axios.post(`verify-token?apiKey=${apiKey}&token=${token}`)
-        console.log(res);
         if (res.status === 200) {
             next((vm) => {
                 vm.email = res.data.email;
