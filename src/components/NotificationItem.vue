@@ -21,7 +21,7 @@
         </div>
         <!-- if category is follow  -->
         <div class="follow w-100" v-if="notification.class === 'follow'" >
-            <router-link :to="{name: 'Profile', params: { username: notification.username }}" v-if="notification.displayUrl" >
+            <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
                 <div class="circular" >
                     <img :src="notification.authorImage" alt="handsome" v-if="notification.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
