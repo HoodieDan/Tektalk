@@ -14,7 +14,7 @@
                     <router-link :to="{ name: 'Profile', params: { username: notification.username } }" class="no-underline text-gradient" >
                         @{{ notification.username }}
                     </router-link>
-                    <span v-if="notification.count > 1" >and {{ notification.count }} others</span> liked your post.
+                    <span v-if="notification.count > 1" > and {{ notification.count }} others</span> liked your post.
                 </p>
                 <p class="subtext mb-0">{{ notification.postBody }}</p>
             </router-link>
