@@ -82,6 +82,7 @@ export default {
             show_upload_alert: false,
             color: 'FFF',
             images: [],
+            mentions: []
         };
     },
     computed: {
@@ -123,6 +124,10 @@ export default {
             });
         },
         async post(values, { resetForm }) {
+            const mention = values.status.match(/@\w+/g);
+            mention.forEach((item) => {
+                this.mentions.push(item.slice(1))
+            })
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let res;
@@ -165,6 +170,7 @@ export default {
                 postId: res.data.postId,
                 postedIn: this.postedIn,
                 username: this.user.username,
+                mentions: this.mentions,
             })
             resetForm();
             this.files = [];

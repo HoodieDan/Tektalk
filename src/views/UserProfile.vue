@@ -194,6 +194,9 @@ export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
         const user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+        if (user_profile.status !== 200) {
+            this.$router.push({ name: 'Error' });
+        }
         let posts;
         let profile = null;
         if (localStorage.getItem('token')) {

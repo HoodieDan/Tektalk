@@ -52,8 +52,20 @@
                     <p class="subtext text-gradient">@{{ comment.username }}</p>
                 </div>
                 <div class="user-post light">
-                    <p class="mb-0">{{ comment.commentBody }}</p>
+                    <p class="mb-1">{{ comment.commentBody }}</p>
                 </div>
+            </div>
+            <div class="col-lg-1 col-md-2 col-sm-2 col-2" v-if="mentionsLength"></div>
+            <div class="mentions col-lg-11 col-md-10 col-sm-10 col-10" v-if="mentionsLength">
+                <p class="light mb-1">mentions: 
+                    <router-link
+                        v-for="(mention, i) in comment.mentions" 
+                        :key="i" :to="{ name: 'Profile', params: { username: mention } }"
+                        class="no-underline text-gradient"
+                    >
+                        @{{ mention }} 
+                    </router-link>
+                </p>
             </div>
         </div>
         <p class="alert p-0 m-0 subtext" v-if="show_alert" >{{ alert_message }}</p>
@@ -90,6 +102,9 @@ export default {
             }
             this.$emit("delete", commentId);
             this.loading = false;
+        },
+        mentionsLength() {
+            return this.comment.mentions.length > 0
         }
     },
     computed: {
@@ -151,5 +166,11 @@ div.comment {
 }
 .circular {
     border: 1px solid #A9A9A9;
+}
+.mentions {
+    border-top: 1px solid #222222;
+}
+.hide {
+    display: none;
 }
 </style>

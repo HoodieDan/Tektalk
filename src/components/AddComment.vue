@@ -49,9 +49,6 @@ export default {
         
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
-        // const auth = authStore();
-
-        // this.user = auth.user;
     },
     data() {
         return {
@@ -63,7 +60,8 @@ export default {
             comment_message: '',
             schema: {
                 status: 'required|min:1|max:140'
-            }
+            },
+            mentions: []
         }
     },
     computed: {
@@ -73,6 +71,10 @@ export default {
     },
     methods: {
         async comment(values, {resetForm}) {
+            const mention = values.status.match(/@\w+/g);
+            mention.forEach((item) => {
+                this.mentions.push(item.slice(1))
+            })
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
         
@@ -84,7 +86,7 @@ export default {
             if (comment.status === 200) {
                 this.comment_message = 'Comment Posted!';
                 this.loading = false;
-                this.$emit('increase-comment', values.status, comment.data.commentId)
+                this.$emit('increase-comment', values.status, comment.data.commentId, this.mentions)
             } else {
                 this.comment_message = 'An error occured, please try again later!';
                 this.loading = false;

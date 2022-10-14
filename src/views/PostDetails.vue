@@ -111,6 +111,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="mentions" v-if="mentionsLength">
+                    <p class="light">mentions: 
+                        <router-link
+                            v-for="(mention, i) in post.mentions" 
+                            :key="i" :to="{ name: 'Profile', params: { username: mention } }"
+                            class="no-underline text-gradient"
+                        >
+                            @{{ mention }} 
+                        </router-link>
+                    </p>
+                </div>
             </div>
             <div class="col-auto d-flex">
                 <p class="me-2" v-motion-pop >{{ post.commentCount }}</p>
@@ -215,6 +226,9 @@ export default {
         },
         webShareApiSupported() {
             return navigator.share
+        },
+        mentionsLength() {
+            return this.post.mentions.length > 0
         }
     },
     methods: {
@@ -233,7 +247,7 @@ export default {
 
             post.viewImage(image)
         },
-        addOne(comment, id) {
+        addOne(comment, id, mentions) {
             this.post.commentCount += 1;
             this.comments.unshift({
                 authorId: this.user.userId,
@@ -245,6 +259,7 @@ export default {
                 name: this.user.name,
                 postId: this.$route.params.postID,
                 username: this.user.username,
+                mentions: mentions,
             })
         },
         async like() {
@@ -411,6 +426,9 @@ img.user-img {
     width: 100%;
     z-index: 10;
     max-height: 400px;
+}
+.mentions {
+    border-top: 1px solid #222222;
 }
 .user-img:hover {
     filter: opacity(0.8) drop-shadow(0 0 0 #000);

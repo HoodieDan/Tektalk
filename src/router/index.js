@@ -79,6 +79,14 @@ const router = createRouter({
       component: () => import('../views/NotificationPage.vue')
     },
     {
+      path: '/ErrorPage',
+      name: 'Error',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/ErrorPage.vue')
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },
