@@ -32,7 +32,8 @@
         <p class="alert p-0" v-if="login_show_alert">{{ login_alert_message }}</p>
 
         <!-- redirect to signup  -->
-        <p class="subtext">Already have an account? <router-link :to="{ name: 'SignUp' }" class="text-gradient">Sign up</router-link></p>
+        <p class="subtext mb-2">Already have an account? <router-link :to="{ name: 'SignUp' }" class="text-gradient">Sign up</router-link></p>
+        <router-link :to="{ name: 'ForgotPassword' }" class="subtext text-gradient" >Forgot Password?</router-link>
     </vee-form>
   </div>
 </template>

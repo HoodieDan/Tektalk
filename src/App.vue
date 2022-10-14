@@ -67,7 +67,8 @@ export default {
     computed: {
       emptyScreen() {
         return this.$route.name === 'Auth' || this.$route.name === 'SignUp' ||
-        this.$route.name === 'SignIn'
+        this.$route.name === 'SignIn' || this.$route.name === 'ForgotPassword' || 
+        this.$route.name === 'ResetPassword'
       },
       ImageModalOpen() {
         const post = postStore();

@@ -87,6 +87,16 @@ const router = createRouter({
       component: () => import('../views/ErrorPage.vue')
     },
     {
+      path: '/reset-password',
+      name: 'ResetPassword',
+      component: () => import('../views/ResetPassword.vue')
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: () => import('../views/ForgotPassword.vue')
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },
