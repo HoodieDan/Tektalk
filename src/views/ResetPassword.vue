@@ -41,10 +41,6 @@ import PageLoader from '../components/PageLoader.vue';
 
 export default {
     name: "ResetPassword",
-    mounted() {
-        const token = this.$route.query.token;
-        console.log(token);
-    },
     data() {
         return {
             passwordSchema: {
@@ -82,20 +78,20 @@ export default {
             this.$router.push({ name: 'SignIn' })
         }
     },
-    // async beforeRouteEnter(to, from, next) {
-    //     const apiKey = import.meta.env.VITE_API_KEY;
-    //     const token = to.$route.query.token;
-    //     console.log(token);
-    //     const res = await axios.post(`verify-token?apiKey=${apiKey}&token=${token}`)
-    //     console.log(res);
-    //     if (res.status === 200) {
-    //         next((vm) => {
-    //             vm.email = res.data.email;
-    //         })
-    //     } else {
-    //         this.$router.push({ name: 'Home' })
-    //     }
-    // },
+    async beforeRouteEnter(to, from, next) {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const token = to.$route.query.token;
+        console.log(token);
+        const res = await axios.post(`verify-token?apiKey=${apiKey}&token=${token}`)
+        console.log(res);
+        if (res.status === 200) {
+            next((vm) => {
+                vm.email = res.data.email;
+            })
+        } else {
+            this.$router.push({ name: 'Home' })
+        }
+    },
     components: { PageLoader }
 }
 </script>
