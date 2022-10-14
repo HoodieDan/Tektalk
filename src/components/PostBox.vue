@@ -125,9 +125,11 @@ export default {
         },
         async post(values, { resetForm }) {
             const mention = values.status.match(/@\w+/g);
-            mention.forEach((item) => {
-                this.mentions.push(item.slice(1))
-            })
+            if (mention) {
+                mention.forEach((item) => {
+                    this.mentions.push(item.slice(1))
+                })
+            }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let res;
