@@ -11,8 +11,8 @@
             <div v-if="users !== []" class="p-1">
                 <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-motion-slide-bottom />
             </div>
-            <div class="text-center" v-if="!loading && users === []" >
-                <h6>No {{ field }} to display</h6>
+            <div class="mt-5 mb-5" v-if="loading === false && users === []" >
+                <h6>There are no likes for this post at the moment</h6>
             </div>
         </div>
     </div>

@@ -49,13 +49,16 @@
                 <option value="Fullstack Development">Fullstack Development</option>
                 <option value="DevOps">DevOps</option>
                 <option value="Design">Design</option>
+                <option value="ML/AI">ML/AI</option>
                 <option value="Data Science">Data Science</option>
                 <option value="App Development">App Development</option>
+                <option value="Cloud Computing">Cloud Computing</option>
                 <option value="Game Development">Game Development</option>
                 <option value="CyberSecurity">CyberSecurity</option>
                 <option value="Guest">Guest</option>
                 <option value="I do not want to put myself in a box">I do not want to put myself in a box</option>
                 <option value="I am yet to decide">I am yet to decide</option>
+                <option value="I don't know, man">I don't know, man</option>
             </vee-field>
         </div>
         <ErrorMessage class="error mb-2 text-gradient" name="stack"></ErrorMessage>
@@ -153,7 +156,6 @@ export default {
 
             this.reg_in_submission = false;
             window.location.reload();
-            // this.$router.push({ name: 'Home' });
         }
     },
     beforeRouteEnter(to, from, next) {
