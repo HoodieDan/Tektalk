@@ -85,9 +85,9 @@
             </div>
             <div class="user-post light mt-3">
                 <p class="body-wrapper" ><span v-for="(item, i) in postArray" :key="i" v-cloak >
-                    <router-link :to="{ name: 'Profile', params: { username: item.slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
+                    <router-link :to="{ name: 'Profile', params: { username: shavedItem(item).slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
                         <!-- <span>{{ item }}</span> -->
-                        {{ item }} 
+                        {{ shavedItem(item) }} 
                     </router-link>
                     <span class="me-1" v-else >{{ item }} </span>
                 </span></p>
@@ -238,7 +238,7 @@ export default {
         },
         postArray() {
             return this.post.postBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>.\/]/);
-        }
+        },
     },
     methods: {
         async getComments() {
@@ -342,6 +342,9 @@ export default {
         isTag(item) {
             let link = /@/;
             return link.test(item);
+        },
+        shavedItem(item) {
+            return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
         }
     },
     async created() {
