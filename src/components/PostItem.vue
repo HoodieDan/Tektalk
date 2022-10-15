@@ -1,5 +1,5 @@
 <template>
-  <div class="" v-motion-pop >
+  <div class="" v-motion-slide-bottom >
     <div class="post">
         <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="no-underline d-block" >
             <div class="row">

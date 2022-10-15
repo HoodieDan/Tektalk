@@ -13,6 +13,9 @@
                     <router-link :to="{ name: 'Talks' }" class="navi"><i class="fa fa-solid fa-chart-line"></i><span>Talks</span></router-link>
                 </div>
                 <div class="link calendar">
+                    <router-link to="/" class="navi"><i class="fa fa-solid fa-users"></i><span>Network</span></router-link>
+                </div>
+                <div class="link calendar">
                     <router-link to="/" class="navi"><i class="fa fa-regular fa-address-book"></i><span>Events</span></router-link>
                 </div>
                 <div class="link settings">
@@ -52,7 +55,7 @@
                     <router-link to="/" class="talk-group"><span>DevOps</span></router-link>
                     <p class="members">5k members</p>
                 </div> -->
-                <div class="talk-btn mt-2">
+                <div class="talk-btn mt-3">
                     <router-link to="/" class="other-talks">Other talks</router-link>
                 </div>
             </div>
@@ -69,7 +72,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { authStore } from '../stores/auth';
 
 export default {
@@ -159,7 +161,7 @@ h6 {
     font-size: 0.8rem;
     text-decoration: none;
     color: #e7e9ea;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.5rem;
     transition: all 0.5s;
 }
 .talk-group {
@@ -194,6 +196,14 @@ h6 {
 }
 .talk-btn.no-underline {
     height: auto;
+}
+@media (max-width: 1200px) {
+    p.members {
+        display: none;
+    }
+    .navi {
+        margin-bottom: 0.3rem;
+    }
 }
 @media (max-width: 992px) {
     .menu {
@@ -242,6 +252,9 @@ h6 {
     }
     p {
         margin-bottom: 0.5rem;
+    }
+    p.members {
+        display: none;
     }
 }
 @media (min-height: 900px) {

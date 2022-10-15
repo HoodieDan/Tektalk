@@ -6,11 +6,12 @@
           be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
           also welcomes everyone, guests included."
     />
-    <TopBar  v-show="!emptyScreen" :currentUser="user" />
-    <BottomMenu  v-if="!emptyScreen" />
+    <PreLoader v-if="!showPage" />
+    <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" />
+    <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
       <div class="col-lg-2 col-md-1 side-menu">
-        <SideMenu  v-if="!emptyScreen" />
+        <SideMenu  v-if="!$route.meta.hideNavbar" />
       </div>
       <div class="col-lg-7 col-md-11 pad middle">
         <router-view v-slot="{ Component }" >
@@ -21,7 +22,7 @@
         <ImageModal v-if="showImage" v-motion-pop />
       </div>
       <div class="col-lg-3 col-0">
-        <Suggestions class="pad"  v-if="!emptyScreen"/>
+        <Suggestions class="pad"  v-if="!$route.meta.hideNavbar"/>
       </div>
     </div>
   </div>
@@ -36,6 +37,7 @@ import BottomMenu from './components/BottomMenu.vue';
 import { authStore } from './stores/auth';
 import ImageModal from './components/ImageModal.vue';
 import { postStore } from './stores/post';
+import PreLoader from './components/PreLoader.vue';
 
 export default {
     name: "App",
@@ -56,12 +58,17 @@ export default {
 
         // this.user = auth.user;
       }
+
+      setTimeout(()=> {
+        this.showPage = true;
+      }, 3000)
     },
     data() {
       return {
         user: null,
         uid: null,
         showImage: false,
+        showPage: false,
       }
     },
     computed: {
@@ -81,7 +88,7 @@ export default {
         this.showImage = !this.showImage;
       }
     },
-    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal }
+    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader }
 }
 </script>
 
@@ -112,7 +119,7 @@ body {
   background-color: #222222;
   color: #FFF;
   font-family: 'Space Grotesk', sans-serif;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
 }
 p {
   font-size: 0.9rem;

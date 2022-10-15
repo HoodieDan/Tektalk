@@ -382,6 +382,9 @@ export default {
             }
         },
         async getProfile() {
+            if (this.$route.name !== 'Profile') {
+                return;
+            }
             this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);

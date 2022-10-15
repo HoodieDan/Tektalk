@@ -32,18 +32,27 @@ const router = createRouter({
     {
       path: '/Auth',
       name: 'Auth',
+      meta: {
+        hideNavbar: true,
+      },
       component: () => import('../views/AuthPage.vue')
     },
     {
       path: '/Auth/SignIn',
       alias: '/SignIn',
       name: 'SignIn',
+      meta: {
+        hideNavbar: true,
+      },
       component: () => import('../views/SignIn.vue')
     },
     {
       path: '/Auth/SignUp',
       alias: '/SignUp',
       name: 'SignUp',
+      meta: {
+        hideNavbar: true,
+      },
       component: () => import('../views/SignUp.vue')
     },
     {
@@ -89,11 +98,17 @@ const router = createRouter({
     {
       path: '/reset-password',
       name: 'ResetPassword',
+      meta: {
+        hideNavbar: true,
+      },
       component: () => import('../views/ResetPassword.vue')
     },
     {
       path: '/forgot-password',
       name: 'ForgotPassword',
+      meta: {
+        hideNavbar: true,
+      },
       component: () => import('../views/ForgotPassword.vue')
     },
     {
