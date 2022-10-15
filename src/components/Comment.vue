@@ -101,15 +101,6 @@ export default {
             return this.comment.mentions.length > 0
         },
         isTag(item) {
-            // const apiKey = import.meta.env.VITE_API_KEY;
-            // const res = await axios.get(`check-username?apiKey=${apiKey}&username=${item}`)
-            // console.log(res.data.message);
-            // if (res.data.message === 'User exists!') {
-            //     return true;
-            // } else if (res.data.message === 'User does not exist') {
-            //     return false;
-            // }
-            console.log(item);
             let link = /@/;
             return link.test(item);
         }

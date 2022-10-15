@@ -54,9 +54,6 @@ export default {
         auth.loggedIn();
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
         this.user = profile.data;
-        // auth.getCurrentUser();
-
-        // this.user = auth.user;
       }
 
       setTimeout(()=> {
@@ -81,11 +78,17 @@ export default {
         const post = postStore();
 
         return post.ImageModalIsOpen
+      },
+      currentRoute() {
+        return this.$route.name === 'Notifications';
       }
     },
     watch: {
       ImageModalOpen() {
         this.showImage = !this.showImage;
+      },
+      currentRoute() {
+        this.user.unreadNotifications = false;
       }
     },
     components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader }

@@ -69,6 +69,9 @@ export default {
         changeSound() {
             this.sound = !this.sound
         },
+        read() {
+            this.$emit('read');
+        }
     },
     props: ['currentUser']
 }
