@@ -17,7 +17,7 @@ export default {
 .full {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     z-index: 100000000000000;
     background-color: #000;
     display: flex;

@@ -84,7 +84,13 @@
                 </div>
             </div>
             <div class="user-post light mt-3">
-                <p>{{ post.postBody }}</p>
+                <p><span v-for="(item, i) in postArray" :key="i" v-cloak >
+                    <router-link :to="{ name: 'Profile', params: { username: item.slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
+                        <!-- <span>{{ item }}</span> -->
+                        {{ item }} 
+                    </router-link>
+                    <span class="me-1" v-else >{{ item }} </span>
+                </span></p>
                 <div v-if="noOfImages !== 0">
                     <div
                         class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
@@ -111,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mentions" v-if="mentionsLength">
+                <!-- <div class="mentions" v-if="mentionsLength">
                     <p class="light">mentions: 
                         <router-link
                             v-for="(mention, i) in post.mentions" 
@@ -121,7 +127,7 @@
                             @{{ mention }} 
                         </router-link>
                     </p>
-                </div>
+                </div> -->
             </div>
             <div class="col-auto d-flex">
                 <p class="me-2" v-motion-pop >{{ post.commentCount }}</p>
@@ -229,6 +235,9 @@ export default {
         },
         mentionsLength() {
             return this.post.mentions.length > 0
+        },
+        postArray() {
+            return this.post.postBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>.\/]/);
         }
     },
     methods: {
@@ -329,6 +338,19 @@ export default {
                 url: `${this.$route.path}`,
                 // files: filesArray
             })
+        },
+        isTag(item) {
+            // const apiKey = import.meta.env.VITE_API_KEY;
+            // const res = await axios.get(`check-username?apiKey=${apiKey}&username=${item}`)
+            // console.log(res.data.message);
+            // if (res.data.message === 'User exists!') {
+            //     return true;
+            // } else if (res.data.message === 'User does not exist') {
+            //     return false;
+            // }
+            console.log(item);
+            let link = /@/;
+            return link.test(item);
         }
     },
     async created() {

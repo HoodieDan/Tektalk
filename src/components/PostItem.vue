@@ -50,7 +50,13 @@
                             <p class="subtext username">@{{ post.username }}</p>
                         </div>
                         <div class="user-post light">
-                            <p>{{ post.postBody }}</p>
+                            <p><span v-for="(item, i) in postArray" :key="i" v-cloak >
+                                <router-link :to="{ name: 'Profile', params: { username: item.slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
+                                    <!-- <span>{{ item }}</span> -->
+                                    {{ item }} 
+                                </router-link>
+                                <span class="me-1" v-else >{{ item }} </span>
+                            </span></p>
                         </div>
                         <div v-if="noOfImages !== 0">
                             <div
@@ -77,17 +83,6 @@
                                     >
                                 </div>
                             </div>
-                        </div>
-                        <div class="mentions" v-if="mentionsLength">
-                            <p class="light">mentions: 
-                                <router-link
-                                 v-for="(mention, i) in post.mentions" 
-                                 :key="i" :to="{ name: 'Profile', params: { username: mention } }"
-                                 class="no-underline text-gradient"
-                                >
-                                    @{{ mention }} 
-                                </router-link>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -169,6 +164,10 @@ export default {
                 url: `/post/${post.postId}`,
                 // files: filesArray
             })
+        },
+        isTag(item) {
+            let link = /@/;
+            return link.test(item);
         }
     },
     computed: {
@@ -204,6 +203,9 @@ export default {
         },
         mentionsLength() {
             return this.post.mentions.length > 0
+        },
+        postArray() {
+            return this.post.postBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>\/]/);
         }
     },
     props: ['post', 'images'],

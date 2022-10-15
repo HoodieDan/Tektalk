@@ -52,20 +52,14 @@
                     <p class="subtext text-gradient">@{{ comment.username }}</p>
                 </div>
                 <div class="user-post light">
-                    <p class="mb-1">{{ comment.commentBody }}</p>
+                    <p class="mb-1" ><span v-for="(item, i) in postArray" :key="i" v-cloak >
+                        <router-link :to="{ name: 'Profile', params: { username: item.slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
+                            <!-- <span>{{ item }}</span> -->
+                            {{ item }} 
+                        </router-link>
+                        <span class="me-1" v-else >{{ item }} </span>
+                    </span></p>
                 </div>
-            </div>
-            <div class="col-lg-1 col-md-2 col-sm-2 col-2" v-if="mentionsLength"></div>
-            <div class="mentions col-lg-11 col-md-10 col-sm-10 col-10" v-if="mentionsLength">
-                <p class="light mb-1">mentions: 
-                    <router-link
-                        v-for="(mention, i) in comment.mentions" 
-                        :key="i" :to="{ name: 'Profile', params: { username: mention } }"
-                        class="no-underline text-gradient"
-                    >
-                        @{{ mention }} 
-                    </router-link>
-                </p>
             </div>
         </div>
         <p class="alert p-0 m-0 subtext" v-if="show_alert" >{{ alert_message }}</p>
@@ -105,6 +99,19 @@ export default {
         },
         mentionsLength() {
             return this.comment.mentions.length > 0
+        },
+        isTag(item) {
+            // const apiKey = import.meta.env.VITE_API_KEY;
+            // const res = await axios.get(`check-username?apiKey=${apiKey}&username=${item}`)
+            // console.log(res.data.message);
+            // if (res.data.message === 'User exists!') {
+            //     return true;
+            // } else if (res.data.message === 'User does not exist') {
+            //     return false;
+            // }
+            console.log(item);
+            let link = /@/;
+            return link.test(item);
         }
     },
     computed: {
@@ -132,6 +139,9 @@ export default {
             return ((this.comment.username === this.user.username) || 
             (this.user.username === 'HoodieDan') || 
             (this.user.username === 'ndujekwu'))
+        },
+        postArray() {
+            return this.comment.commentBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>.\/]/);
         }
     },
     props: ["comment", "user"],
