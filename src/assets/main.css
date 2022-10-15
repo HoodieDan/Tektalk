@@ -117,6 +117,12 @@ button.talk-btn {
 .talk-outline-btn:hover {
     background: #343434;
 }
+.body-wrapper {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    display: inline-block;
+}
 @keyframes fade-in {
     from {
         opacity: 0;

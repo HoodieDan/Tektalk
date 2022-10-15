@@ -50,7 +50,7 @@
                             <p class="subtext username">@{{ post.username }}</p>
                         </div>
                         <div class="user-post light">
-                            <p><span v-for="(item, i) in postArray" :key="i" v-cloak >
+                            <p class="w-100 body-wrapper"><span v-for="(item, i) in postArray" :key="i" v-cloak >
                                 <router-link :to="{ name: 'Profile', params: { username: item.slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
                                     <!-- <span>{{ item }}</span> -->
                                     {{ item }} 
