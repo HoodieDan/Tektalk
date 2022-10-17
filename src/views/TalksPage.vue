@@ -1,20 +1,16 @@
 <template>
   <div class="container">
-    <h5>Your Talks</h5>
-    <div class="row">
-      <div v-for="talk in userTalks" :key="talk.id" class="mb-2">
-        <SingleTalk :talk="talk" />
-      </div>
-      <h6 class="mt-3 mb-3 text-gradient" v-if="noTalks" >No talks to show.</h6>
+    <h5 class="ms-2" >Your Talks</h5>
+    <div v-for="talk in userTalks" :key="talk.id" class="mb-2">
+      <SingleTalk :talk="talk" v-if="userTalks !== []" />
     </div>
+    <h6 class="mt-3 mb-3 text-gradient" v-if="noTalks" >No talks to show.</h6>
 
     <div class="mt-4" >
-      <h5>All Talks</h5>
+      <h5 class="ms-2" >All Talks</h5>
     </div>
-    <div class="row">
-      <div v-for="talk in allTalks" :key="talk.id" class="mb-2">
-        <SingleTalk :talk="talk" />
-      </div>
+    <div v-for="talk in allTalks" :key="talk.id" class="mb-2">
+      <SingleTalk :talk="talk" />
     </div>
   </div>
 </template>

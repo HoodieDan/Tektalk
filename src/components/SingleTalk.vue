@@ -1,5 +1,5 @@
 <template>
-  <div class="talk w-100">
+  <div class="talk w-100 container">
     <div class="row">
         <div class="image col-4">
             <img :src="talk.displayUrl" alt="talk image">
@@ -14,9 +14,12 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-6">
-                    <router-link :to="{ name: 'Home' }" class="talk-btn no-underline light" >
-                        <p class="mb-0">View</p>
-                    </router-link>
+                    <button class="talk-btn w-100 light" v-if="!talk.memberOf" v-motion-pop >
+                        <p class="mb-0" >Join</p>
+                    </button>
+                    <button class="talk-outline-btn light w-100" v-motion-pop v-else >
+                        <p class="mb-0" >Leave</p>
+                    </button>
                 </div>
             </div>
         </div>
@@ -57,5 +60,13 @@ div.text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+@media (max-width: 575px) {
+    /* .row > * {
+        padding-right: 1rem;
+    } */
+    /* .mb-2 {
+        margin-right: 0.25rem;
+    } */
 }
 </style>
