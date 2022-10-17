@@ -9,18 +9,18 @@
                     <h6 class="text-gradient" >{{ talk.name }}</h6>
                     <p class="mb-2"	>{{ talk.description }}</p>
                     <div class="row">
-                        <div class="col-lg-12 col-6 d-flex justify-content-between">
+                        <div class="col-lg-12 col-6 d-flex">
                             <div class="circular mb-2" v-for="(image, i) in talk.usersDisplayUrl" :key="i">
                                 <img :src="image" alt="member image">
                             </div>
                         </div>
                         <div class="col-lg-12 col-6">
-                            <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk.id)" v-motion-pop >
-                                <p class="mb-0" v-if="!loading" v-motion-pop >Join</p>
+                            <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk.id)" :disabled="loading" v-motion-pop >
+                                <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk.id)" v-motion-pop >Join</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
-                            <button class="talk-outline-btn light w-100" @click.self.prevent="leave(talk.id)" v-motion-pop v-else >
-                                <p class="mb-0" v-if="!loading" v-motion-pop >Leave</p>
+                            <button class="talk-outline-btn light w-100" @click.self.prevent="leave(talk.id)" :disabled="loading" v-motion-pop v-else >
+                                <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk.id)" v-motion-pop >Leave</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                         </div>
