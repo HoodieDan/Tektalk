@@ -19,6 +19,7 @@
      :images="post.images" 
     />
 
+    <PageLoader :width="30" :height="30" :color="color" v-if="loading" v-motion-pop />
   </div>
 </template>
 
@@ -26,13 +27,13 @@
 import PostBox from '../components/PostBox.vue';
 import axios from 'axios';
 import PostItem from '../components/PostItem.vue';
+import PageLoader from '../components/PageLoader.vue';
 export default {
     name: "SingleTalkPage",
-    components: { PostBox, PostItem },
+    components: { PostBox, PostItem, PageLoader },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
       window.addEventListener('resize', this.handleScroll);
-      console.log(this.$route.params.talk);
     },
     beforeUnmount() {
       window.removeEventListener('scroll', this.handleScroll);
@@ -52,6 +53,8 @@ export default {
             placeholder: 'Ask or contribute anything',
             posts: [],
             pageNumber: 1,
+            loading: false,
+            color: 'FFF',
         }
     },
     computed: {
@@ -107,7 +110,7 @@ export default {
 } */
 .banner {
     background-color: #e5e5f7;
-    opacity: 0.8;
+    opacity: 1;
     background-image:  linear-gradient(135deg, #20BF55 25%, transparent 25%), linear-gradient(225deg, #20BF55 25%, transparent 25%), linear-gradient(45deg, #20BF55 25%, transparent 25%), linear-gradient(315deg, #20BF55 25%, #e5e5f7 25%);
     background-position:  10px 0, 10px 0, 0 0, 0 0;
     background-size: 20px 20px;

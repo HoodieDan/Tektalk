@@ -160,7 +160,6 @@
             />
         </div>
     </div>
-    <PageLoader :color="color" :height="40" :width="40" class="mt-5 mb-5" v-if="posts_loading" />
     <!-- user's posts -->
     <div
         v-if="currentTab === 'Posts' || currentTab === 'Contributions' || posts !== []"
@@ -172,6 +171,7 @@
             :images="post.images" 
         />
     </div>
+    <PageLoader :color="color" :height="40" :width="40" class="mt-2 mb-2" v-if="posts_loading" />
     <FollowModal
      v-if="followModalOpen"
      @close="followModalOpen = false"
@@ -243,12 +243,11 @@ export default {
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
-      if (!this.$route.query.tab) {
-        this.$route.query.tab = 'Posts';
-      }
+      window.addEventListener('resize', this.handleScroll);
     },
     beforeUnmount() {
       window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('resize', this.handleScroll);
     },
     data() {
         return {
@@ -289,55 +288,68 @@ export default {
         },
         async getMorePosts() {
             const apiKey = import.meta.env.VITE_API_KEY;
+            this.posts_loading = true;
             if (this.currentTab === 'Talks') {
                 const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.talkPageNumber}&username=${this.$route.params.username}`);
 
                 if (posts.data.posts.length !== 0) {
-                    this.loading = false;
+                    this.posts_loading = false;
                     posts.data.posts.forEach((post) => {
                     this.posts.push(post);
                     })
                     this.talkPageNumber += 1;
                 } else {
-                    this.loading = true;
+                    this.posts_loading = false;
+                    window.removeEventListener('scroll', this.handleScroll);
                 }
             } else if (this.currentTab === 'Contributions') {
                 const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=${this.contributionPageNumber}&username=${this.$route.params.username}`);
 
                 if (posts.data.posts.length !== 0) {
-                    this.loading = false;
+                    this.posts_loading = false;
                     posts.data.posts.forEach((post) => {
                     this.posts.push(post);
                     })
                     this.contributionPageNumber += 1;
                 } else {
-                    this.loading = true;
+                    this.posts_loading = false;
+                    window.removeEventListener('scroll', this.handleScroll);
                 }
             } else {
                 const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.postPageNumber}&username=${this.$route.params.username}`);
 
                 if (posts.data.posts.length !== 0) {
-                    this.loading = false;
+                    this.posts_loading = false;
                     posts.data.posts.forEach((post) => {
                     this.posts.push(post);
                     })
                     this.postPageNumber += 1;
-                } 
+                } else {
+                    this.posts_loading = false;
+                    window.removeEventListener('scroll', this.handleScroll);
+                }
             }
         },
         async handleScroll() {
             const apiKey = import.meta.env.VITE_API_KEY;
-            const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-            const bottomOfWindow = Math.round(scrollTop) + clientHeight === scrollHeight;
+            // different ways to make sure infinite scroll works
+            const { scrollTop, offsetHeight, clientHeight, scrollHeight } = document.documentElement;
+            const { innerHeight } = window;
+            const bottomOfWindow2 = Math.round(scrollTop) + innerHeight === offsetHeight;
+            const bottomOfWindow = (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight;
+            const bottomOfMac = (window.innerHeight + Math.ceil(window.pageYOffset + 1)) >= document.body.offsetHeight;
+            const bottomOfWindow3 = (window.innerHeight + window.scrollY) >= document.body.scrollHeight;
+            const scrolledToEnd = scrollHeight - Math.round(scrollTop) === clientHeight;
+            const bottomOfWindow4 = Math.round(scrollTop) + clientHeight === scrollHeight;
 
-            if (bottomOfWindow) {
+            if (bottomOfWindow || bottomOfWindow2 || bottomOfMac || bottomOfWindow3 || scrolledToEnd || bottomOfWindow4) {
 
-                const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
+                // const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=${this.pageNumber}`)
 
-                if (res.data.posts === []) {
-                    this.posts.push(res.data.posts);
-                    this.pageNumber += 1;
-                }
+                // if (res.data.posts === []) {
+                //     this.posts.push(res.data.posts);
+                //     this.pageNumber += 1;
+                // }
 
                 this.getMorePosts();
             }
@@ -385,7 +397,7 @@ export default {
             if (this.$route.name !== 'Profile') {
                 return;
             }
-            this.posts_loading = true;
+            this.posts_posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
             let posts;
@@ -397,7 +409,7 @@ export default {
             }
 
             if (posts.status === 200) {
-                this.posts_loading = false;
+                this.posts_posts_loading = false;
             }
 
             this.profile = user_profile.data;
