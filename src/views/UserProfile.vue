@@ -108,7 +108,7 @@
             <!-- email  -->
             <div class="location" v-motion-pop >
                 <i class="fa-regular fa-envelope normal-fa"></i>
-                <p class="mb-0">{{ profile.email }}</p>
+                <a :href="'mailto:' + profile.email" class="mb-0 dark no-underline">{{ profile.email }}</a>
             </div>
 
             <!-- user bio  -->
@@ -516,6 +516,11 @@ div.info {
 }
 .foll:hover {
     background-color: #191919;
+}
+a.dark.no-underline:hover {
+    color: #A9A9A9;
+    text-decoration: underline;
+    text-decoration-color: #20BF55;
 }
 .tabs {
     background-color: #000;
