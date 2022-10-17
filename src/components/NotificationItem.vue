@@ -2,7 +2,7 @@
     <div class="notification mb-3" :class="{ 'unseen': notification.seen === false }" v-motion-slide-bottom >
         <!-- if category is like -->
         <div class="post w-100" v-if="notification.class === 'like'" >
-            <router-link :to="{name: 'Profile', params: { username: notification.username }}" v-if="notification.displayUrl" >
+            <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
                 <div class="circular" >
                     <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -38,7 +38,7 @@
         </div>
         <!-- if category is mention  -->
         <div class="mention w-100" v-if="notification.class === 'mention'" >
-            <router-link :to="{name: 'Profile', params: { username: notification.username }}" v-if="notification.displayUrl" >
+            <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
                 <div class="circular" >
                     <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="comment" v-if="notification.class === 'comment'" >
-            <router-link :to="{name: 'Profile', params: { username: notification.username }}" v-if="notification.displayUrl" >
+            <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
                 <div class="circular" >
                     <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>

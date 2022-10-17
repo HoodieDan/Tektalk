@@ -7,7 +7,7 @@
           also welcomes everyone, guests included."
     />
     <PreLoader v-if="!showPage" />
-    <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" />
+    <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
       <div class="col-lg-2 col-md-1 side-menu">
@@ -68,6 +68,11 @@ export default {
         showPage: false,
       }
     },
+    methods: {
+      read() {
+        this.user.unreadNotifications = false;
+      }
+    },
     computed: {
       emptyScreen() {
         return this.$route.name === 'Auth' || this.$route.name === 'SignUp' ||
@@ -80,18 +85,20 @@ export default {
         return post.ImageModalIsOpen
       },
       currentRoute() {
-        return this.$route.name === 'Notifications';
+        return this.$route.from === 'Notifications';
       }
     },
     watch: {
       ImageModalOpen() {
         this.showImage = !this.showImage;
       },
-      currentRoute() {
-        this.user.unreadNotifications = false;
-      }
+      // currentRoute() {
+      //   if (this.user.unreadNotifications) {
+      //     this.user.unreadNotifications = false;
+      //   }
+      // }
     },
-    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader }
+    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader },
 }
 </script>
 

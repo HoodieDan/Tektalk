@@ -11,7 +11,7 @@
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane"></i>
-                <router-link :to="{ name: 'Notifications' }" class="light no-underline" >
+                <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                     <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
                     <i class="fai fa-regular fa-bell"></i>
                 </router-link>
@@ -35,7 +35,7 @@
             <router-link :to="{ name: 'Home' }" class="light" >
                 <i class="fai fa-regular fa-paper-plane"></i>
             </router-link>
-            <router-link :to="{ name: 'Notifications' }" class="light no-underline" >
+            <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                 <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
                 <i class="fai fa-regular fa-bell"></i>
             </router-link>

@@ -2,27 +2,15 @@
   <div class="talk w-100">
     <div class="row">
         <div class="image col-4">
-            <img src="../assets/images/me.jpg" alt="talk image">
+            <img :src="talk.displayUrl" alt="talk image">
         </div>
         <div class="text col-8 pt-1 pb-1">
-            <h6 class="text-gradient" >Frontend (Vue)</h6>
-            <p class="mb-2"	>The talk for Frontend web developers using the VueJS and NuxtJS frameworks.</p>
+            <h6 class="text-gradient" >{{ talk.name }}</h6>
+            <p class="mb-2"	>{{ talk.description }}</p>
             <div class="row">
                 <div class="col-lg-12 col-6 d-flex justify-content-between">
-                    <div class="circular mb-2">
-                        <img src="../assets/images/me.jpg" alt="member image">
-                    </div>
-                    <div class="circular mb-2">
-                        <img src="../assets/images/me.jpg" alt="member image">
-                    </div>
-                    <div class="circular mb-2">
-                        <img src="../assets/images/me.jpg" alt="member image">
-                    </div>
-                    <div class="circular mb-2">
-                        <img src="../assets/images/me.jpg" alt="member image">
-                    </div>
-                    <div class="circular mb-2">
-                        <img src="../assets/images/me.jpg" alt="member image">
+                    <div class="circular mb-2" v-for="(image, i) in talk.usersDisplayUrl" :key="i">
+                        <img :src="image" alt="member image">
                     </div>
                 </div>
                 <div class="col-lg-12 col-6">
@@ -39,6 +27,7 @@
 <script>
 export default {
     name: 'SingleTalk',
+    props: ['talk']
 }
 </script>
 

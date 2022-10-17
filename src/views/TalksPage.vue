@@ -2,23 +2,18 @@
   <div class="container">
     <h5>Your Talks</h5>
     <div class="row">
-      <div class="col-lg-6 mb-2">
-        <SingleTalk />
+      <div v-for="talk in userTalks" :key="talk.id" class="mb-2">
+        <SingleTalk :talk="talk" />
       </div>
-      <div class="col-lg-6">
-        <SingleTalk />
-      </div>
+      <h6 class="mt-3 mb-3 text-gradient" v-if="noTalks" >No talks to show.</h6>
     </div>
 
     <div class="mt-4" >
       <h5>All Talks</h5>
     </div>
     <div class="row">
-      <div class="col-lg-6 mb-2">
-        <SingleTalk />
-      </div>
-      <div class="col-lg-6">
-        <SingleTalk />
+      <div v-for="talk in allTalks" :key="talk.id" class="mb-2">
+        <SingleTalk :talk="talk" />
       </div>
     </div>
   </div>
@@ -26,8 +21,30 @@
 
 <script>
 import SingleTalk from '../components/SingleTalk.vue';
+import axios from 'axios';
 export default {
-    components: { SingleTalk }
+    name: 'TalksPage',
+    components: { SingleTalk },
+    async beforeRouteEnter(to, from, next) {
+      const apiKey = import.meta.env.VITE_API_KEY;
+      const res = await axios.get(`talk?apiKey=${apiKey}`)
+      console.log(res.data);
+      next((vm) => {
+        vm.allTalks = res.data.allTalks;
+        vm.userTalks = res.data.userTalks;
+      });
+    },
+    data() {
+      return {
+        userTalks: [],
+        allTalks: [],
+      }
+    },
+    computed: {
+      noTalks() {
+        return this.userTalks === [];
+      }
+    }
 }
 </script>
 
