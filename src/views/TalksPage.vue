@@ -24,7 +24,6 @@ export default {
     async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
       const res = await axios.get(`talk?apiKey=${apiKey}`)
-      console.log(res.data);
       next((vm) => {
         vm.allTalks = res.data.allTalks;
         vm.userTalks = res.data.userTalks;
@@ -44,6 +43,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+*{
+  overflow-x: hidden;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+*::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+}
 </style>

@@ -79,7 +79,7 @@
                     </div>
                     </div>
                     <router-link :to="{ name: 'Profile', params: { username: post.username } }" class="text-gradient subtext">@{{ post.username }}</router-link>
-                    <p class="mb-2">Posted in <router-link :to="{ name: 'SingleTalk', params: { talk: post.postedIn } }" class="text-gradient">{{ post.postedIn }}</router-link></p>
+                    <p class="mb-2">Posted in <router-link :to="{ name: 'Talk', params: { talk: post.postedIn } }" class="text-gradient">{{ post.postedIn }}</router-link></p>
                     <p class="dark">{{ timePosted }} · {{ datePosted }} · GMT</p>
                 </div>
             </div>

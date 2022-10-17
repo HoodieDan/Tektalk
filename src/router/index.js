@@ -113,7 +113,7 @@ const router = createRouter({
     },
     {
       path: '/Talks/:talk',
-      name: 'SingleTalk',
+      name: 'Talk',
       component: () => import('../views/SingleTalkPage.vue')
     },
     {

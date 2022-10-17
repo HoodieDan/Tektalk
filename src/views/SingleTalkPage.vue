@@ -1,6 +1,10 @@
 <template>
   <div class="container">
 
+    <div class="banner p-3 mb-2 text-center">
+        <h5 class="bold" >Welcome to the {{ postedIn }} talk!</h5>
+    </div>
+
     <PostBox
      :category="category" 
      :placeholder="placeholder" 
@@ -94,6 +98,27 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+/* div.banner {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 10px ), repeating-linear-gradient( #01BAEF, #20BF55 );
+    border-radius: 5px;
+} */
+.banner {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:  linear-gradient(135deg, #20BF55 25%, transparent 25%), linear-gradient(225deg, #01BAEF 25%, transparent 25%), linear-gradient(45deg, #01BAEF 25%, transparent 25%), linear-gradient(315deg, #20BF55 25%, #e5e5f7 25%);
+    background-position:  10px 0, 10px 0, 0 0, 0 0;
+    background-size: 20px 20px;
+    background-repeat: repeat;
+    border-radius: 5px;
+}
+.banner > * {
+    opacity: 1;
+    color: #000;
+}
+.bold {
+    font-weight: 700;
+}
 </style>
