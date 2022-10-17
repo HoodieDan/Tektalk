@@ -2,15 +2,15 @@
   <div class="container">
     <h5 class="ms-2" >Your Talks</h5>
     <div v-for="talk in userTalks" :key="talk.id" class="mb-2">
-      <SingleTalk :talk="talk" v-if="userTalks !== []" />
+      <SingleTalk :talk="talk" v-if="userTalks !== []" @leave="removeTalk" />
     </div>
     <h6 class="mt-3 mb-3 text-gradient" v-if="noTalks" >No talks to show.</h6>
 
     <div class="mt-4" >
-      <h5 class="ms-2" >All Talks</h5>
+      <h5 class="ms-2" >Other Talks</h5>
     </div>
     <div v-for="talk in allTalks" :key="talk.id" class="mb-2">
-      <SingleTalk :talk="talk" />
+      <SingleTalk :talk="talk" @join="pushTalk" />
     </div>
   </div>
 </template>
@@ -33,6 +33,24 @@ export default {
       return {
         userTalks: [],
         allTalks: [],
+      }
+    },
+    methods: {
+      pushTalk(talk) {
+        const found = this.allTalks.find((item) => {
+          return item.name === talk.name
+        })
+        const index = this.allTalks.indexOf(found);
+        this.allTalks.splice(index, 1);
+        this.userTalks.push(talk);
+      },
+      removeTalk(talk) {
+        const found = this.userTalks.find((item) => {
+          return item.name === talk.name
+        })
+        const index = this.userTalks.indexOf(found);
+        this.userTalks.splice(index, 1);
+        this.allTalks.unshift(talk);
       }
     },
     computed: {

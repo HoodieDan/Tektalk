@@ -15,12 +15,12 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-6">
-                            <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk.id)" :disabled="loading" v-motion-pop >
-                                <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk.id)" v-motion-pop >Join</p>
+                            <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk)" :disabled="loading" v-motion-pop >
+                                <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk)" v-motion-pop >Join</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
-                            <button class="talk-outline-btn light w-100" @click.self.prevent="leave(talk.id)" :disabled="loading" v-motion-pop v-else >
-                                <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk.id)" v-motion-pop >Leave</p>
+                            <button class="talk-outline-btn light w-100" @click.self.prevent="leave(talk)" :disabled="loading" v-motion-pop v-else >
+                                <p class="mb-0" v-if="!loading" @click.self.prevent="leave(talk)" v-motion-pop >Leave</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                         </div>
@@ -44,11 +44,11 @@ export default {
         };
     },
     methods: {
-        async join(Id) {
+        async join(talk) {
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
 
-            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${Id}`)
+            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
             if (res.status === 200) {
                 this.loading = false;
                 this.talk.memberOf = true;
@@ -56,12 +56,13 @@ export default {
                 this.loading = false;
                 this.talk.memberOf = false;
             }
+            this.$emit('join', talk);
         },
-        async leave(Id) {
+        async leave(talk) {
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
 
-            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${Id}`)
+            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
             if (res.status === 200) {
                 this.loading = false;
                 this.talk.memberOf = false;
@@ -69,6 +70,7 @@ export default {
                 this.loading = false;
                 this.talk.memberOf = true;
             }
+            this.$emit('leave', talk);
         }
     },
     components: { PageLoader }
