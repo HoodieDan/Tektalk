@@ -112,6 +112,11 @@ const router = createRouter({
       component: () => import('../views/ForgotPassword.vue')
     },
     {
+      path: '/Talks/:talk',
+      name: 'SingleTalk',
+      component: () => import('../views/SingleTalkPage.vue')
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },

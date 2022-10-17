@@ -1,36 +1,77 @@
 <template>
-  <div class="talk w-100 container">
-    <div class="row">
-        <div class="image col-4">
-            <img :src="talk.displayUrl" alt="talk image">
-        </div>
-        <div class="text col-8 pt-1 pb-1">
-            <h6 class="text-gradient" >{{ talk.name }}</h6>
-            <p class="mb-2"	>{{ talk.description }}</p>
-            <div class="row">
-                <div class="col-lg-12 col-6 d-flex justify-content-between">
-                    <div class="circular mb-2" v-for="(image, i) in talk.usersDisplayUrl" :key="i">
-                        <img :src="image" alt="member image">
+    <div class="talk w-100 pb-0">
+        <router-link :to="{ name: 'SingleTalk', params: { talk: talk.name } }" class="light no-underline">
+            <div class="row p-2">
+                <div class="image col-4">
+                    <img :src="talk.displayUrl" alt="talk image">
+                </div>
+                <div class="text col-8 pt-1 pb-1">
+                    <h6 class="text-gradient" >{{ talk.name }}</h6>
+                    <p class="mb-2"	>{{ talk.description }}</p>
+                    <div class="row">
+                        <div class="col-lg-12 col-6 d-flex justify-content-between">
+                            <div class="circular mb-2" v-for="(image, i) in talk.usersDisplayUrl" :key="i">
+                                <img :src="image" alt="member image">
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-6">
+                            <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click="join(talk.id)" v-motion-pop >
+                                <p class="mb-0" v-if="!loading" v-motion-pop >Join</p>
+                                <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
+                            </button>
+                            <button class="talk-outline-btn light w-100" @click="leave(talk.id)" v-motion-pop v-else >
+                                <p class="mb-0" v-if="!loading" v-motion-pop >Leave</p>
+                                <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-6">
-                    <button class="talk-btn w-100 light" v-if="!talk.memberOf" v-motion-pop >
-                        <p class="mb-0" >Join</p>
-                    </button>
-                    <button class="talk-outline-btn light w-100" v-motion-pop v-else >
-                        <p class="mb-0" >Leave</p>
-                    </button>
-                </div>
             </div>
-        </div>
+        </router-link>
     </div>
-  </div>
 </template>
 
 <script>
+import axios from 'axios';
+import PageLoader from './PageLoader.vue';
 export default {
-    name: 'SingleTalk',
-    props: ['talk']
+    name: "SingleTalk",
+    props: ["talk"],
+    data() {
+        return {
+            color: "FFF",
+            loading: false,
+        };
+    },
+    methods: {
+        async join(Id) {
+            this.loading = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+
+            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${Id}`)
+            if (res.status === 200) {
+                this.loading = false;
+                this.talk.memberOf = true;
+            } else {
+                this.loading = false;
+                this.talk.memberOf = false;
+            }
+        },
+        async leave(Id) {
+            this.loading = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+
+            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${Id}`)
+            if (res.status === 200) {
+                this.loading = false;
+                this.talk.memberOf = false;
+            } else {
+                this.loading = false;
+                this.talk.memberOf = true;
+            }
+        }
+    },
+    components: { PageLoader }
 }
 </script>
 
@@ -38,7 +79,6 @@ export default {
 div.talk {
     background-color: #000;
     border-radius: 5px;
-    padding: 0.5rem;
 }
 /* div.image {
     width: 100%;
@@ -60,6 +100,10 @@ div.text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.talk-btn,
+.talk-outline-btn {
+    height: 2rem;
 }
 @media (max-width: 575px) {
     /* .row > * {
