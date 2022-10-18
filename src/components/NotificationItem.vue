@@ -24,6 +24,7 @@
                 </router-link>
             </div>
         </div>
+        
         <!-- if category is follow  -->
         <div class="row">
             <div class="col-lg-1 col-md-1 col-sm-1 col-2" v-if="notification.class === 'follow'" >
@@ -46,6 +47,7 @@
                 </router-link>
             </div>
         </div>
+
         <!-- if category is mention  -->
         <div class="row">
             <div class="col-lg-1 col-md-1 col-sm-1 col-2" v-if="notification.class === 'mention'" >

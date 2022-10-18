@@ -1,26 +1,31 @@
 <template>
   <div class="bottom-menu">
     <div class="route">
-        <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-house"></i></router-link>
+        <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-house" :class="{ 'active': currentRoute === 'Home' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-chart-line"></i></router-link>
+        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-chart-line" :class="{ 'active': currentRoute === 'Talks' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-users"></i></router-link>
+        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-users" :class="{ 'active': currentRoute === 'Network' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Home' }"><i class="fa fa-regular fa-address-book"></i></router-link>
+        <router-link :to="{ name: 'Home' }"><i class="fa fa-regular fa-address-book" :class="{ 'active': currentRoute === 'Events' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Settings' }"><i class="fa fa-solid fa-gear"></i></router-link>
+        <router-link :to="{ name: 'Settings' }"><i class="fa fa-solid fa-gear" :class="{ 'active': currentRoute === 'Settings' }" ></i></router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+    name: 'BottomMenu',
+    computed: {
+        currentRoute() {
+            return this.$route.name;
+        }
+    }
 }
 </script>
 
@@ -35,6 +40,8 @@ export default {
    bottom: 0;
    display: flex;
    justify-content: space-evenly;
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
 }
 .fa {
     color: #e7e9ea;

@@ -7,19 +7,19 @@
             </div>
             <div class="top-nav">
                 <div class="link home">
-                    <router-link to="/" class="navi active"><i class="fa fa-solid fa-house"></i><span>Home</span></router-link>
+                    <router-link to="/" class="navi" :class="{ 'active': currentRoute === 'Home' }" ><i class="fa fa-solid fa-house"></i><span>Home</span></router-link>
                 </div>
                 <div class="link dashboard">
-                    <router-link :to="{ name: 'Talks' }" class="navi"><i class="fa fa-solid fa-chart-line"></i><span>Talks</span></router-link>
+                    <router-link :to="{ name: 'Talks' }" class="navi" :class="{ 'active': currentRoute === 'Talks' }" ><i class="fa fa-solid fa-chart-line"></i><span>Talks</span></router-link>
                 </div>
                 <div class="link calendar">
-                    <router-link to="/" class="navi"><i class="fa fa-solid fa-users"></i><span>Network</span></router-link>
+                    <router-link to="/" class="navi" :class="{ 'active': currentRoute === 'Network' }" ><i class="fa fa-solid fa-users"></i><span>Network</span></router-link>
                 </div>
                 <div class="link calendar">
-                    <router-link to="/" class="navi"><i class="fa fa-regular fa-address-book"></i><span>Events</span></router-link>
+                    <router-link to="/" class="navi" :class="{ 'active': currentRoute === 'Events' }" ><i class="fa fa-regular fa-address-book"></i><span>Events</span></router-link>
                 </div>
                 <div class="link settings">
-                    <router-link :to="{ name: 'Settings' }" class="navi"><i class="fa fa-solid fa-gear"></i><span>Settings</span></router-link>
+                    <router-link :to="{ name: 'Settings' }" class="navi" :class="{ 'active': currentRoute === 'Settings' }" ><i class="fa fa-solid fa-gear"></i><span>Settings</span></router-link>
                 </div>
             </div>
             <div class="mid">
@@ -96,6 +96,11 @@ export default {
             this.$router.push({ name: 'Auth' })
         }
     },
+    computed: {
+        currentRoute() {
+            return this.$route.name;
+        }
+    }
 }
 </script>
 
@@ -152,9 +157,6 @@ h6 {
 }
 .link:hover, .navi:hover, .talk-group:hover {
     color: #01BAEF;
-}
-.active {
-    color: #01BAEF !important;
 }
 .navi {
     font-weight: 600;

@@ -10,10 +10,10 @@
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
             <div class="d-flex icons">
-                <i class="fai fa-regular fa-paper-plane"></i>
+                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Messages' }" ></i>
                 <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                     <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
-                    <i class="fai fa-regular fa-bell"></i>
+                    <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
                 </router-link>
                 <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular">
                     <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
@@ -28,16 +28,16 @@
         <router-link :to="{name: 'Home'}" class="col-2 no-underline d-flex align-items-center">
             <h3 class="logo-text mb-0">Tt</h3>
         </router-link>
-        <div class="col-5 d-flex align-items-center">
-            <h4 class="mb-0">{{this.$route.name}}</h4>
+        <div class="col-5 d-flex align-items-center route">
+            <h6 class="mb-0">{{ currentRoute }}</h6>
         </div>
         <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
             <router-link :to="{ name: 'Home' }" class="light" >
-                <i class="fai fa-regular fa-paper-plane"></i>
+                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Messages' }" ></i>
             </router-link>
             <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                 <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
-                <i class="fai fa-regular fa-bell"></i>
+                <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
             </router-link>
         </div>
         <div class="col-5 ms-auto" v-else>
@@ -73,11 +73,21 @@ export default {
             this.$emit('read');
         }
     },
+    computed: {
+        currentRoute() {
+            return this.$route.name;
+        }
+    },
     props: ['currentUser']
 }
 </script>
 
 <style scoped>
+.route {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
 div.no-underline.light {
     position: relative;
 }

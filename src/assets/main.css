@@ -86,6 +86,9 @@
 .dark {
     color: #A9A9A9;
 }
+.active {
+    color: #01BAEF !important;
+}
 .talk-btn {
     display: flex;
     justify-content: center;
