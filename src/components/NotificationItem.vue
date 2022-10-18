@@ -103,7 +103,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .notification {
     border-radius: 5px;
     background-color: #000;
