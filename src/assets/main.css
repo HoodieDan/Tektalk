@@ -89,6 +89,12 @@
 .active {
     color: #01BAEF !important;
 }
+.no-underline.light {
+    transition: all 0.5s;
+}
+.no-underline.light:hover {
+    color: #e7e9ea;
+}
 .talk-btn {
     display: flex;
     justify-content: center;
