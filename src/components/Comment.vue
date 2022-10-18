@@ -57,6 +57,7 @@
                             <!-- <span>{{ item }}</span> -->
                             {{ shavedItem(item) }} 
                         </router-link>
+                        <a :href="item" target="__blank" class="active" v-else-if="isLink(item)" >link</a>
                         <span class="me-1" v-else >{{ item }} </span>
                     </span></p>
                 </div>
@@ -104,6 +105,10 @@ export default {
             let link = /@/;
             return link.test(item);
         },
+        isLink(item) {
+            let link = /https/
+            return link.test(item);
+        },
         shavedItem(item) {
             return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
         }
@@ -135,7 +140,7 @@ export default {
             (this.user.username === 'ndujekwu'))
         },
         postArray() {
-            return this.comment.commentBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>.\/]/);
+            return this.comment.commentBody.split(/[-\s!$%^&*()+|~`{}\[\]";<>]/);
         }
     },
     props: ["comment", "user"],

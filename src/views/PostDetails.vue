@@ -89,6 +89,7 @@
                         <!-- <span>{{ item }}</span> -->
                         {{ shavedItem(item) }} 
                     </router-link>
+                    <a :href="item" target="__blank" class="active" v-else-if="isLink(item)" >link</a>
                     <span class="me-1" v-else >{{ item }} </span>
                 </span></p>
                 <div v-if="noOfImages !== 0">
@@ -237,7 +238,7 @@ export default {
             return this.post.mentions.length > 0
         },
         postArray() {
-            return this.post.postBody.split(/[-\s!$%^&*()+|~=`{}\[\]:";<>.\/]/);
+            return this.post.postBody.split(/[-\s!$%^&*()+|~`{}\[\]";<>]/);
         },
     },
     methods: {
@@ -341,6 +342,10 @@ export default {
         },
         isTag(item) {
             let link = /@/;
+            return link.test(item);
+        },
+        isLink(item) {
+            let link = /https/
             return link.test(item);
         },
         shavedItem(item) {
