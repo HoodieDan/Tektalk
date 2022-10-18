@@ -44,6 +44,9 @@ export default {
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
 
+      // const res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
+      // console.log(res);
+
       const auth = authStore();
       const uid = localStorage.getItem('uid');
       this.uid = uid;

@@ -6,9 +6,9 @@
         </router-link>
     </div>
     <div class="setting">
-        <div class="hov">
+        <router-link :to="{ name: 'Password' }" class="hov light no-underline">
             <p class="mb-0"><i class="fa-solid fa-arrows-spin"></i><span>Reset Password</span></p>
-        </div>
+        </router-link>
     </div>
     <div class="setting" @click.prevent="signOut">
         <div class="signout w-100 hov">
