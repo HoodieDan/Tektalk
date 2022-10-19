@@ -45,6 +45,10 @@ export default {
     },
     methods: {
         async join(talk) {
+            if (!localStorage.getItem('token')) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -59,6 +63,10 @@ export default {
             this.$emit('join', talk);
         },
         async leave(talk) {
+            if (!localStorage.getItem('token')) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
 

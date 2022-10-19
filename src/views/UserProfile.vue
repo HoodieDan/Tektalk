@@ -162,7 +162,7 @@
     </div>
     <!-- user's posts -->
     <div
-        v-if="currentTab === 'Posts' || currentTab === 'Contributions' || posts !== []"
+        v-if="currentTab === 'Posts' || currentTab === 'Contributions'"
     >
         <PostItem
             v-for="post in posts" 
@@ -170,6 +170,11 @@
             :post="post" 
             :images="post.images" 
         />
+    </div>
+    <div v-else>
+        <div v-for="talk in talks" :key="talk.id" class="mb-2">
+            <SingleTalk :talk="talk" @leave="removeTalk" />
+        </div>
     </div>
     <PageLoader :color="color" :height="40" :width="40" class="mt-2 mb-2" v-if="posts_loading" />
     <FollowModal
@@ -189,6 +194,7 @@ import PageLoader from '../components/PageLoader.vue'
 import FollowModal from '../components/FollowModal.vue'
 import axios from 'axios'
 import { postStore } from '../stores/post';
+import SingleTalk from '../components/SingleTalk.vue';
 
 export default {
     async beforeRouteEnter(to, from, next) {
@@ -197,14 +203,17 @@ export default {
         if (user_profile.status !== 200) {
             this.$router.push({ name: 'Error' });
         }
+        
         let posts;
+        let talks;
         let profile = null;
+
         if (localStorage.getItem('token')) {
             profile = await axios.get(`/profile?apiKey=${apiKey}`)
         }
 
         if (to.query.tab === 'Talks') {
-            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+            talks = await axios.get(`talk/user-talks?apiKey=${apiKey}`);
         } else if (to.query.tab === 'Contributions') {
             posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
         } else {
@@ -214,22 +223,19 @@ export default {
         next(async (vm) => {
             const { tab } = vm.$route.query;
 
-            vm.tab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+            vm.currentTab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
 
-            vm.currentTab = vm.$route.query.tab;
-            if (!vm.$route.query.tab) {
-                vm.currentTab = 'Posts';
-                vm.$route.query.tab = 'Posts';
-            }
             vm.profile = user_profile.data;
-
-            vm.posts = posts.data.posts;
             
-            if (vm.$route.query.tab === 'Contributions') {
-                vm.contributionPageNumber = 2;
-            } else if (vm.$route.query.tab === 'Talks') {
-                vm.talkPageNumber = 2;
+            if (vm.currentTab === 'Talks') {
+                vm.talks = talks.data.userTalks;
             } else {
+                vm.posts = posts.data.posts;
+            }
+            
+            if (vm.currentTab === 'Contributions') {
+                vm.contributionPageNumber = 2;
+            } else if (vm.currentTab === 'Posts') {
                 vm.postPageNumber = 2;
             }
         
@@ -237,7 +243,6 @@ export default {
                 vm.loggedInUser = profile.data;
             }
 
-            // vm.following = user_profile.data.isFollowing;
         })
 
     },
@@ -397,27 +402,44 @@ export default {
             if (this.$route.name !== 'Profile') {
                 return;
             }
-            this.posts_posts_loading = true;
+            console.log(this.$route.query.tab);
+            this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
             let posts;
+            let talks
 
             if (this.$route.query.tab === 'Contributions') {
                 posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+                if (posts.status === 200) {
+                    this.posts_loading = false;
+                }
+            } else if (this.$route.query.tab === 'Talks') {
+                talks = await axios.get(`talk/user-talks?apiKey=${apiKey}`)
             } else {
                 posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
-            }
-
-            if (posts.status === 200) {
-                this.posts_posts_loading = false;
+                if (posts.status === 200) {
+                    this.posts_loading = false;
+                }
             }
 
             this.profile = user_profile.data;
-            this.posts = posts.data.posts;
-        },
+            if (this.$route.query.tab === 'Talks') {
+                this.talks = talks.data.userTalks;
+            } else {
+                this.posts = posts.data.posts;
+            }
+        }, 
         openFollowModal(field) {
             this.field = field;
             this.followModalOpen = true;
+        },
+        removeTalk(talk) {
+            const found = this.talks.find((item) => {
+            return item.name === talk.name
+            })
+            const index = this.talks.indexOf(found);
+            this.talks.splice(index, 1);
         },
     },
     watch: {
@@ -447,6 +469,9 @@ export default {
         currentRoute() {
             return this.$route.params.username;
         },
+        activeTab() {
+            return this.$route.query.tab;
+        },
         thisTab() {
             return this.$route.query.tab
         },
@@ -454,7 +479,7 @@ export default {
             return 
         },
     },
-    components: { PostItem, PostBox, PageLoader, FollowModal },
+    components: { PostItem, PostBox, PageLoader, FollowModal, SingleTalk },
 }
 </script>
 

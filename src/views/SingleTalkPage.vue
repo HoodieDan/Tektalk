@@ -111,7 +111,7 @@ export default {
 .banner {
     background-color: #e5e5f7;
     opacity: 1;
-    background-image:  linear-gradient(135deg, #20BF55 25%, transparent 25%), linear-gradient(225deg, #20BF55 25%, transparent 25%), linear-gradient(45deg, #20BF55 25%, transparent 25%), linear-gradient(315deg, #20BF55 25%, #e5e5f7 25%);
+    background-image:  linear-gradient(135deg, #01BAEF 25%, transparent 25%), linear-gradient(225deg, #01BAEF 25%, transparent 25%), linear-gradient(45deg, #01BAEF 25%, transparent 25%), linear-gradient(315deg, #01BAEF 25%, #005c77 25%);
     background-position:  10px 0, 10px 0, 0 0, 0 0;
     background-size: 20px 20px;
     background-repeat: repeat;
@@ -119,7 +119,7 @@ export default {
 }
 .banner > * {
     opacity: 1;
-    color: #000;
+    color: #e5e5f7;
 }
 .bold {
     font-weight: 700;
