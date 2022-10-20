@@ -118,17 +118,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="mentions" v-if="mentionsLength">
-                    <p class="light">mentions: 
-                        <router-link
-                            v-for="(mention, i) in post.mentions" 
-                            :key="i" :to="{ name: 'Profile', params: { username: mention } }"
-                            class="no-underline text-gradient"
-                        >
-                            @{{ mention }} 
-                        </router-link>
-                    </p>
-                </div> -->
             </div>
             <div class="col-auto d-flex">
                 <p class="me-2" v-motion-pop >{{ post.commentCount }}</p>

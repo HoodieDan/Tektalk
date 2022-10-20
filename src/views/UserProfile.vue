@@ -203,7 +203,7 @@ export default {
         if (user_profile.status !== 200) {
             this.$router.push({ name: 'Error' });
         }
-        
+
         let posts;
         let talks;
         let profile = null;
@@ -402,7 +402,6 @@ export default {
             if (this.$route.name !== 'Profile') {
                 return;
             }
-            console.log(this.$route.query.tab);
             this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
@@ -478,6 +477,13 @@ export default {
         showPostBox() {
             return 
         },
+    },
+    beforeRouteLeave (to, from, next) {
+        if (to.name !== 'Profile') {
+            // this.$router.replace('/')
+            this.$router.replace({ query: {} });
+        }
+        next();
     },
     components: { PostItem, PostBox, PageLoader, FollowModal, SingleTalk },
 }
