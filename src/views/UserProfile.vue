@@ -478,13 +478,13 @@ export default {
             return 
         },
     },
-    beforeRouteLeave (to, from, next) {
-        if (to.name !== 'Profile') {
-            // this.$router.replace('/')
-            this.$router.replace({ query: {} });
-        }
-        next();
-    },
+    // beforeRouteLeave (to, from, next) {
+    //     if (to.name !== 'Profile') {
+    //         // this.$router.replace('/')
+    //         this.$router.replace({ query: {} });
+    //     }
+    //     next();
+    // },
     components: { PostItem, PostBox, PageLoader, FollowModal, SingleTalk },
 }
 </script>
