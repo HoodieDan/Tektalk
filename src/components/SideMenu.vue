@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="talk-btn mt-3">
-                    <router-link to="/" class="other-talks">Other talks</router-link>
+                    <router-link :to="{ name: 'Talks' }" class="other-talks">Other talks</router-link>
                 </div>
             </div>
             <div class="bottom-nav">
