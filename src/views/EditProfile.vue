@@ -35,7 +35,7 @@
                 <div class="file-input">
                     <div class="d-flex">
                         <h6>Profile Image:</h6>
-                        <p class="ms-auto clear mb-0" @click="profileUrl = ''; user.displayUrl = null">revome<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" @click="profileUrl = ''; user.displayUrl = null">remove<i class="fa-solid fa-eraser"></i></p>
                         <p class="ms-auto clear mb-0" v-if="profileUrl !== ''" @click="profileUrl = ''">revert<i class="fa-solid fa-eraser"></i></p>
                     </div>
                     <div class="circular">

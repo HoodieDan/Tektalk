@@ -213,7 +213,7 @@ export default {
         }
 
         if (to.query.tab === 'Talks') {
-            talks = await axios.get(`talk/user-talks?apiKey=${apiKey}`);
+            talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
         } else if (to.query.tab === 'Contributions') {
             posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
         } else {
@@ -292,22 +292,19 @@ export default {
             this.posts.unshift(data);
         },
         async getMorePosts() {
+            if (this.posts_loading) {
+                return;
+            }
             const apiKey = import.meta.env.VITE_API_KEY;
             this.posts_loading = true;
             if (this.currentTab === 'Talks') {
-                const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.talkPageNumber}&username=${this.$route.params.username}`);
-
-                if (posts.data.posts.length !== 0) {
-                    this.posts_loading = false;
-                    posts.data.posts.forEach((post) => {
-                    this.posts.push(post);
-                    })
-                    this.talkPageNumber += 1;
-                } else {
-                    this.posts_loading = false;
-                    window.removeEventListener('scroll', this.handleScroll);
-                }
+                return;
+                // const talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
             } else if (this.currentTab === 'Contributions') {
+                // if (this.posts % 25 !== 0) {
+                //     this.posts_loading = false;
+                //     return;
+                // }
                 const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=${this.contributionPageNumber}&username=${this.$route.params.username}`);
 
                 if (posts.data.posts.length !== 0) {
@@ -321,6 +318,10 @@ export default {
                     window.removeEventListener('scroll', this.handleScroll);
                 }
             } else {
+                // if (this.posts % 25 !== 0) {
+                //     this.posts_loading = false;
+                //     return;
+                // }
                 const posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=${this.postPageNumber}&username=${this.$route.params.username}`);
 
                 if (posts.data.posts.length !== 0) {
@@ -414,7 +415,7 @@ export default {
                     this.posts_loading = false;
                 }
             } else if (this.$route.query.tab === 'Talks') {
-                talks = await axios.get(`talk/user-talks?apiKey=${apiKey}`)
+                talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
             } else {
                 posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
                 if (posts.status === 200) {

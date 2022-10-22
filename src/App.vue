@@ -11,7 +11,7 @@
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
       <div class="col-lg-2 col-md-1 side-menu">
-        <SideMenu  v-if="!$route.meta.hideNavbar" />
+        <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
       </div>
       <div class="col-lg-7 col-md-11 pad middle">
         <router-view v-slot="{ Component }" >
@@ -44,8 +44,10 @@ export default {
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
 
-      // const res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
-      // console.log(res);
+      const res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
+      this.suggestedTalks = res.data.suggestedTalks;
+      this.popularTalks = res.data.popularTalks;
+      console.log(res.popularTalks);
 
       const auth = authStore();
       const uid = localStorage.getItem('uid');
@@ -69,6 +71,8 @@ export default {
         uid: null,
         showImage: false,
         showPage: false,
+        suggestedTalks: [],
+        popularTalks: [],
       }
     },
     methods: {
