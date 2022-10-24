@@ -22,7 +22,7 @@
         <ImageModal v-if="showImage" v-motion-pop />
       </div>
       <div class="col-lg-3 col-0">
-        <Suggestions class="pad"  v-if="!$route.meta.hideNavbar"/>
+        <Suggestions class="pad" :suggestedTalks="suggestedTalks"  v-if="!$route.meta.hideNavbar"/>
       </div>
     </div>
   </div>
@@ -47,7 +47,6 @@ export default {
       const res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
       this.suggestedTalks = res.data.suggestedTalks;
       this.popularTalks = res.data.popularTalks;
-      console.log(res.popularTalks);
 
       const auth = authStore();
       const uid = localStorage.getItem('uid');
@@ -110,6 +109,9 @@ export default {
 </script>
 
 <style scoped>
+.side-menu {
+  padding: 0;
+}
 .transparent {
   opacity: 0;
 }

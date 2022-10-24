@@ -3,16 +3,27 @@
     <div class="recommended">
       <h6 class="card-head">Recommended Talks</h6>
 
-      <div class="recommendation" v-for="list in first_list" :key="list">
-        <div class="circular">
-          <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a67XH0QN--/c_imagga_scale,f_auto,fl_progressive,h_900,q_auto,w_1600/https://dev-to-uploads.s3.amazonaws.com/i/xndmxrfhliweofif9jty.png" alt="">
+      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id">
+        <div class="col-2">
+          <div class="circular">
+            <img :src="talk.displayUrl" alt="talk image">
+          </div>
         </div>
-        <div class="details">
-          <h6 class="talk-name">Frontend</h6>
-          <p class="subtext">{{list}}k members</p>
+        <div class="col-6 pe-0 ps-3">
+          <div class="details">
+            <h6 class="talk-name">{{ talk.name }}</h6>
+            <p class="subtext">1k members</p>
+          </div>
         </div>
-        <div class="talk-btn">
-          <p class="other-talks">Join</p>
+        <div class="col-4 pe-0">
+          <!-- follow button  -->
+          <button class="talk-btn w-100" v-if="!talk.memberOf" :disabled="join_in_progress" v-motion-pop @click.prevent="join(talk)">
+              <p class="other-talks mb-0 foll" >Join</p>
+          </button>
+          <!-- unfollow button  -->
+          <button class="talk-outline-btn w-100 h-100" :disabled="join_in_progress" v-motion-pop @click.prevent="leave(talk)" v-else >
+              <p class="other-talks mb-0 foll" >Leave</p>
+          </button>
         </div>
       </div>
     </div>
@@ -31,13 +42,54 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'RecommendedTalks',
     data() {
       return {
-        first_list: [1,2,3,4]
+        first_list: [1,2,3,4],
+        join_in_progress: false,
+        color: 'FFF',
       }
-    }
+    },
+    methods: {
+        async join(talk) {
+            if (!localStorage.getItem('token')) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
+            this.join_in_progress = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+
+            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
+            if (res.status === 200) {
+                this.join_in_progress = false;
+                talk.memberOf = true;
+            } else {
+                this.join_in_progress = false;
+                talk.memberOf = false;
+            }
+        },
+        async leave(talk) {
+            if (!localStorage.getItem('token')) {
+                this.$router.push({ name: 'Auth' })
+                return;
+            }
+            this.join_in_progress = true;
+            const apiKey = import.meta.env.VITE_API_KEY;
+
+            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
+            if (res.status === 200) {
+                this.join_in_progress = false;
+                talk.memberOf = false;
+            } else {
+                this.join_in_progress = false;
+                talk.memberOf = true;
+            }
+        }
+    },
+    props: [ 'suggestedTalks' ]
 }
 </script>
 
@@ -54,31 +106,39 @@ div.recommended {
     margin-bottom: 2rem;
 }
 div.recommendation {
-  display: flex;
+  /* display: flex; */
   width: 100%;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-bottom: 0.5rem;
+  margin-right: 0;
   cursor: pointer;
-  border-radius: 32px;
+  transition: all 0.5s;
 }
 div.recommendation:hover {
   background-color: #191919;
 }
 .circular {
-  border: 1px solid #A9A9A9;
+border: 1px solid #A9A9A9;
 }
 .talk-btn {
-  padding: 0.5rem 1rem;
+padding: 0.5rem 1rem;
+}
+.talk-outline-btn {
+  height: 2rem !important;
 }
 .other-talks {
-  margin: 0;
+margin: 0;
 }
 .subtext {
-  margin: 0;
+margin: 0;
 }
 .talk-name {
-  margin-bottom: 0.1rem;
+    margin-bottom: 0.1rem;
+    font-size: 0.9rem;
+}
+.foll {
+    font-size: 0.7rem;
 }
 div.cont {
   width: 100%;
@@ -91,9 +151,17 @@ div.cont {
   margin-right: 0.7rem;
   color: #A9A9A9;
 }
-@media (max-width: 1100px) {
-    div.circular {
+@media (max-width: 1250px) {
+    div.col-2 {
         display: none;
+    }
+    div.col-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    div.col-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
     }
 }
 @media (max-width: 992px) {

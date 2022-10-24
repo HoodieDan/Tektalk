@@ -1,7 +1,7 @@
 <template>
   <div class="container fade-in suggestions">
     <RecommendedUsers :suggested="suggested" />
-    <RecommendedTalks class="sticky-top rec-talks" />
+    <RecommendedTalks :suggested-talks="suggestedTalks" class="sticky-top rec-talks" />
   </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
       return {
         suggested: null,
       }
-    }
+    },
+    props: [ 'suggestedTalks' ],
 }
 </script>
 

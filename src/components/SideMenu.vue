@@ -1,5 +1,5 @@
 <template>
-<div class="menu fade-in">
+    <div class="menu fade-in">
         <div class="nav-group">
             <div class="logo-group d-flex">
                 <h3 class="logo-text">Tt</h3>
@@ -91,8 +91,10 @@ h6 {
 }
 .menu {
     height: 100vh;
-    width: 16.67%;
-    position: fixed;
+    /* min-height: 600px; */
+    /* width: 16.67%;
+    position: fixed; */
+    position: sticky;
     left: 0;
     top: 0;
     background-color: #000;
@@ -101,7 +103,11 @@ h6 {
     font-weight: 300;
     padding: 1rem 2rem 0;
     z-index: 1001;
-    /* border-right: #e7e9ea 1px solid; */
+    overflow-y: initial !important;
+    overflow-x: hidden;
+}
+.nav-group {
+    overflow-y: auto;
 }
 .logo-group {
     align-items: flex-end;
