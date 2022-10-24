@@ -207,7 +207,6 @@ h6 {
 }
 @media (max-width: 992px) {
     .menu {
-        width: 8.33%;
         padding: 0.7rem 0.7rem 0;
     }
     div.talk-name,
