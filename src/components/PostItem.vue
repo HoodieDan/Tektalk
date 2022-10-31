@@ -213,7 +213,7 @@ export default {
             return this.post.mentions.length > 0
         },
         postArray() {
-            return this.post.postBody.split(/[-\s!$%^&*()+|~`{}\[\]";<>]/);
+            return this.post.postBody.split(/[-\s^&*()+|~`\[\]";<>]/);
         }
     },
     props: ['post', 'images'],
