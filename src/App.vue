@@ -41,6 +41,15 @@ import PreLoader from './components/PreLoader.vue';
 
 export default {
     name: "App",
+    mounted() {
+      const auth = authStore();
+
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        auth.loggedIn();
+      }
+    },
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
 
@@ -48,17 +57,17 @@ export default {
       this.suggestedTalks = res.data.suggestedTalks;
       this.popularTalks = res.data.popularTalks;
 
-      const auth = authStore();
+      // const auth = authStore();
       const uid = localStorage.getItem('uid');
       this.uid = uid;
       
-      const token = localStorage.getItem('token');
+      // const token = localStorage.getItem('token');
 
-      if (token) {
-        auth.loggedIn();
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        this.user = profile.data;
-      }
+      // if (token) {
+      //   auth.loggedIn();
+      //   const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+      //   this.user = profile.data;
+      // }
 
       setTimeout(()=> {
         this.showPage = true;
