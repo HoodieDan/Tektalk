@@ -61,13 +61,13 @@ export default {
       const uid = localStorage.getItem('uid');
       this.uid = uid;
       
-      // const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
-      // if (token) {
-      //   auth.loggedIn();
-      //   const profile = await axios.get(`/profile?apiKey=${apiKey}`)
-      //   this.user = profile.data;
-      // }
+      if (token) {
+        // auth.loggedIn();
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        this.user = profile.data;
+      }
 
       setTimeout(()=> {
         this.showPage = true;
