@@ -3,7 +3,7 @@
     <div class="head mb-4">
         <h3>Notifications</h3>
     </div>
-    <PageLoader :color="color" :height="100" :width="100" v-if="notifications === null" class="mt-5" />
+    <PageLoader :color="color" :height="30" :width="30" v-if="notifications === null" class="mt-5" />
     <h4 v-if="notifications === []" >No new notifications to show.</h4>
     <NotificationItem v-for="notification in notifications" :key="notification._id" :notification="notification" />
   </div>

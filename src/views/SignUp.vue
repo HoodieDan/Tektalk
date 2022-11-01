@@ -48,7 +48,8 @@
                 <option value="Backend Development">Backend Development</option>
                 <option value="Fullstack Development">Fullstack Development</option>
                 <option value="DevOps">DevOps</option>
-                <option value="Design">Design</option>
+                <option value="Design">UI/UX Design</option>
+                <option value="Guest">Product Design</option>
                 <option value="ML/AI">ML/AI</option>
                 <option value="Data Science">Data Science</option>
                 <option value="App Development">App Development</option>

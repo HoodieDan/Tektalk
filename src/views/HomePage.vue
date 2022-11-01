@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <vue-headful
+        title="Tektalk Home"
+        description="Tektalk is the ultimate community for techies to meet like minded individuals."
+        keywords="Tektalk"
+        url="https://tektalk.vercel.app"
+    />
     <PostBox 
      :placeholder="placeholder"
      :category="category"
