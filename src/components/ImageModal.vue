@@ -1,5 +1,5 @@
 <template>
-  <div class="backdrop" @click="closeModal" >
+  <div @scroll.prevent @wheel.prevent class="backdrop" @click="closeModal" >
     <div class="select-modal">
         <div class="scroll-div">
             <button class="close-modal" @click="closeModal()">
@@ -51,15 +51,15 @@ export default {
   outline: 1px solid #A9A9A9;
 }
 div.select-modal {
-    width: 50vw;
+    width: auto;
     height: auto;
-    max-height: 70vh;
+    max-height: 90vh !important;
     background: transparent;
     margin: auto auto;
     display: flex;
     position: relative;
-    overflow-y: initial !important;
-    overflow-x: hidden;
+    /* overflow-y: initial !important;
+    overflow-x: hidden; */
 }
 div.backdrop {
     display: flex;
@@ -71,10 +71,10 @@ div.backdrop {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 100;
+    z-index: 100001;
 }
 .scroll-div {
-    overflow-y: auto;
+    /* overflow-y: auto; */
     position: relative;
     /* display: flex;
     align-items: center; */
@@ -85,10 +85,11 @@ div.backdrop {
     right: 0.5rem;
     background: transparent;
     border: none;
-    z-index: 100001;
+    z-index: 1000003;
 }
 .img-fluid {
-    z-index: 100000;
+    z-index: 1000002;
+    max-height: 90vh;
 }
 .btn:focus,
 .btn:active {
@@ -97,7 +98,7 @@ div.backdrop {
 .img-fluid:hover {
     filter: none;
 }
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
     div.select-modal {
         width: 80vw;
         height: auto;
@@ -110,5 +111,5 @@ div.backdrop {
         height: auto;
         max-height: 80vh;
     }
-}
+} */
 </style>
