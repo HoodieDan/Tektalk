@@ -424,7 +424,7 @@ export default {
             const apiKey = import.meta.env.VITE_API_KEY;
             let user_profile;
             try {
-                user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+                user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
             } catch (error) {    
                 if (error.response.data.message === 'User not found') {
                     next({ name: 'Error' });
