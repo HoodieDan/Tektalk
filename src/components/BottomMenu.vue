@@ -7,10 +7,10 @@
         <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-chart-line" :class="{ 'active': currentRoute === 'Talks' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Talks' }"><i class="fa fa-solid fa-users" :class="{ 'active': currentRoute === 'Network' }" ></i></router-link>
+        <router-link :to="{ name: 'Network' }"><i class="fa fa-solid fa-users" :class="{ 'active': currentRoute === 'Network' }" ></i></router-link>
     </div>
     <div class="route">
-        <router-link :to="{ name: 'Home' }"><i class="fa fa-regular fa-address-book" :class="{ 'active': currentRoute === 'Events' }" ></i></router-link>
+        <router-link :to="{ name: 'Events' }"><i class="fa fa-regular fa-address-book" :class="{ 'active': currentRoute === 'Events' }" ></i></router-link>
     </div>
     <div class="route">
         <router-link :to="{ name: 'Settings' }"><i class="fa fa-solid fa-gear" :class="{ 'active': currentRoute === 'Settings' }" ></i></router-link>

@@ -90,6 +90,22 @@ const router = createRouter({
       component: () => import('../views/NotificationPage.vue')
     },
     {
+      path: '/Network',
+      name: 'Network',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/NetworkPage.vue')
+    },
+    {
+      path: '/Events',
+      name: 'Events',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/EventsPage.vue')
+    },
+    {
       path: '/ErrorPage',
       name: 'Error',
       meta: {
