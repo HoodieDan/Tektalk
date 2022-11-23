@@ -55,6 +55,7 @@
 <script>
 import axios from 'axios';
 import { postStore } from '../stores/post';
+import { authStore } from '../stores/auth';
 import PageLoader from './PageLoader.vue';
 import url from '../../includes/ImgUrl';
 
@@ -63,6 +64,8 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const profile = await axios.get(`/profile?apiKey=${apiKey}`);
+        const auth = authStore();
+        this.loggedIn = auth.userLoggedIn;
         this.user = profile.data;
     },
     data() {
@@ -70,6 +73,7 @@ export default {
             schema: {
                 status: "required|min:1|max:200",
                 file_input: "",
+                loggedIn: false,
             },
             body: "",
             files: [],

@@ -166,6 +166,7 @@ export default {
           if (error.response.data.message === 'Unable to verify token') {
             auth.signOut()
             localStorage.clear()
+            return;
           }
         }
         

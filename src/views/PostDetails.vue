@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-    <!-- <vue-headful
-        :title="'Tektalk - Post by ' + post.name"
-        description="Tektalk is the ultimate community for techies to meet like minded individuals."
-        keywords="Tektalk"
-        :ogImage="post.authorImage"
-        :ogTitle="'Tektalk - Post by ' + post.name"
-        :ogDescription="post.postBody"
-        url="https://tektalk.vercel.app"
-    /> -->
     <Head>
         <title>Tektalk - Post by {{ post.name }}</title>
 
@@ -356,6 +347,7 @@ export default {
                 if (error.response.data.message === 'Unable to verify token') {
                     auth.signOut()
                     localStorage.clear()
+                    return;
                 }
             }
             this.user = profile.data;
