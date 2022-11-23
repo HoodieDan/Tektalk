@@ -152,13 +152,22 @@
 import PageLoader from '../components/PageLoader.vue';
 import axios from 'axios';
 import url from '../../includes/ImgUrl';
-import file from '../../includes/sourceToFile';
+import { authStore } from '../stores/auth';
 
 export default {
     name: "EditProfile",
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`);
+        const auth = authStore();
+        let profile;
+        try {
+          profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        } catch (error) {
+          if (error.response.data.message === 'Unable to verify token') {
+            auth.signOut()
+            localStorage.clear()
+          }
+        }
         
         next((vm) => {
             vm.profile = profile.data;

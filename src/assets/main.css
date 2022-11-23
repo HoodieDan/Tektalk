@@ -144,6 +144,10 @@ button.talk-btn {
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 }
+.text-gradient:hover {
+    text-decoration: underline;
+    text-decoration-color: #20BF55;
+}
 .normal-fa {
     cursor: default;
 }

@@ -48,6 +48,10 @@ export default {
         const apiKey = import.meta.env.VITE_API_KEY;
         
         const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        if (profile.response.data.message === 'Unable to verify token') {
+          auth.signOut()
+          localStorage.clear()
+        }
         this.user = profile.data;
     },
     data() {

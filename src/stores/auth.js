@@ -48,9 +48,19 @@ export const authStore = defineStore('auth', {
         },
         signOut() {
             this.userLoggedIn = false;
+            localStorage.clear();
         },
         async getCurrentUser () {
-            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            let profile;
+            try {
+                profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            } catch (error) {
+                if (error.response.data.message === 'Unable to verify token') {
+                    auth.signOut()
+                    localStorage.clear()
+                    return;
+                }
+            }
             this.user = profile.data;
         }
     }

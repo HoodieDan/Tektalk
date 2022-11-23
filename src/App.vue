@@ -57,7 +57,7 @@ export default {
       this.suggestedTalks = res.data.suggestedTalks;
       this.popularTalks = res.data.popularTalks;
 
-      // const auth = authStore();
+      const auth = authStore();
       const uid = localStorage.getItem('uid');
       this.uid = uid;
       
@@ -65,7 +65,16 @@ export default {
 
       if (token) {
         // auth.loggedIn();
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        let profile;
+        try {
+          profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        } catch (error) {
+          if (error.response.data.message === 'Unable to verify token') {
+            auth.signOut()
+            localStorage.clear()
+            return;
+          }
+        }
         this.user = profile.data;
       }
 

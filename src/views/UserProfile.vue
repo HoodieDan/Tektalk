@@ -194,14 +194,21 @@ import PageLoader from '../components/PageLoader.vue'
 import FollowModal from '../components/FollowModal.vue'
 import axios from 'axios'
 import { postStore } from '../stores/post';
+import { authStore } from '../stores/auth';
 import SingleTalk from '../components/SingleTalk.vue';
 
 export default {
     async beforeRouteEnter(to, from, next) {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
-        if (user_profile.status !== 200) {
-            this.$router.push({ name: 'Error' });
+        const auth = authStore();
+        let user_profile;
+        try {
+            user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+        } catch (error) {    
+            if (error.response.data.message === 'User not found') {
+                next({ name: 'Error' });
+                // this.$router.push({ name: 'Error' });
+            }
         }
 
         let posts;
@@ -209,15 +216,24 @@ export default {
         let profile = null;
 
         if (localStorage.getItem('token')) {
-            profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            try {
+                profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            } catch (error) {
+                if (error.response.data.message === 'Unable to verify token') {
+                    auth.signOut()
+                    localStorage.clear()
+                }
+            }
         }
 
-        if (to.query.tab === 'Talks') {
-            talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
-        } else if (to.query.tab === 'Contributions') {
-            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
-        } else {
-            posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+        if (user_profile.status === 200) {
+            if (to.query.tab === 'Talks') {
+                talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
+            } else if (to.query.tab === 'Contributions') {
+                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
+            } else {
+                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+            }
         }
 
         next(async (vm) => {
@@ -405,7 +421,15 @@ export default {
             }
             this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
-            const user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
+            let user_profile;
+            try {
+                user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+            } catch (error) {    
+                if (error.response.data.message === 'User not found') {
+                    next({ name: 'Error' });
+                    // this.$router.push({ name: 'Error' });
+                }
+            }
             let posts;
             let talks
 

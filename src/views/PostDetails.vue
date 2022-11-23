@@ -79,7 +79,8 @@
                     </div>
                     </div>
                     <router-link :to="{ name: 'Profile', params: { username: post.username } }" class="text-gradient subtext">@{{ post.username }}</router-link>
-                    <p class="mb-2">Posted in <router-link :to="{ name: 'Talk', params: { talk: post.postedIn } }" class="text-gradient">{{ post.postedIn }}</router-link></p>
+                    <p class="mb-2" v-if="post.postedIn !== 'Feed'">Posted in <router-link :to="{ name: 'Talk', params: { talk: post.postedIn } }" class="text-gradient">{{ post.postedIn }}</router-link></p>
+                    <p class="mb-2" v-else>Posted in <span class="text-gradient">Feed</span></p>
                     <p class="dark">{{ timePosted }} · {{ datePosted }} · GMT</p>
                 </div>
             </div>
@@ -172,6 +173,7 @@
 <script>
 import AddComment from '../components/AddComment.vue';
 import { postStore } from '../stores/post';
+import { authStore } from '../stores/auth';
 import axios from 'axios';
 import PageLoader from '../components/PageLoader.vue';
 import Comment from '../components/Comment.vue';
@@ -343,10 +345,19 @@ export default {
     },
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
+        const auth = authStore();
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
         
         if (localStorage.getItem('token')) {
-            const profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            let profile;
+            try {
+                profile = await axios.get(`/profile?apiKey=${apiKey}`)
+            } catch (error) {
+                if (error.response.data.message === 'Unable to verify token') {
+                    auth.signOut()
+                    localStorage.clear()
+                }
+            }
             this.user = profile.data;
         }
 
