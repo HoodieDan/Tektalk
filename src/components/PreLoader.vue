@@ -24,7 +24,7 @@ export default {
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    /* animation: disappear 1s cubic-bezier(0.645,0.045,0.355,1) 2s forwards; */
+    animation: disappear 1s cubic-bezier(0.645,0.045,0.355,1) 2s forwards;
 }
 .logo-group {
     align-items: flex-end;

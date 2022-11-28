@@ -6,7 +6,7 @@
           be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
           also welcomes everyone, guests included."
     />
-    <PreLoader :class="{ 'disappear': showPage }" />
+    <PreLoader v-if="!showPage" />
     <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
