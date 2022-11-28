@@ -75,15 +75,15 @@ export default {
             return;
           }
         }
-        if (profile.status === 200) {
-          this.showPage = true;
-        }
+        // if (profile.status === 200) {
+        //   this.showPage = true;
+        // }
         this.user = profile.data;
       }
 
-      // setTimeout(()=> {
-      //   this.showPage = true;
-      // }, 3000)
+      setTimeout(()=> {
+        this.showPage = true;
+      }, 3000)
     },
     data() {
       return {
