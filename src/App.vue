@@ -6,7 +6,7 @@
           be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
           also welcomes everyone, guests included."
     />
-    <PreLoader v-if="!showPage" />
+    <PreLoader :class="{ 'disappear': showPage }" />
     <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
@@ -75,12 +75,15 @@ export default {
             return;
           }
         }
+        if (profile.status === 200) {
+          this.showPage = true;
+        }
         this.user = profile.data;
       }
 
-      setTimeout(()=> {
-        this.showPage = true;
-      }, 3000)
+      // setTimeout(()=> {
+      //   this.showPage = true;
+      // }, 3000)
     },
     data() {
       return {
@@ -127,6 +130,17 @@ export default {
 </script>
 
 <style scoped>
+.disappear {
+  animation: disappear 1s cubic-bezier(0.645,0.045,0.355,1) 2s forwards;
+}
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
 .side-menu {
   padding: 0;
 }
