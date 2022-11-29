@@ -121,7 +121,7 @@ export default {
                 name: "required|min:3|max:100|alpha_spaces",
                 email: "required|min:11|max:100|email",
                 username: "required|min:1|max:25",
-                password: "required|alpha_num|min:8|max:30",
+                password: "required|min:8|max:30",
                 confirm_password: "passwords_mismatch:@password",
                 location: "required|min:3",
                 stack: "required",
