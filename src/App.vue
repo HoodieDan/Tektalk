@@ -6,7 +6,7 @@
           be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
           also welcomes everyone, guests included."
     />
-    <!-- <PreLoader v-if="!showPage" /> -->
+    <PreLoader v-if="!showPage" />
     <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
@@ -42,6 +42,9 @@ import PreLoader from './components/PreLoader.vue';
 export default {
     name: "App",
     mounted() {
+      setTimeout(()=> {
+        this.showPage = true;
+      }, 3000)
       const auth = authStore();
 
       const token = localStorage.getItem('token');
@@ -91,10 +94,6 @@ export default {
         }
         this.user = profile.data;
       }
-
-      setTimeout(()=> {
-        this.showPage = true;
-      }, 3000)
     },
     data() {
       return {
