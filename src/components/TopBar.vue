@@ -47,14 +47,16 @@
                 <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
             </router-link>
         </div>
-        <div class="col-5 ms-auto" v-else>
+        <div class="col-5 ms-auto" v-if="loggedIn === false">
             <router-link :to="{ name: 'Auth' }" class="talk-btn no-underline light fade-in-pro">
                 <p class="mb-0 navi no-hover"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
             </router-link>
         </div>
-        <!-- <div class="col-2" v-if="currentUser === null">
+        <div class="col-5 d-flex justify-content-between align-items-center" v-if="((currentUser === null) && (loggedIn === true))">
+            <ImageSkeleton :width='25' :height='25' />
+            <ImageSkeleton :width='25' :height='25' />
             <ImageSkeleton :width='30' :height='30' />
-        </div> -->
+        </div>
         <div class="col-2" v-if="currentUser !== null" >
             <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
                 <div class="circular">
@@ -68,13 +70,22 @@
 </template>
 
 <script>
-import ImageSkeleton from './ImageSkeleton.vue'
+import ImageSkeleton from './ImageSkeleton.vue';
+import { authStore } from '../stores/auth.js'
 
 export default {
     name: 'TopBar',
+    mounted() {
+        if (localStorage.getItem('token')) {
+            this.loggedIn = true;
+        } else {
+            this.loggedIn = false;
+        }
+    },
     data() {
         return {
-            query: ''
+            query: '',
+            loggedIn: null,
         }
     },
     methods: {
