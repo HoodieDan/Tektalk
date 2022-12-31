@@ -1,15 +1,7 @@
 <template>
-  <div class="container" v-if="profile !== null">
-    <vue-headful
-        :title="profile.name + ' - Tektalk Profile'"
-        description="Tektalk is the ultimate community for techies to meet like minded individuals."
-        keywords="Tektalk"
-        :ogImage="profile.displayUrl"
-        :ogTitle="'Tektalk - Profile page of ' + profile.name"
-        :ogDescription="profile.bio"
-        url="https://tektalk.vercel.app"
-    />
-    <div class="profile-container w-100">
+  <div class="container" >
+    <ProfileSkeleton v-if='profile === null' />
+    <div class="profile-container w-100" v-else >
         <!-- backdrop image  -->
         <div class="backdrop-image w-100">
             <div v-if="profile.backdropUrl !== null">
@@ -118,11 +110,11 @@
 
             <!-- followers and following  -->
             <div class="row mt-4" v-motion-pop >
-                <div class="col-6 b-r text-center foll" @click="openFollowModal('followers')" >
+                <div class="col-6 b-r text-center foll" @click="openFollowModal('followers', profile.followersCount)" >
                     <h6>{{ profile.followersCount }}</h6>
                     <p class="dark mb-0">Followers</p>
                 </div>
-                <div class="col-6 text-center foll" @click="openFollowModal('following')">
+                <div class="col-6 text-center foll" @click="openFollowModal('following', profile.followingCount)">
                     <h6>{{ profile.followingCount }}</h6>
                     <p class="dark mb-0">Following</p>
                 </div>
@@ -149,7 +141,7 @@
             </div>
         </div>
     </div>
-    <div v-if="loggedInUser !== null">
+    <div v-if="((loggedInUser !== null) && (profile !== null))">
         <div v-if="profile.username === loggedInUser.username">
             <PostBox 
                 :placeholder="placeholder" 
@@ -181,6 +173,7 @@
      v-if="followModalOpen"
      @close="followModalOpen = false"
      :field="field"
+     :number='number'
      :loggedInUser="loggedInUser"
      v-motion-pop
     />
@@ -192,21 +185,26 @@ import PostItem from '../components/PostItem.vue';
 import PostBox from '../components/PostBox.vue';
 import PageLoader from '../components/PageLoader.vue'
 import FollowModal from '../components/FollowModal.vue'
+import ProfileSkeleton from '../components/ProfileSkeleton.vue'
 import axios from 'axios'
 import { postStore } from '../stores/post';
 import { authStore } from '../stores/auth';
 import SingleTalk from '../components/SingleTalk.vue';
 
 export default {
-    async beforeRouteEnter(to, from, next) {
+    async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const auth = authStore();
+        const { tab } = this.$route.query;
+
+        this.currentTab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+
         let user_profile;
         try {
-            user_profile = await axios.get(`/profile/username/${to.params.username}?apiKey=${apiKey}`);
+            user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
         } catch (error) {    
-            if (error.response.data.message === 'User not found') {
-                next({ name: 'Error' });
+            if (error.message === 'User not found') {
+                this.$router.push({ name: 'Error' });
                 // this.$router.push({ name: 'Error' });
             }
         }
@@ -219,49 +217,41 @@ export default {
             try {
                 profile = await axios.get(`/profile?apiKey=${apiKey}`)
             } catch (error) {
-                if (error.response.data.message === 'Unable to verify token') {
+                if (error.message === 'Unable to verify token') {
                     auth.signOut()
                     localStorage.clear()
                     return;
                 }
+                return;
             }
+            this.loggedInUser = profile.data;
         }
 
-        if (user_profile.status === 200) {
-            if (to.query.tab === 'Talks') {
-                talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
-            } else if (to.query.tab === 'Contributions') {
-                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${to.params.username}`);
-            } else {
-                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${to.params.username}`);
+        if (user_profile) {
+            if (user_profile.status === 200) {
+                if (this.$route.query.tab === 'Talks') {
+                    talks = await axios.get(`talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
+                } else if (this.$route.query.tab === 'Contributions') {
+                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+                } else {
+                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+                }
             }
+
+            if (this.currentTab === 'Talks') {
+                this.talks = talks.data.userTalks;
+            } else {
+                this.posts = posts.data.posts;
+            }
+            
+            if (this.currentTab === 'Contributions') {
+                this.contributionPageNumber = 2;
+            } else if (this.currentTab === 'Posts') {
+                this.postPageNumber = 2;
+            }
+
+            this.profile = user_profile.data;
         }
-
-        next(async (vm) => {
-            const { tab } = vm.$route.query;
-
-            vm.currentTab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
-
-            vm.profile = user_profile.data;
-            
-            if (vm.currentTab === 'Talks') {
-                vm.talks = talks.data.userTalks;
-            } else {
-                vm.posts = posts.data.posts;
-            }
-            
-            if (vm.currentTab === 'Contributions') {
-                vm.contributionPageNumber = 2;
-            } else if (vm.currentTab === 'Posts') {
-                vm.postPageNumber = 2;
-            }
-        
-            if (localStorage.getItem('token')) {
-                vm.loggedInUser = profile.data;
-            }
-
-        })
-
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
@@ -289,6 +279,7 @@ export default {
             posts_loading: false,
             followModalOpen: false,
             field: '',
+            number: 0,
             talks: [],
         }
     },
@@ -316,7 +307,7 @@ export default {
             this.posts_loading = true;
             if (this.currentTab === 'Talks') {
                 return;
-                // const talks = await axios.get(`talk/username/${to.params.username}?apiKey=${apiKey}`);
+                // const talks = await axios.get(`talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
             } else if (this.currentTab === 'Contributions') {
                 // if (this.posts % 25 !== 0) {
                 //     this.posts_loading = false;
@@ -385,17 +376,19 @@ export default {
                 return;
             }
             this.follow_in_progress = true;
-            const followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${this.profile.userId}`)
-            
-            if (followed.status === 200) {
+            let followed;
+            try {
+                followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${this.profile.userId}`)
+            } catch (error) {
                 this.follow_in_progress = false;
-                // check if following then update button content to following 
-                this.profile.isFollowing = true;
-                this.profile.followersCount += 1;
-            } else {
-                this.follow_in_progress = false;
+                this.$toast.error(error.response.data.message);
                 return;
             }
+            this.follow_in_progress = false;
+            // check if following then update button content to following 
+            this.profile.isFollowing = true;
+            this.profile.followersCount += 1;
+            this.$toast.success('Followed successfully');
         },
         async unfollow() {
             const apiKey = import.meta.env.VITE_API_KEY;
@@ -404,22 +397,26 @@ export default {
             //     return;
             // }
             this.follow_in_progress = true;
-            const unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${this.profile.userId}`);
+            let unfollowed;
 
-            if (unfollowed.status === 200) {
+    	    try {
+                unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${this.profile.userId}`);
+            } catch (error) {
                 this.follow_in_progress = false;
-                // check if following then update button content to following 
-                this.profile.isFollowing = false;
-                this.profile.followersCount -= 1;
-            } else {
-                this.follow_in_progress = false;
+                this.$toast.error(error.response.data.message);
                 return;
             }
+            this.follow_in_progress = false;
+            // check if following then update button content to following 
+            this.profile.isFollowing = false;
+            this.profile.followersCount -= 1;
+            this.$toast.success('Unfollowed successfully');
         },
         async getProfile() {
             if (this.$route.name !== 'Profile') {
                 return;
             }
+            this.profile = null;
             this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let user_profile;
@@ -455,8 +452,9 @@ export default {
                 this.posts = posts.data.posts;
             }
         }, 
-        openFollowModal(field) {
+        openFollowModal(field, count) {
             this.field = field;
+            this.number = count;
             this.followModalOpen = true;
         },
         removeTalk(talk) {
@@ -511,7 +509,7 @@ export default {
     //     }
     //     next();
     // },
-    components: { PostItem, PostBox, PageLoader, FollowModal, SingleTalk },
+    components: { PostItem, PostBox, PageLoader, FollowModal, SingleTalk, ProfileSkeleton },
 }
 </script>
 

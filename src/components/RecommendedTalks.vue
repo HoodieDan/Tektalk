@@ -3,7 +3,10 @@
     <div class="recommended">
       <h6 class="card-head">Recommended Talks</h6>
 
-      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id">
+      <div v-if="suggestedTalks.length === 0">
+        <ItemSkeleton :height='35' :number='5' :margin='13' />    
+      </div>
+      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id" v-else >
         <div class="col-2">
           <div class="circular">
             <img :src="talk.displayUrl" alt="talk image">
@@ -43,6 +46,7 @@
 
 <script>
 import axios from 'axios';
+import ItemSkeleton from './ItemSkeleton.vue'
 
 export default {
     name: 'RecommendedTalks',
@@ -59,17 +63,19 @@ export default {
                 this.$router.push({ name: 'Auth' })
                 return;
             }
-            this.join_in_progress = true;
             const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
 
-            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
-            if (res.status === 200) {
-                this.join_in_progress = false;
-                talk.memberOf = true;
-            } else {
-                this.join_in_progress = false;
-                talk.memberOf = false;
+            try {
+              res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
+            } catch (error) {
+              this.$toast.error(error.response.data.message);
+              talk.memberOf = false;
+              return;
             }
+            
+            this.$toast.success('Joined Talk Successfully!');
+            talk.memberOf = true;
         },
         async leave(talk) {
             if (!localStorage.getItem('token')) {
@@ -78,18 +84,21 @@ export default {
             }
             this.join_in_progress = true;
             const apiKey = import.meta.env.VITE_API_KEY;
-
-            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
-            if (res.status === 200) {
-                this.join_in_progress = false;
-                talk.memberOf = false;
-            } else {
-                this.join_in_progress = false;
-                talk.memberOf = true;
+            let res;
+            
+            try {
+              res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
+            } catch (error) {
+              this.$toast.error(error.response.data.message);
+              talk.memberOf = true;
+              return;
             }
+            this.$toast.success('Left Talk Successfully!');
+            talk.memberOf = false;
         }
     },
-    props: [ 'suggestedTalks' ]
+    props: [ 'suggestedTalks' ],
+    components: { ItemSkeleton }
 }
 </script>
 

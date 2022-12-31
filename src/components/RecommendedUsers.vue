@@ -2,7 +2,10 @@
 <div class="recommended">
     <h6 class="card-head">Recommended Users</h6>
 
-    <div class="recommendation" v-for="user in suggested" :key="user.userId">
+    <div v-if="suggested === null">
+        <ItemSkeleton :height='35' :number='5' :margin='13' />    
+    </div>
+    <div class="recommendation" v-for="user in suggested" :key="user.userId" v-else >
         <router-link class="row no-underline light" :to="{ name: 'Profile', params: { username: user.username } }" >
             <div class="col-2">
                 <!-- user display image  -->
@@ -33,6 +36,7 @@
 
 <script>
 import axios from 'axios'
+import ItemSkeleton from './ItemSkeleton.vue';
 export default {
     name: 'RecommendedUsers',
     data() {
@@ -51,35 +55,37 @@ export default {
             }
             user.isFollowing = true;
             this.follow_in_progress = true;
-            const followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${user.userId}`)
-            
-            if (followed.status === 200) {
-                this.follow_in_progress = false;
-                // check if following then update button content to following 
-                user.isFollowing = true;
-            } else {
-                this.follow_in_progress = false;
+            let followed;
+
+            try {
+                followed =  await axios.put(`/follow?apiKey=${apiKey}&userId=${user.userId}`)
+            } catch (error) {
+                this.$toast.error(error.response.data.message);
                 return;
             }
+            this.$toast.success('Followed Successfully!')
+            // check if following then update button content to following 
+            user.isFollowing = true;
         },
         // unfollow user 
         async unfollow(user) {
             const apiKey = import.meta.env.VITE_API_KEY;
             user.isFollowing = false;
             this.follow_in_progress = true;
-            const unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${user.userId}`);
-
-            if (unfollowed.status === 200) {
-                this.follow_in_progress = false;
-                // check if following then update button content to following 
-                user.isFollowing = false;
-            } else {
-                this.follow_in_progress = false;
+            let unfollowed;
+            try {
+                unfollowed =  await axios.patch(`/unfollow?apiKey=${apiKey}&userId=${user.userId}`);
+            } catch (error) {
+                this.$toast.error(error.response.data.message);
                 return;
             }
+            this.$toast.success('Unfollowed Successfully!')
+            // check if following then update button content to following 
+            user.isFollowing = false;
         },
     },
-    props: [ 'suggested' ]
+    props: [ 'suggested' ],
+    components: { ItemSkeleton },
 }
 </script>
 

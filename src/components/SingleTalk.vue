@@ -51,15 +51,19 @@ export default {
             }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
 
-            const res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
-            if (res.status === 200) {
+            try {
+                res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
+            } catch (error) {
                 this.loading = false;
                 this.talk.memberOf = true;
-            } else {
-                this.loading = false;
-                this.talk.memberOf = false;
+                this.$toast.error(error.message);
+                return;
             }
+            this.loading = false;
+            this.talk.memberOf = true;
+            this.$toast.success(res.data.message);
             this.$emit('join', talk);
         },
         async leave(talk) {
@@ -69,15 +73,19 @@ export default {
             }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
 
-            const res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
-            if (res.status === 200) {
-                this.loading = false;
-                this.talk.memberOf = false;
-            } else {
+            try {
+                res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
+            } catch (error) {
                 this.loading = false;
                 this.talk.memberOf = true;
+                this.$toast.error(error.message);
+                return;
             }
+            this.loading = false;
+            this.talk.memberOf = false;
+            this.$toast.success(res.data.message);
             this.$emit('leave', talk);
         }
     },

@@ -11,6 +11,7 @@ import {createHead} from '@vueuse/head'
 import meta from 'vue-headful'
 
 import './assets/main.css'
+import Toaster from '@meforma/vue-toaster'
 
 ProgressBar(router);
 
@@ -21,6 +22,7 @@ app.use(router)
 app.use(VeeValidatePlugin)
 app.use(MotionPlugin)
 app.use(createHead())
+app.use(Toaster)
 app.component('vue-headful', meta)
 
 app.mount('#app')

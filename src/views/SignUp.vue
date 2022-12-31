@@ -86,9 +86,6 @@
             <h5 class="light mt-2 mb-2" v-motion-pop v-else>Register!</h5>
         </button>
 
-        <!-- login error message  -->
-        <p class="alert p-0" v-if="reg_show_alert">{{ reg_alert_message }}</p>
-
         <!-- redirect to login  -->
         <p class="subtext">Already have an account? <router-link :to="{ name: 'SignIn' }" class="text-gradient">Sign in</router-link></p>
     </vee-form>
@@ -103,20 +100,6 @@ export default {
     name: "SignUp",
     data() {
         return {
-            stacks: [
-                "Frontend Development",
-                "Backend Development",
-                "Fullstack Development",
-                "DevOps",
-                "Design",
-                "Data Science",
-                "App Development",
-                "Game Development",
-                "CyberSecurity",
-                "Guest",
-                "I do not want to put myself in a box",
-                "I am yet to decide",
-            ],
             schema: {
                 name: "required|min:3|max:100|alpha_spaces",
                 email: "required|min:11|max:100|email",
@@ -127,8 +110,6 @@ export default {
                 stack: "required",
             },
             reg_in_submission: false,
-            reg_show_alert: false,
-            reg_alert_message: "",
             color: 'FFF',
         };
     },
@@ -141,21 +122,14 @@ export default {
             }
             catch (error) {
                 this.reg_in_submission = false;
-                this.reg_show_alert = true;
                 console.error(error.response.data.message);
 
-                if (error.response.data.message === 'Email address already exists!') {
-                    this.reg_alert_message = 'A user with this email already exixts.';
-                } else if (error.response.data.message === 'The username is already taken.') {
-                    this.reg_alert_message = 'A user with this username already exists.';
-                } else {
-                    this.reg_alert_message = 'An error occured, please try again later';
-                }
-
+                this.$toast.error(error.message);
                 return;
             }
 
             this.reg_in_submission = false;
+            this.$toast.success('You have been registered Successfully!');
             window.location.reload();
         }
     },

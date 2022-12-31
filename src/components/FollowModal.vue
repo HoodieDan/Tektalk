@@ -12,9 +12,10 @@
                 <i class="fa-solid fa-xmark light" />
             </button>
         </div>
-        <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" />
-        <div v-if="users !== []" class="p-1">
-            <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-motion-slide-bottom />
+        <!-- <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" /> -->
+        <div class="p-1">
+            <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />
+            <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-else  />
         </div>
         <div class="text-center" v-if="!loading && users === []" >
             <h6>No {{ field }} to display</h6>
@@ -27,6 +28,7 @@
 import PageLoader from './PageLoader.vue';
 import axios from 'axios';
 import SingleUser from './SingleUser.vue';
+import ItemSkeleton from './ItemSkeleton.vue';
 
 export default {
     name: "FollowModal",
@@ -42,8 +44,8 @@ export default {
             this.$emit('close');
         }
     },
-    components: { PageLoader, SingleUser },
-    props: [ 'field', 'loggedInUser' ],
+    components: { PageLoader, SingleUser, ItemSkeleton },
+    props: [ 'field', 'loggedInUser', 'number' ],
     async created(){
         this.loading = true;
         const apiKey = import.meta.env.VITE_API_KEY;

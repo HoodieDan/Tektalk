@@ -8,7 +8,14 @@
                 <input type="text" class="input field" placeholder="Explore" v-model="query" />
             </div>
         </div>
-        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser !== null" >
+        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser === null" >
+            <div class="d-flex icons">
+                <ImageSkeleton :width='25' :height='25' />
+                <ImageSkeleton :width='25' :height='25' />
+                <ImageSkeleton :width='40' :height='40' />
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-else >
             <div class="d-flex icons">
                 <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Messages' }" ></i>
                 <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
@@ -45,7 +52,10 @@
                 <p class="mb-0 navi no-hover"><i class="fa fa-solid fa-arrow-right-to-bracket light"></i> <span>Log In</span></p>
             </router-link>
         </div>
-        <div class="col-2" v-if="currentUser !== null">
+        <!-- <div class="col-2" v-if="currentUser === null">
+            <ImageSkeleton :width='30' :height='30' />
+        </div> -->
+        <div class="col-2" v-if="currentUser !== null" >
             <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
                 <div class="circular">
                     <img :src="currentUser.displayUrl" alt="gorgeous" v-if="currentUser.displayUrl">
@@ -58,6 +68,8 @@
 </template>
 
 <script>
+import ImageSkeleton from './ImageSkeleton.vue'
+
 export default {
     name: 'TopBar',
     data() {
@@ -78,7 +90,8 @@ export default {
             return this.$route.name;
         }
     },
-    props: ['currentUser']
+    props: ['currentUser'],
+    components: { ImageSkeleton }
 }
 </script>
 

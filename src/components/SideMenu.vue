@@ -24,7 +24,10 @@
             </div>
             <div class="mid">
                 <h6 class="mb-3 head">Popular Talks</h6>
-                <div class="talk" v-for="talk in popularTalks" :key="talk.id" >
+                <div v-if="popularTalks.length === 0">
+                    <ItemSkeleton :height='30' :number='5' :margin='13' />    
+                </div>
+                <div class="talk" v-for="talk in popularTalks" :key="talk.id" v-else >
                     <div class="img-wrap">
                         <div class="circular me-2">
                             <img :src="talk.displayUrl" alt="talk image">
@@ -53,6 +56,7 @@
 
 <script>
 import { authStore } from '../stores/auth';
+import ItemSkeleton from './ItemSkeleton.vue';
 
 export default {
     name: 'SideMenu',
@@ -81,6 +85,7 @@ export default {
             return this.$route.name;
         }
     },
+    components: { ItemSkeleton },
     props: [ 'popularTalks' ]
 }
 </script>

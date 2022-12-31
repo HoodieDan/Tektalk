@@ -44,7 +44,6 @@
                         </div>
                     </div>
                     <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
-                    <p class="subtext text-gradient p-0" v-if="show_load_alert">{{ load_alert }}</p>
                 </vee-form>
             </div>
         </div>
@@ -81,8 +80,6 @@ export default {
             user: null,
             upload_alert: "",
             loading: false,
-            load_alert: "",
-            show_load_alert: "",
             show_upload_alert: false,
             color: 'FFF',
             images: [],
@@ -152,16 +149,13 @@ export default {
                 }
                 catch (err) {
                     this.loading = false;
-                    this.show_load_alert = true;
-
-                    this.load_alert = 'Status update failed. Try Again'
+                    this.$toast.error(err.response.data.message);
 
                     return;
                 }
             }
 
-            this.show_load_alert = true;
-            this.load_alert = 'Posted Successfully!'
+            this.$toast.success('Posted Successfully');
             this.loading = false;
             this.$emit('posted', {
                 authorId: this.user.userId,

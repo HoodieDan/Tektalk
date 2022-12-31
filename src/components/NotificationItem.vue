@@ -1,5 +1,5 @@
 <template>
-    <div class="notification mb-3" :class="{ 'unseen': notification.seen === false }" v-motion-slide-bottom >
+    <div class="notification mb-3" :class="{ 'unseen': notification.seen === false }"  >
         <!-- if category is like -->
         <div class="row">
             <div class="col-lg-1 col-md-1 col-sm-1 col-2" v-if="notification.class === 'like'" >

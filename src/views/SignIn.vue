@@ -28,9 +28,6 @@
             <h5 class="light mt-2 mb-2" v-motion-pop v-else>Sign In!</h5>
         </button>
 
-        <!-- login error message  -->
-        <p class="alert p-0" v-if="login_show_alert">{{ login_alert_message }}</p>
-
         <!-- redirect to signup  -->
         <p class="subtext mb-2">Already have an account? <router-link :to="{ name: 'SignUp' }" class="text-gradient">Sign up</router-link></p>
         <router-link :to="{ name: 'ForgotPassword' }" class="subtext text-gradient" >Forgot Password?</router-link>
@@ -51,8 +48,6 @@ export default {
                 password: "required|min:8|max:30",
             },
             login_in_submission: false,
-            login_show_alert: false,
-            login_alert_message: "",
             color: 'FFF'
         };
     },
@@ -60,26 +55,16 @@ export default {
         async login(values) {
             const auth = authStore();
             this.login_in_submission = true;
-            this.login_show_alert = false;
             try {
                 await auth.login(values);
             }
             catch (error) {
                 console.log(error.response.data.message);
                 this.login_in_submission = false;
-                this.login_show_alert = true;
-                if (error.response.data.message === "Wrong password!") {
-                    this.login_alert_message = "The password you entered is incorrect";
-                }
-                else if (error.response.data.message === "A user with this email could not be found.") {
-                    this.login_alert_message = "A user with this email could not be found";
-                }
-                else {
-                    this.login_alert_message = "An error occured while logging you in, please try again later.";
-                }
+                this.$toast.error(error.message);
                 return;
             }
-
+            this.$toast.success('Login Successful');
             window.location.reload();
             this.login_in_submission = false;
             // this.$router.push({ name: 'Home' });

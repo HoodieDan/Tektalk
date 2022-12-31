@@ -116,7 +116,7 @@
                 <span class="subtext pt-1">comments</span>
             </div>
             <!-- link to get likers -->
-            <div class="col-auto d-flex likes" @click="openLikeModal" >
+            <div class="col-auto d-flex likes" @click="openLikeModal(post.likeCount)" >
                 <p class="me-2" v-motion-pop >{{ post.likeCount }}</p>
                 <span class="subtext pt-1">likes</span>
             </div>
@@ -155,6 +155,7 @@
          :loggedInUser="user" 
          v-if="likeModalOpen" 
          @close="likeModalOpen = false"
+         :number='number'
          v-motion-pop
          />
     </div>
@@ -187,6 +188,7 @@ export default {
             delete_alert: '',
             show_alert: false,
             getting_comments: false,
+            number: 0,
         }
     },
     computed: {
@@ -274,7 +276,8 @@ export default {
                 this.like()
             }
         },
-        openLikeModal() {
+        openLikeModal(count) {
+            this.number = count;
             this.likeModalOpen = true;
         },
         removeFromArray(commentId) {

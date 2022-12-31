@@ -6,7 +6,7 @@
           be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
           also welcomes everyone, guests included."
     />
-    <PreLoader v-if="!showPage" />
+    <!-- <PreLoader v-if="!showPage" /> -->
     <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
@@ -53,9 +53,19 @@ export default {
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
 
-      const res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
-      this.suggestedTalks = res.data.suggestedTalks;
-      this.popularTalks = res.data.popularTalks;
+      let res;
+      try {
+        res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
+        this.suggestedTalks = res.data.suggestedTalks;
+        this.popularTalks = res.data.popularTalks;
+      } catch (error) {
+        this.$toast.error(error.response.data.message);
+        if (error.response.data.message === 'Unable to verify token') {
+          auth.signOut()
+          localStorage.clear()
+          return;
+        }
+      }
 
       const auth = authStore();
       const uid = localStorage.getItem('uid');
@@ -69,15 +79,14 @@ export default {
         try {
           profile = await axios.get(`/profile?apiKey=${apiKey}`)
         } catch (error) {
+          this.$toast.error(error.response.data.message);
           if (error.response.data.message === 'Unable to verify token') {
             auth.signOut()
             localStorage.clear()
             return;
           }
+          return;
         }
-        // if (profile.status === 200) {
-        //   this.showPage = true;
-        // }
         this.user = profile.data;
       }
 

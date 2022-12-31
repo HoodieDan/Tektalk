@@ -7,9 +7,10 @@
             <div class="w-100 p-3 header mb-2 sticky-top">
                 <h6>Likers</h6>
             </div>
-            <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" />
-            <div v-if="users !== []" class="p-1">
-                <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-motion-slide-bottom />
+            <!-- <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" /> -->
+            <div class="p-1">
+                <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />    
+                <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-else  />
             </div>
             <div class="mt-5 mb-5" v-if="loading === false && users === []" >
                 <h6>There are no likes for this post at the moment</h6>
@@ -22,6 +23,7 @@
 import PageLoader from './PageLoader.vue';
 import axios from 'axios';
 import SingleUser from './SingleUser.vue';
+import ItemSkeleton from './ItemSkeleton.vue';
 
 export default {
     name: "FollowModal",
@@ -37,8 +39,8 @@ export default {
             this.$emit('close');
         }
     },
-    components: { PageLoader, SingleUser },
-    props: [ 'loggedInUser' ],
+    components: { PageLoader, SingleUser, ItemSkeleton },
+    props: [ 'loggedInUser', 'number' ],
     async created(){
         this.loading = true;
         const apiKey = import.meta.env.VITE_API_KEY;
