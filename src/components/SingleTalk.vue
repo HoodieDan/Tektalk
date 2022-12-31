@@ -80,7 +80,7 @@ export default {
             } catch (error) {
                 this.loading = false;
                 this.talk.memberOf = true;
-                this.$toast.error(error.message);
+                this.$toast.error(error.response.data.message);
                 return;
             }
             this.loading = false;

@@ -13,9 +13,11 @@ export default {
     name: "Suggestions",
     components: { RecommendedTalks, RecommendedUsers },
     async created() {
-      const apiKey = import.meta.env.VITE_API_KEY;
-      const res = await axios.get(`/suggestions?apiKey=${apiKey}&pageNumber=1`)
-      this.suggested = res.data.users;
+      if (localStorage.getItem('token')) {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const res = await axios.get(`/suggestions?apiKey=${apiKey}&pageNumber=1`)
+        this.suggested = res.data.users;
+      }
     },
     data() {
       return {

@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm">
     <div class="text-center w-100 mb-3">
-        <h1 class="text-gradient">Tt.</h1>
+        <h1 class="text-gradient no-underline">Tt.</h1>
         <h4>Welcome back to Tektalk!</h4>
     </div>
     <vee-form @submit="login" :validation-schema="loginSchema">
@@ -24,7 +24,7 @@
         <!-- login button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5">
             <!-- show loader if logging user in and show button text if not  -->
-            <PageLoader :width="30" :height="30" :color="color" v-if="login_in_submission" v-motion-pop />
+            <PageLoader :width="20" :height="20" :color="color" v-if="login_in_submission" v-motion-pop />
             <h5 class="light mt-2 mb-2" v-motion-pop v-else>Sign In!</h5>
         </button>
 
@@ -59,9 +59,9 @@ export default {
                 await auth.login(values);
             }
             catch (error) {
-                console.log(error.response.data.message);
+                this.$toast.error(error.response.data.message);
+                console.log(error);
                 this.login_in_submission = false;
-                this.$toast.error(error.message);
                 return;
             }
             this.$toast.success('Login Successful');

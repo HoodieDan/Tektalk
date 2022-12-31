@@ -131,7 +131,7 @@ button.talk-btn {
     margin-bottom: 0;
 }
 .no-underline {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 .light {
     color: #e7e9ea !important;

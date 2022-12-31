@@ -62,7 +62,6 @@ export default {
         this.suggestedTalks = res.data.suggestedTalks;
         this.popularTalks = res.data.popularTalks;
       } catch (error) {
-        this.$toast.error(error.response.data.message);
         if (error.response.data.message === 'Unable to verify token') {
           auth.signOut()
           localStorage.clear()

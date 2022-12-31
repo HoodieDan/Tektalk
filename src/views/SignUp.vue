@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm">
     <div class="text-center w-100">
-        <h1 class="text-gradient">Tt.</h1>
+        <h1 class="text-gradient no-underline">Tt.</h1>
         <h3>Welcome to Tektalk!</h3>
     </div>
     <!-- registeration form  -->
@@ -124,7 +124,7 @@ export default {
                 this.reg_in_submission = false;
                 console.error(error.response.data.message);
 
-                this.$toast.error(error.message);
+                this.$toast.error(error.response.data.message);
                 return;
             }
 
