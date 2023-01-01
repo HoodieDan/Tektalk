@@ -155,6 +155,12 @@ router.beforeEach((to, from, next) => {
   }
 
   if (auth.userLoggedIn) {
+    if (to.query.tab) {
+      if (to.name !== 'Profile') {
+          // this.$router.replace('/')
+          router.replace({ query: {} });
+      }
+    }
     next();
   } else {
     next({ name: 'Auth' });

@@ -153,6 +153,7 @@
         </div>
     </div>
     <!-- user's posts -->
+    <!-- <h5 v-if="noPosts" >No posts to dispay.</h5> -->
     <div
         v-if="currentTab === 'Posts' || currentTab === 'Contributions'"
     >
@@ -197,7 +198,13 @@ export default {
         const auth = authStore();
         const { tab } = this.$route.query;
 
-        this.currentTab = tab === 'Posts' || tab === 'Contributions' || tab === 'Talks' ? tab : 'Posts';
+        if (tab !== 'Posts' || tab !== 'Contributions' || tab !== 'Talks') {
+            this.$router.push({
+                query: {
+                    tab: 'Posts',
+                }
+            })
+        }
 
         let user_profile;
         try {
@@ -229,12 +236,31 @@ export default {
 
         if (user_profile) {
             if (user_profile.status === 200) {
-                if (this.$route.query.tab === 'Talks') {
-                    talks = await axios.get(`talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
-                } else if (this.$route.query.tab === 'Contributions') {
-                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+                if (this.$route.query.tab === 'Contributions') {
+                    try {
+                        posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+                    } catch (error) {
+                        this.$toast.error('An error occurred while loading Contributions');
+                        return;
+                    }
+                    this.posts_loading = false;
+                } else if (this.$route.query.tab === 'Talks') {
+                    try {
+                        talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
+                        console.log(talks);
+                    } catch (error) {
+                        this.$toast.error('An error occurred while loading Talks');
+                        return;
+                    }
+                    this.posts_loading = false;
                 } else {
-                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+                    try {
+                        posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+                    } catch (error) {
+                        this.$toast.error('An error occurred while loading Contributions');
+                        return;
+                    }
+                    this.posts_loading = false;
                 }
             }
 
@@ -267,7 +293,7 @@ export default {
             loggedInUser: null,
             currentTab: 'Posts',
             placeholder: 'Post something in your Feed?',
-            posts: [],
+            posts: null,
             contributionPageNumber: 1,
             postPageNumber: 1,
             talkPageNumber: 1,
@@ -280,7 +306,7 @@ export default {
             followModalOpen: false,
             field: '',
             number: 0,
-            talks: [],
+            talks: null,
         }
     },
     methods: {
@@ -416,7 +442,6 @@ export default {
             if (this.$route.name !== 'Profile') {
                 return;
             }
-            this.profile = null;
             this.posts_loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let user_profile;
@@ -432,17 +457,30 @@ export default {
             let talks
 
             if (this.$route.query.tab === 'Contributions') {
-                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
-                if (posts.status === 200) {
-                    this.posts_loading = false;
+                try {
+                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=false&pageNumber=1&username=${this.$route.params.username}`);
+                } catch (error) {
+                    this.$toast.error('An error occurred while loading Contributions');
+                    return;
                 }
+                this.posts_loading = false;
             } else if (this.$route.query.tab === 'Talks') {
-                talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
-            } else {
-                posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
-                if (posts.status === 200) {
-                    this.posts_loading = false;
+                try {
+                    talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
+                    console.log(talks);
+                } catch (error) {
+                    this.$toast.error('An error occurred while loading Talks');
+                    return;
                 }
+                this.posts_loading = false;
+            } else {
+                try {
+                    posts = await axios.get(`/post/feed?apiKey=${apiKey}&feed=true&pageNumber=1&username=${this.$route.params.username}`);
+                } catch (error) {
+                    this.$toast.error('An error occurred while loading Contributions');
+                    return;
+                }
+                this.posts_loading = false;
             }
 
             this.profile = user_profile.data;
@@ -479,6 +517,9 @@ export default {
         currentRoute(){
             this.followModalOpen = false;
             this.currentTab = 'Posts';
+            this.profile = null;
+            this.posts = null;
+            this.talks = null;
             this.getProfile();
         },
         thisTab() {
@@ -501,6 +542,9 @@ export default {
         showPostBox() {
             return 
         },
+        noPosts() {
+            return ((!this.posts) && this.posts_loading === false);
+        }
     },
     // beforeRouteLeave (to, from, next) {
     //     if (to.name !== 'Profile') {
