@@ -81,7 +81,7 @@
                         <!-- <span>{{ item }}</span> -->
                         {{ shavedItem(item) }} 
                     </router-link>
-                    <a :href="item" target="__blank" class="active" v-else-if="isLink(item)" >link</a>
+                    <a :href="item" target="__blank" class="active" v-else-if="isLink(item)" >{{ item }}</a>
                     <span class="me-1" v-else >{{ item }} </span>
                 </span></p>
                 <div v-if="noOfImages !== 0">
