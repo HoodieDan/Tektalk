@@ -20,7 +20,7 @@
                 <div class="row w-100">
                     <div class="col-8 ">
                         <vee-field as="textarea" name="status" id="status" rows="2" placeholder="Drop a comment?"
-                        v-model="status"></vee-field>
+                        v-model="status" ref="body"></vee-field>
                         <ErrorMessage name="status" class="subtext alert p-0" ></ErrorMessage>
                     </div>
                     <div class="col-4 buttons">
@@ -32,6 +32,7 @@
                 </div>
             </vee-form>
             <p class="subtext text-gradient mb-0" v-if="comment_message !== ''" >{{ comment_message }}</p>
+            <TagResults :loading="searching" :users="results" @tag="tag" v-if="show_tag_box" />
         </div>
     </div>
   </div>
@@ -41,6 +42,7 @@
 import PageLoader from '../components/PageLoader.vue';
 import { authStore } from '../stores/auth';
 import axios from 'axios';
+import TagResults from './TagResults.vue';
 
 export default {
     name: 'AddComment',
@@ -67,6 +69,9 @@ export default {
             loading: false,
             commentBody: '',
             comment_message: '',
+            show_tag_box: false,
+            searching: false,
+            results: null,
             schema: {
                 status: 'required|min:1|max:140'
             },
@@ -74,9 +79,21 @@ export default {
         }
     },
     computed: {
-        // tooLong() {
-        //     return this.status.length >= 140
-        // }
+        isTag() {
+            let link = /@/;
+            const bodyArr = this.status.split(' ')
+
+            return link.test(bodyArr[bodyArr.length - 1]);
+        },
+        search() {
+            let link = /@/;
+            const bodyArr = this.status.split(' ')
+
+            if (link.test(bodyArr[bodyArr.length - 1])) {
+                const user = bodyArr[bodyArr.length - 1]
+                return user.slice(1);
+            }
+        }
     },
     methods: {
         async comment(values, {resetForm}) {
@@ -104,9 +121,55 @@ export default {
             }
 
             resetForm();
+        },
+        tag(user) {
+            const bodyArr = this.status.split(' ');
+            bodyArr.pop()
+
+            bodyArr.push(`@${user.username}`)
+
+            this.status = bodyArr.join(' ')
+            this.show_tag_box = false;
+            this.$refs.body.$el.focus();
         }
     },
-    components: { PageLoader }
+    watch: {
+        async isTag(newVal) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            if (newVal === true) {
+                this.show_tag_box = true;
+                this.searching = true;
+                const bodyArr = this.status.split(' ');
+                const user = bodyArr[bodyArr.length - 1]
+                const search = user.slice(1)
+                let res;
+
+                try {
+                    res = await axios.get(`/tag-user?apiKey=${apiKey}&search=${search}`)
+                } catch (error) {
+                    console.log(error);
+                }
+                this.results = res.data.users;
+                this.searching = false;
+            } else {
+                this.show_tag_box = false;
+            }
+        },
+        async search(newVal) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
+
+            try {
+                res = await axios.get(`/tag-user?apiKey=${apiKey}&search=${newVal}`)
+            } catch (error) {
+                console.log(error);
+                this.$toast.error('Something went wrong');
+            }
+            this.results = res.data.users;
+            this.searching = false;
+        }
+    },
+    components: { PageLoader, TagResults }
 }
 </script>
 

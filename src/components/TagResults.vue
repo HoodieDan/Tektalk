@@ -1,9 +1,10 @@
-<<template>
+<template>
     <div class="select-modal">
         <!-- <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" /> -->
-        <div class="p-1">
-            <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />    
-            <div class="user">
+        <PageLoader class="m-5" :color="color" :height="40" :width="40" v-if="loading" />
+        <div class="p-1" v-for="user in users" :key="user.username" v-if="users !== null">
+            <!-- <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />     -->
+            <div class="user" @click="tag(user)">
                 <div class="row w-100">
                     <div class="col-2">
                         <div class="circular" >
@@ -52,7 +53,7 @@
             </div>
         </div>
         <div class="mt-5 mb-5" v-if="loading === false && users === []" >
-            <h6>There are no likes for this post at the moment</h6>
+            <h6>There are no matching users.</h6>
         </div>
     </div>
 </template>
@@ -61,12 +62,13 @@
 import axios from 'axios';
 import SingleUser from './SingleUser.vue';
 import ItemSkeleton from './ItemSkeleton.vue';
+import PageLoader from './PageLoader.vue';
 
 export default {
     name: 'TagResults',
     data() {
         return {
-
+            color: 'FFF',
         }
     },
     methods: {
@@ -74,40 +76,23 @@ export default {
             this.$emit('tag', user);
         }
     },
-    components: { SingleUser, ItemSkeleton },
-    props: [ 'query', 'number', 'users' ],
+    components: { SingleUser, ItemSkeleton, PageLoader },
+    props: [ 'users', 'loading' ],
 }
 </script>
 
 <style scoped>
 div.select-modal {
     width: 50vw;
-    max-height: 70vh;
+    max-height: 30vh;
     background: #222222;
     border-radius: 5px;
     margin: auto auto;
     position: relative;
     overflow-y: initial !important;
     overflow-x: hidden;
+    z-index: 10000000;
     /* border: 1px solid #A9A9A9; */
-}
-div.backdrop {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 100;
-}
-div.header {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #000;
-    /* border-bottom: 1px solid #A9A9A9; */
 }
 .close-modal {
     position: absolute;
@@ -116,6 +101,12 @@ div.header {
     background: transparent;
     border: none;
     z-index: 100001;
+}
+.user {
+    background-color: #000;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    cursor: pointer;
 }
 @media (max-width: 992px) {
     div.select-modal {

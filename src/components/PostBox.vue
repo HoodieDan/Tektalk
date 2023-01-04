@@ -17,7 +17,7 @@
                     <div class="row w-100">
                         <div class="col-lg-6 col-md-6 ">
                             <vee-field as="textarea" name="status" id="status" rows="2" :placeholder="placeholder"
-                            v-model="body"></vee-field>
+                            v-model="body" ref="body"></vee-field>
                         </div>
                         <div class="col-lg-6 col-md-6 buttons">
                             <div class="attached">
@@ -47,6 +47,7 @@
                 </vee-form>
             </div>
         </div>
+        <TagResults :loading="searching" :users="results" @tag="tag" v-if="show_tag_box" />
         <div v-if="noOfImages !== 0">
             <div
                 class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
@@ -87,6 +88,7 @@ import { postStore } from '../stores/post';
 import { authStore } from '../stores/auth';
 import PageLoader from './PageLoader.vue';
 import url from '../../includes/ImgUrl';
+import TagResults from './TagResults.vue';
 
 export default {
     name: "PostBox",
@@ -109,7 +111,10 @@ export default {
             status: "",
             user: null,
             upload_alert: "",
+            show_tag_box: false,
             loading: false,
+            searching: false,
+            results: null,
             show_upload_alert: false,
             color: 'FFF',
             images: [],
@@ -129,6 +134,21 @@ export default {
             }
             else {
                 return "alert";
+            }
+        },
+        isTag() {
+            let link = /@/;
+            const bodyArr = this.body.split(' ')
+
+            return link.test(bodyArr[bodyArr.length - 1]);
+        },
+        search() {
+            let link = /@/;
+            const bodyArr = this.body.split(' ')
+
+            if (link.test(bodyArr[bodyArr.length - 1])) {
+                const user = bodyArr[bodyArr.length - 1]
+                return user.slice(1);
             }
         }
     },
@@ -215,10 +235,56 @@ export default {
             resetForm();
             this.files = [];
             this.images = [];
+        },
+        tag(user) {
+            const bodyArr = this.body.split(' ');
+            bodyArr.pop()
+
+            bodyArr.push(`@${user.username}`)
+
+            this.body = bodyArr.join(' ')
+            this.show_tag_box = false;
+            this.$refs.body.$el.focus();
+        }
+    },
+    watch: {
+        async isTag(newVal) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            if (newVal === true) {
+                this.show_tag_box = true;
+                this.searching = true;
+                const bodyArr = this.body.split(' ');
+                const user = bodyArr[bodyArr.length - 1]
+                const search = user.slice(1)
+                let res;
+
+                try {
+                    res = await axios.get(`/tag-user?apiKey=${apiKey}&search=${search}`)
+                } catch (error) {
+                    console.log(error);
+                }
+                this.results = res.data.users;
+                this.searching = false;
+            } else {
+                this.show_tag_box = false;
+            }
+        },
+        async search(newVal) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            let res;
+
+            try {
+                res = await axios.get(`/tag-user?apiKey=${apiKey}&search=${newVal}`)
+            } catch (error) {
+                console.log(error);
+                this.$toast.error('Something went wrong');
+            }
+            this.results = res.data.users;
+            this.searching = false;
         }
     },
     props: ["placeholder", "category", "postedIn"],
-    components: { PageLoader }
+    components: { PageLoader, TagResults }
 }
 </script>
 
