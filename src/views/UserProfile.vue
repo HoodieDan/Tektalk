@@ -448,7 +448,7 @@ export default {
                 user_profile = await axios.get(`/profile/username/${this.$route.params.username}?apiKey=${apiKey}`);
             } catch (error) {    
                 if (error.response.data.message === 'User not found') {
-                    next({ name: 'Error' });
+                    this.$router.push({ name: 'Error' });
                     // this.$router.push({ name: 'Error' });
                 }
             }
