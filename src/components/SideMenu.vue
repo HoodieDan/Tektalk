@@ -35,7 +35,7 @@
                     </div>
                     <div class="talk-name">
                         <router-link :to="{ name: 'Talk', params: { talk: talk.name } }" class="talk-group"><span>{{ talk.name }}</span></router-link>
-                        <p class="members mb-1">5k members</p>
+                        <p class="members mb-1">{{ talk.memberCount }} members</p>
                     </div>
                 </div>
                 <div class="talk-btn mt-3">

@@ -108,6 +108,7 @@
                         <option value="Cloud Computing">Cloud Computing</option>
                         <option value="Game Development">Game Development</option>
                         <option value="CyberSecurity">CyberSecurity</option>
+                        <option value="Technical Writing">Technical Writing</option>
                         <option value="Guest">Guest</option>
                         <option value="I do not want to put myself in a box">I do not want to put myself in a box</option>
                         <option value="I am yet to decide">I am yet to decide</option>
@@ -238,29 +239,11 @@ export default {
             this.show_alert = false;
             this.loading = true;
             let formData = new FormData();
-            // fetch(this.profile.displayUrl)
-            //     .then(async response => {
-            //         const contentType = response.headers.get('content-type')
-            //         const blob = await response.blob()
-            //         const file = new File([blob], `${this.profile.name} profile`, { contentType })
-            //         // access file here
-                    
-            //         console.log(file);
-            // })
             if (this.profileUrl) {
                 formData.append('display', values.profileImage);
             } else if (!this.user.displayUrl) {
                 formData.append('noDisplay', 'true' );
             }
-            // fetch(this.profile.backdropUrl)
-            //     .then(async response => {
-            //         const contentType = response.headers.get('content-type')
-            //         const blob = await response.blob()
-            //         const file = new File([blob], `${this.profile.name} backdrop`, { contentType })
-            //         // access file here
-                    
-            //         console.log(file);
-            // })
             if (this.backdropUrl) {
                 formData.append('backdrop', values.backdropImage);
             } else if (!this.user.backdropUrl) {
@@ -277,29 +260,22 @@ export default {
             try {
                 updated = await axios.patch(`/profile/edit?apiKey=${apiKey}`, formData);
             } catch (error) {
-                this.show_alert = true;
+                // this.show_alert = true;
                 this.loading = false;
             
-                if (error.response.data.message === 'Email address already exists!') {
-                    this.alert_message = 'A user with this email already exixts.';
-                } else if (error.response.data.message === 'The username is already taken.') {
-                    this.alert_message = 'A user with this username already exists.';
-                } else {
-                    this.alert_message = 'An error occured, please try again later';
-                }
+                // if (error.response.data.message === 'Email address already exists!') {
+                //     this.alert_message = 'A user with this email already exixts.';
+                // } else if (error.response.data.message === 'The username is already taken.') {
+                //     this.alert_message = 'A user with this username already exists.';
+                // } else {
+                //     this.alert_message = 'An error occured, please try again later';
+                // }
+                this.$toast.error(error.response.data.message);
                 return;
             }
-            if (updated.status !== 200) {
-                this.loading = false;
-                this.show_alert = true;
-                this.alert_message = 'An error occured, please try again later.'
-                return;
-            } else {
-                this.loading = false
-                this.successful = true;
-                this.success_message = 'Profile updated successfuly!'
-                window.location.reload();
-            }
+            
+            this.$toast.success('Profile Updated Successfully');
+            window.location.reload();
         },
         profileImageUpload($event) {
             this.profileImg = [...$event.target.files];

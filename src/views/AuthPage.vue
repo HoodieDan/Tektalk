@@ -1,7 +1,7 @@
 <template>
   <div class="container-sm">
     <div class="text-center w-100">
-        <h1 class="text-gradient">Tt.</h1>
+        <h1 class="text-gradient no-underline">Tt.</h1>
         <h4>Join Tektalk</h4>
     </div>
     <router-link :to="{ name: 'SignUp' }" class="no-underline" >
@@ -16,7 +16,7 @@
     </div>
     <router-link :to="{ name: 'SignIn' }" class="no-underline" >
         <div class="talk-outline-btn w-100 mt-2">
-            <h5 class="text-gradient">Log In</h5>
+            <h5 class="text-gradient no-underline">Log In</h5>
         </div>
     </router-link>
     <p class="subtext mt-4">By signing in, you agree to the <span class="text-gradient">Terms of service</span>

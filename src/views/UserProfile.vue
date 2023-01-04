@@ -247,7 +247,6 @@ export default {
                 } else if (this.$route.query.tab === 'Talks') {
                     try {
                         talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
-                        console.log(talks);
                     } catch (error) {
                         this.$toast.error('An error occurred while loading Talks');
                         return;
@@ -670,13 +669,13 @@ button.talk-btn {
         margin-right: 0;
         margin-left: 0;
     }
+    div.info {
+        padding: 1.5rem 30px;
+    }
 }
 @media (max-width: 400px) {
     .circular {
         left: 30px;
-    }
-    div.info {
-        padding: 1.5rem 30px;
     }
     .other-talks span {
         display: none;

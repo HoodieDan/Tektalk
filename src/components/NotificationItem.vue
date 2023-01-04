@@ -6,14 +6,14 @@
                 <i class="fa-solid fa-heart"></i>
             </div>
             <div class="post col-lg-11 col-md-11 col-sm-11 col-10" v-if="notification.class === 'like'" >
-                <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
-                    <div class="circular" >
-                        <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
-                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
-                    </div>
-                </router-link>
                 <!-- router link to post -->
                 <router-link :to="{ name: 'Post', params: { postID: notification.postId } }" class="light no-underline" >
+                    <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
+                        <div class="circular" >
+                            <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
+                            <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                        </div>
+                    </router-link>
                     <p class="mb-1"	>
                         <router-link :to="{ name: 'Profile', params: { username: notification.username } }" class="no-underline text-gradient" >
                             @{{ notification.username }}
@@ -31,7 +31,7 @@
                 <i class="fa-solid fa-user-plus text-gradient"></i>
             </div>
             <div class="follow  col-lg-11 col-md-11 col-sm-11 col-10" v-if="notification.class === 'follow'" >
-                <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
+                <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.authorImage" alt="handsome" v-if="notification.displayUrl">
                         <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -54,7 +54,7 @@
                 <i class="fa-solid fa-quote-right text-gradient"></i>
             </div>
             <div class="mention col-lg-11 col-md-11 col-sm-11 col-10" v-if="notification.class === 'mention'" >
-                <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
+                <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
                         <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -77,7 +77,7 @@
                 <i class="fa-solid fa-comments"></i>
             </div>
             <div class="comment  col-lg-11 col-md-11 col-sm-11 col-10" v-if="notification.class === 'comment'" >
-                <router-link :to="{name: 'Profile', params: { username: notification.username }}" >
+                <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
                         <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
@@ -124,5 +124,8 @@ export default {
 }
 .fa-solid.fa-comments {
     color: #20BF55;
+}
+.user-link {
+    display: inline-block;
 }
 </style>

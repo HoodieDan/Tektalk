@@ -102,16 +102,17 @@ div.recommended {
     margin-bottom: 2rem;
 }
 div.recommendation {
-/* display: flex; */
-width: 100%;
-align-items: center;
-/* justify-content: space-between; */
-margin-bottom: 0.5rem;
-cursor: pointer;
-transition: all 0.5s;
+    /* display: flex; */
+    width: 100%;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.5s;
 }
 div.recommendation:hover {
   background-color: #191919;
+  border-radius: 7px;
 }
 .circular {
 border: 1px solid #A9A9A9;
@@ -137,12 +138,12 @@ margin: 0;
         display: none;
     }
     div.col-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
+        flex: 0 0 70%;
+        max-width: 70%;
     }
     div.col-4 {
-        flex: 0 0 50%;
-        max-width: 50%;
+        flex: 0 0 30%;
+        max-width: 30%;
     }
 }
 @media (max-width: 992px) {

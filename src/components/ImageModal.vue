@@ -81,10 +81,13 @@ div.backdrop {
 }
 .close-modal {
     position: absolute;
+    width: 2rem;
+    height: 2rem;
     top: 0.5rem;
     right: 0.5rem;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.5);
     border: none;
+    border-radius: 50%;
     z-index: 1000003;
 }
 .img-fluid {
@@ -98,18 +101,4 @@ div.backdrop {
 .img-fluid:hover {
     filter: none;
 }
-/* @media (max-width: 992px) {
-    div.select-modal {
-        width: 80vw;
-        height: auto;
-        max-height: 70vh;
-    }
-}
-@media (max-width: 575px) {
-    div.select-modal {
-        width: 90vw;
-        height: auto;
-        max-height: 80vh;
-    }
-} */
 </style>

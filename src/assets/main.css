@@ -103,10 +103,18 @@
     height: 2rem;
     border-radius: 32px;
     cursor: pointer;
-    transition: all 0.5s;
+    background-size: 200% 100%;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
 .talk-btn:hover {
-    background-position:200px; 
+    background-position: 100% 0; 
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
 }
 button.talk-btn {
     height: auto;
@@ -219,6 +227,18 @@ button.talk-btn {
         transform: translateX(0);
     }
 }
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 @media (min-width: 768px) {
     .container-sm {
         max-width: 500px;

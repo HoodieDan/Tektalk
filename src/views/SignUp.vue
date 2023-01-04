@@ -56,6 +56,7 @@
                 <option value="Cloud Computing">Cloud Computing</option>
                 <option value="Game Development">Game Development</option>
                 <option value="CyberSecurity">CyberSecurity</option>
+                <option value="Technical Writing">Technical Writing</option>
                 <option value="Guest">Guest</option>
                 <option value="I do not want to put myself in a box">I do not want to put myself in a box</option>
                 <option value="I am yet to decide">I am yet to decide</option>

@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="user-post light mt-3">
-                <p class="body-wrapper" ><span v-for="(item, i) in postArray" :key="i" v-cloak >
+                <p class="body-wrapper" v-if="post.postBody"><span v-for="(item, i) in postArray" :key="i" v-cloak >
                     <router-link :to="{ name: 'Profile', params: { username: shavedItem(item).slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
                         <!-- <span>{{ item }}</span> -->
                         {{ shavedItem(item) }} 

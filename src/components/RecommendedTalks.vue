@@ -7,15 +7,15 @@
         <ItemSkeleton :height='35' :number='5' :margin='13' />    
       </div>
       <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id" v-else >
-        <div class="col-2">
+        <div class="col-2 ps-0">
           <div class="circular">
             <img :src="talk.displayUrl" alt="talk image">
           </div>
         </div>
-        <div class="col-6 pe-0 ps-3">
+        <div class="col-6 pe-0 ps-lg-3">
           <div class="details">
             <h6 class="talk-name">{{ talk.name }}</h6>
-            <p class="subtext">1k members</p>
+            <p class="subtext">{{ talk.memberCount }} members</p>
           </div>
         </div>
         <div class="col-4 pe-0">
@@ -126,6 +126,7 @@ div.recommendation {
 }
 div.recommendation:hover {
   background-color: #191919;
+  border-radius: 5px;
 }
 .circular {
 border: 1px solid #A9A9A9;
@@ -162,15 +163,16 @@ div.cont {
 }
 @media (max-width: 1250px) {
     div.col-2 {
-        display: none;
+      display: none;
     }
     div.col-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
+      flex: 0 0 70%;
+      max-width: 70%;
+      padding-left: 5px !important;
     }
     div.col-4 {
-        flex: 0 0 50%;
-        max-width: 50%;
+      flex: 0 0 30%;
+      max-width: 30%;
     }
 }
 @media (max-width: 992px) {

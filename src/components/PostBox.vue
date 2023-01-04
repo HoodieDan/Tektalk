@@ -21,8 +21,8 @@
                         </div>
                         <div class="col-lg-6 col-md-6 buttons">
                             <div class="attached">
-                                <i class="fa-solid fa-paperclip" :class="iconClass"></i>
-                                <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
+                                <i class="fa-solid fa-paperclip no-underline" :class="iconClass"></i>
+                                <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient no-underline': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
                                 <p class="subtext mb-0 p-0 alert" v-else>{{ upload_alert }}</p>
                             </div>
                             <div class="file-input">
@@ -45,6 +45,36 @@
                     </div>
                     <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
                 </vee-form>
+            </div>
+        </div>
+        <div v-if="noOfImages !== 0">
+            <div
+                class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
+            >
+                <div :class="{ 'col-12 ps-0': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                    <button class="close-modal" @click="removeImage(images[0], files[0])">
+                        <i class="fa-solid fa-xmark light" />
+                    </button>
+                    <img
+                        :src="images[0]" 
+                        alt="" 
+                        class="br-5 p-0 user-img"
+                        :class="{ 'br-right': noOfImages > 1 }"
+                    >
+                </div>
+                <div
+                    class="col-6 ps-1" 
+                    v-if="noOfImages > 1"
+                >
+                    <button class="close-modal" @click="removeImage(images[1], files[1])">
+                        <i class="fa-solid fa-xmark light" />
+                    </button>
+                    <img
+                        :src="images[1]" 
+                        alt="" 
+                        class="br-5 p-0 user-img br-left"
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -70,7 +100,7 @@ export default {
     data() {
         return {
             schema: {
-                status: "required|min:1|max:200",
+                status: "min:0|max:200",
                 file_input: "",
                 loggedIn: false,
             },
@@ -90,6 +120,9 @@ export default {
         noOfFiles() {
             return this.files.length;
         },
+        noOfImages() {
+            return this.images.length;
+        },
         iconClass() {
             if (this.upload_alert === "") {
                 return "text-gradient";
@@ -100,6 +133,13 @@ export default {
         }
     },
     methods: {
+        removeImage(image, file) {
+            const index = this.images.indexOf(image);
+            const index2 = this.files.indexOf(file);
+
+            this.images.splice(index, 1);
+            this.files.splice(index2, 1);
+        },
         handleFileUpload($event) {
             this.files = [...$event.target.files];
             let pics = [];
@@ -153,9 +193,9 @@ export default {
 
                     return;
                 }
+                this.$toast.success('Posted Successfully');
             }
 
-            this.$toast.success('Posted Successfully');
             this.loading = false;
             this.$emit('posted', {
                 authorId: this.user.userId,
@@ -197,6 +237,17 @@ div.post-box {
 div.form > *, div.buttons > * {
     margin-right: 0.5rem;
 } */
+.close-modal {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    top: 0.5rem;
+    right: 1.2rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    z-index: 13;
+}
 textarea {
     background: transparent;
     backdrop-filter: blur(45px);
@@ -241,6 +292,33 @@ div.attached {
     background-color: transparent;
     color: #e7e9ea;
     cursor: default;
+}
+.img-fluid.col-6 {
+    border-radius: 5px;
+}
+img.user-img {
+    object-fit: cover !important;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    max-height: 400px;
+}
+.mentions {
+    border-top: 1px solid #222222;
+}
+.user-img:hover {
+    filter: opacity(0.8) drop-shadow(0 0 0 #000);
+}
+.col-6 {
+    padding: 0;
+}
+.br-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.br-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 @media (max-width: 330px) {
     .talk-btn {
