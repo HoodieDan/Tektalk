@@ -30,7 +30,7 @@
                         <div class="image">
                             <img :src="displayUrl" alt="new event image" v-if="displayUrl !== null && displayUrl !== 'none'">
                             <img :src="tekEvent.displayUrl" :alt="tekEvent + 'image'" v-if="tekEvent.displayUrl && displayUrl === null">
-                            <img src="https://ticketlinkz.com/wp-content/uploads/2014/12/EVENT-PLACEHOLDER.jpg" alt="placeholder image" v-if="(displayUrl === 'none' && displayUrl === null) && !tekEvent.displayUrl">
+                            <img src="https://ticketlinkz.com/wp-content/uploads/2014/12/EVENT-PLACEHOLDER.jpg" alt="placeholder image" v-if="(displayUrl === 'none' || displayUrl === null) && !tekEvent.displayUrl">
                         </div>
 
                         <vee-field
