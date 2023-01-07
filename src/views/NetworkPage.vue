@@ -109,6 +109,31 @@ export default {
             }
         });
     },
+    async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+
+        if (this.$route.query.q) {
+            this.searching = true;
+
+            let res;
+            try {
+                res = await axios.get(`/network/search?apiKey=${apiKey}&search=${this.$route.query.q}`)
+            }
+            catch (error) {
+                this.$toast.error("An error occurred");
+                this.searching = false;
+                return;
+            }
+
+            this.searching = false;
+            // console.log(res.data);
+            this.result.posts = res.data.posts;
+            this.result.users = res.data.users;
+            this.result.comments = res.data.comments;
+            this.result.events = res.data.events;
+            this.result.talks = res.data.talks;
+        }
+    },
     data() {
         return {
             search_in_progress: false,
@@ -146,7 +171,10 @@ export default {
                 q: this.query
             });
         },
-        query(newVal) {
+        async query(newVal) {
+            const apiKey = import.meta.env.VITE_API_KEY;
+            this.searching = true;
+
             if (newVal === this.$route.query.q) {
                 return;
             }
@@ -156,16 +184,7 @@ export default {
                     category: this.currentTab,
                 }
             });
-        },
-        async queryLength(newVal) {
-            const apiKey = import.meta.env.VITE_API_KEY;
-            this.searching = true;
-            if (newVal > 0) {
-                this.search_in_progress = true;
-            }
-            else {
-                this.search_in_progress = false;
-            }
+
             let res;
             try {
                 res = await axios.get(`/network/search?apiKey=${apiKey}&search=${newVal}`)
@@ -183,6 +202,14 @@ export default {
             this.result.comments = res.data.comments;
             this.result.events = res.data.events;
             this.result.talks = res.data.talks;
+        },
+        async queryLength(newVal) {
+            if (newVal > 0) {
+                this.search_in_progress = true;
+            }
+            else {
+                this.search_in_progress = false;
+            }
         }
     },
     components: { PageLoader, PostItem, SingleUser, Comment, SingleTalk }
