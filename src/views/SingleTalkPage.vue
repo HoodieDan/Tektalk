@@ -2,7 +2,43 @@
   <div class="container">
 
     <div class="banner p-3 mb-2 text-center">
+      <div class="bg"></div>
+      <div class="bg bg2"></div>
+      <div class="bg bg3"></div>
+        
+      <div class="content" v-if="talkDetails">
         <h5 class="bold" >Welcome to the {{ postedIn }} talk!</h5>
+
+        <div class="desc">
+          <p>{{ talkDetails.description }}</p> 
+        </div>
+
+        <p class="small text-left">No. of members: {{ talkDetails.memberCount }}</p>
+
+        <div class="row">
+          <div class="members d-flex col-lg-6">
+            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2 me-1" v-for="(user, i) in talkDetails.users" :key="i">
+                <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
+                <img
+                    src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
+                    alt="profile image" 
+                    v-else
+                >
+            </router-link>
+          </div>
+          <div class="col-lg-0 col-6"></div>
+          <div class="buttons col-lg-12 col-6">
+            <button class="talk-btn w-100 light" v-if="!talkDetails.memberOf" @click.self.prevent="join(talkDetails)" :disabled="progress" v-motion-pop >
+                <p class="mb-0" v-if="!progress" @click.self.prevent="join(talkDetails)" v-motion-pop >Join</p>
+                <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
+            </button>
+            <button class="talk-outline-btn light w-100" @click.self.prevent="leave(talkDetails)" :disabled="progress" v-motion-pop v-else >
+                <p class="mb-0" v-if="!progress" @click.self.prevent="leave(talkDetails)" v-motion-pop >Leave</p>
+                <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <PostBox
@@ -19,7 +55,7 @@
      :images="post.images" 
     />
 
-    <PageLoader :width="30" :height="30" :color="color" v-if="loading" v-motion-pop />
+    <PageLoader :width="20" :height="20" :color="color" v-if="loading" v-motion-pop />
   </div>
 </template>
 
@@ -41,10 +77,27 @@ export default {
     },
     async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
-      const res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1&filter=${to.params.talk}`)
+
+      let res;
+      let deets;
+
+      try {
+        deets = await axios.get(`/talk/talk-name/${to.params.talk}?apiKey=${apiKey}`)
+      } catch (error) {
+        return;
+      }
+      console.log(deets.data.talkInfo);
+
+      try {
+        res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1&filter=${to.params.talk}`)
+      } catch (error) {
+        return;
+      }
+
       next((vm) => {
         vm.posts = res.data.posts;
         vm.pageNumber = 2;
+        vm.talkDetails = deets.data.talkInfo;
       })
     },
     data() {
@@ -54,7 +107,9 @@ export default {
             posts: [],
             pageNumber: 1,
             loading: false,
+            progress: false,
             color: 'FFF',
+            talkDetails: null,
         }
     },
     computed: {
@@ -63,7 +118,7 @@ export default {
         }
     },
     methods: {
-        async getPosts() {
+      async getPosts() {
         const apiKey = import.meta.env.VITE_API_KEY;
         if (this.loading) {
           return;
@@ -95,9 +150,53 @@ export default {
         }
       },
       pushPost(data) {
-          this.posts.unshift(data);
+        this.posts.unshift(data);
       },
-    }
+      async join(talk) {
+        if (!localStorage.getItem('token')) {
+            this.$router.push({ name: 'Auth' })
+            return;
+        }
+        this.progress = true;
+        const apiKey = import.meta.env.VITE_API_KEY;
+        let res;
+
+        try {
+            res = await axios.put(`talk/join?apiKey=${apiKey}&talkId=${talk.id}`)
+        } catch (error) {
+            this.progress = false;
+            this.talkDetails.memberOf = true;
+            this.$toast.error(error.message);
+            return;
+        }
+        this.progress = false;
+        this.talkDetails.memberOf = true;
+        this.talkDetails.memberCount += 1;
+        this.$toast.success(res.data.message);
+      },
+      async leave(talk) {
+          if (!localStorage.getItem('token')) {
+              this.$router.push({ name: 'Auth' })
+              return;
+          }
+          this.progress = true;
+          const apiKey = import.meta.env.VITE_API_KEY;
+          let res;
+
+          try {
+              res = await axios.patch(`talk/leave?apiKey=${apiKey}&talkId=${talk.id}`)
+          } catch (error) {
+              this.progress = false;
+              this.talkDetails.memberOf = true;
+              this.$toast.error(error.response.data.message);
+              return;
+          }
+          this.progress = false;
+          this.talkDetails.memberOf = false;
+          this.talkDetails.memberCount -= 1;
+          this.$toast.success(res.data.message);
+      }
+  }
 }
 </script>
 
@@ -108,7 +207,7 @@ export default {
     background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 10px ), repeating-linear-gradient( #01BAEF, #20BF55 );
     border-radius: 5px;
 } */
-.banner {
+/* .banner {
     background-color: #e5e5f7;
     opacity: 1;
     background-image:  linear-gradient(135deg, #01BAEF 25%, transparent 25%), linear-gradient(225deg, #01BAEF 25%, transparent 25%), linear-gradient(45deg, #01BAEF 25%, transparent 25%), linear-gradient(315deg, #01BAEF 25%, #005c77 25%);
@@ -120,8 +219,53 @@ export default {
 .banner > * {
     opacity: 1;
     color: #e5e5f7;
+} */
+.banner {
+  max-width: 100%;
+  position: relative;
+  /* white-space:nowrap; */
+  overflow:hidden;
+  text-overflow:ellipsis;
+  border-radius: 5px;
+}
+.bg {
+  animation: slide 3s ease-in-out infinite alternate;
+  background: linear-gradient(to right, #20BF55, #01BAEF);
+  bottom: 0;
+  left: 0;
+  opacity: 0.5;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+}
+.bg2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+.bg3 {
+  animation-duration: 5s;
+}
+.talk-btn {
+  height: 2rem;
+}
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
 }
 .bold {
     font-weight: 700;
 }
+/* .desc {
+  max-width: 95%;
+  overflow: visible;
+  z-index: 10;
+}
+.desc p {
+  line-break: strict;
+} */
 </style>
