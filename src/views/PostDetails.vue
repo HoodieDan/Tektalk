@@ -141,7 +141,7 @@
         <AddComment @increase-comment="addOne" v-motion-pop />
     </div>
 
-    <div class="post" v-if="comments !== []">
+    <div class="post no-pointer" v-if="comments !== []">
         <h4 class="mb-0">Comments</h4>
     </div>
 

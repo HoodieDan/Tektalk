@@ -375,5 +375,9 @@ textarea {
         height: auto;
         max-height: 80vh;
     }
+    .py-3.px-5 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
 }
 </style>
