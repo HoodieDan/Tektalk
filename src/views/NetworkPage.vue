@@ -83,7 +83,6 @@ export default {
             return;
         }
 
-        console.log(to.query);
         next((vm) => {
             vm.currentUser = profile.data;
 
@@ -103,9 +102,10 @@ export default {
                         q: to.query.q,
                     }
                 });
-            }
-            else {
+            } else if (to.query.category) {
                 vm.currentTab = to.query.category;
+            } else {
+                vm.currentTab = 'users';
             }
         });
     },

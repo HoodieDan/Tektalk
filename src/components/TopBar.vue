@@ -5,7 +5,7 @@
         <div class="col-lg-8 col-md-8 col-sm-6 search-div">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input type="text" class="input field" placeholder="Explore" v-model="query" />
+                <input type="text" class="input field" placeholder="Find User" v-model="query" />
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser === null" >
