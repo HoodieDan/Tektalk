@@ -44,7 +44,7 @@
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                             <button class="talk-outline-btn light w-100" @click.self.prevent="leave(event)" :disabled="loading" v-motion-pop v-else >
-                                <p class="mb-0" v-if="!loading" @click.self.prevent="leave(event)" v-motion-pop >I will not attend</p>
+                                <p class="mb-0" v-if="!loading" @click.self.prevent="leave(event)" v-motion-pop >I won't attend</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                         </div>
