@@ -9,7 +9,7 @@
                     <h6 class="text-gradient" >{{ talk.name }}</h6>
                     <p class="mb-2"	>{{ talk.description }}</p>
                     <div class="row">
-                        <div class="col-lg-12 col-6 d-flex">
+                        <div class="col-12 d-flex">
                             <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2" v-for="(user, i) in talk.users" :key="i">
                                 <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
                                 <img
@@ -19,6 +19,7 @@
                                 >
                             </router-link>
                         </div>
+                        <div class="col-lg-0 col-6"></div>
                         <div class="col-lg-12 col-6">
                             <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk)" :disabled="loading" v-motion-pop >
                                 <p class="mb-0" v-if="!loading" @click.self.prevent="join(talk)" v-motion-pop >Join</p>
@@ -132,11 +133,9 @@ div.text {
     height: 2rem;
 }
 @media (max-width: 575px) {
-    /* .row > * {
-        padding-right: 1rem;
-    } */
-    /* .mb-2 {
-        margin-right: 0.25rem;
-    } */
+    .circular {
+        width: 1.7rem;
+        height: 1.7rem;
+    }
 }
 </style>

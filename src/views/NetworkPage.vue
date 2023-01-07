@@ -79,7 +79,7 @@ export default {
         try {
             profile = await axios.get(`/profile?apiKey=${apiKey}`);
         } catch (error) {
-            this.$toast.error('An error occured');
+            // this.$toast.error('An error occured');
             return;
         }
 

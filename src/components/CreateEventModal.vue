@@ -50,7 +50,7 @@
                     <label for="startTime">Start Time:</label>
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
-                        <vee-field name="startTime" id="startTime" type="datetime-local" class="date" placeholder="startTime" />
+                        <vee-field name="startTime" id="startTime" type="datetime-local" ref="afterTarget" class="date" placeholder="startTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
 
@@ -58,7 +58,7 @@
                     <label for="endTime">End Time:</label>
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
-                        <vee-field name="endTime" id="endTime" type="datetime-local" class="date" placeholder="endTime" />
+                        <vee-field name="endTime" id="endTime" type="datetime-local" ref="beforeTarget" class="date" placeholder="endTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>
 
@@ -139,15 +139,14 @@ export default {
             formData.append('location', values.location);
             formData.append('description', values.description);
 
-            let Created;
+            let created;
             try {
-                Created = await axios.post(`/event?apiKey=${apiKey}`, formData);
+                created = await axios.post(`/event?apiKey=${apiKey}`, formData);
             } catch (error) {
                 this.loading = false;
                 this.$toast.error(error.response.data.message);
                 return;
             }
-            console.log(Created);
             
             this.$emit('close');
             this.loading = false;
@@ -161,7 +160,7 @@ export default {
                 'startTime': values.startTime,
                 'endTime': values.endTime,
                 'willAttend': true,
-                'id': 1,
+                'id': created.data.eventId,
                 'name': values.name,
                 'admin': {
                     'username': this.currentUser.username,

@@ -44,7 +44,8 @@
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                             <button class="talk-outline-btn light w-100" @click.self.prevent="leave(event)" :disabled="loading" v-motion-pop v-else >
-                                <p class="mb-0" v-if="!loading" @click.self.prevent="leave(event)" v-motion-pop >I won't attend</p>
+                                <p class="mb-0 busy" v-if="!loading" @click.self.prevent="leave(event)" v-motion-pop >Busy</p>
+                                <p class="mb-0 wont" v-if="!loading" @click.self.prevent="leave(event)" v-motion-pop >I won't attend</p>
                                 <PageLoader :color="color" :height="15" :width="15" v-motion-pop v-else />
                             </button>
                         </div>
@@ -214,6 +215,9 @@ div.event {
 .open-edit:hover {
     color: #01BAEF;
 }
+.busy {
+    display: none;
+}
 .image img {
     object-fit: cover;
     height: 100%;
@@ -238,12 +242,12 @@ div.text {
 .creator {
     font-size: 0.7rem;
 }
-@media (max-width: 575px) {
-    /* .row > * {
-        padding-right: 1rem;
-    } */
-    /* .mb-2 {
-        margin-right: 0.25rem;
-    } */
+@media (max-width: 400px) {
+    .busy {
+        display: inline-block;
+    }
+    .wont {
+        display: none;
+    }
 }
 </style>

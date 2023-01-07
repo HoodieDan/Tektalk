@@ -5,7 +5,8 @@ import {
 import {
   required, min, max, email, alpha_spaces as alphaSpaces,
   min_value as minVal, max_value as maxVal, alpha_num as alphaNum,
-  confirmed, not_one_of as excluded,
+  confirmed, not_one_of as excluded, 
+  // after as afters, before as befores,
 } from '@vee-validate/rules';
 
 export default {
@@ -25,6 +26,8 @@ export default {
     defineRule('alpha_num', alphaNum);
     defineRule('passwords_mismatch', confirmed);
     defineRule('country_excluded', excluded);
+    // defineRule('after', afters);
+    // defineRule('before', befores);
 
     configure({
       generateMessage: (ctx) => {
@@ -40,6 +43,8 @@ export default {
           passwords_mismatch: 'The passwords do not match.',
           country_excluded: 'Due to restrictions, we do not accept users from this location anymore.',
           tos: 'You must accept the terms of service before using this app.',
+          // after: 'You cannot enter a time before startTime',
+          // before: 'You cannot enter a time after startTime',
         };
 
         const message = messages[ctx.rule.name] ? messages[ctx.rule.name] : `The field ${ctx.field} is invalid`;
