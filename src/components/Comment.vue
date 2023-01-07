@@ -1,6 +1,6 @@
 <template>
   <div class="container p-0">
-    <div class="comment" :id="comment.commentId" >
+    <div class="comment" :id="comment.commentId" @click="route(comment)" >
         <div class="delete" v-if="user !== null" >
             <i class="fa-solid fa-trash delete dark" v-if="canDelete && !loading" @click="deleteComment(comment.commentId)" ></i>
         </div>
@@ -100,6 +100,13 @@ export default {
         },
         mentionsLength() {
             return this.comment.mentions.length > 0
+        },
+        route(comment) {
+            if (this.$route.name === 'Post') {
+                return;
+            }
+
+            this.$router.push({ name: 'Post', params: { postID: comment.postId } });
         },
         isTag(item) {
             let link = /@/;

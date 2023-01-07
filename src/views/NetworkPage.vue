@@ -196,7 +196,7 @@ export default {
             }
 
             this.searching = false;
-            // console.log(res.data);
+            console.log(res.data);
             this.result.posts = res.data.posts;
             this.result.users = res.data.users;
             this.result.comments = res.data.comments;
