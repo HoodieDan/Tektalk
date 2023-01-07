@@ -294,17 +294,19 @@ export default {
             this.post.commentCount -= 1;
         },
         async deletePost() {
-            this.deleting = true;
-            this.show_alert = false;
-            const apiKey = import.meta.env.VITE_API_KEY;
-            try {
-                await axios.delete(`post?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
-            } catch (error) {
-                this.show_alert = true;
-                this.delete_alert = 'an error occured, please try again later'
-                return;
+            if (window.confirm('Delete Post?')) {
+                this.deleting = true;
+                this.show_alert = false;
+                const apiKey = import.meta.env.VITE_API_KEY;
+                try {
+                    await axios.delete(`post?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+                } catch (error) {
+                    this.show_alert = true;
+                    this.delete_alert = 'an error occured, please try again later'
+                    return;
+                }
+                this.$router.back();
             }
-            this.$router.back();
         },
         async shareViaWebShare() {
             // const blob = await (await fetch(this.post.authorImage)).blob();

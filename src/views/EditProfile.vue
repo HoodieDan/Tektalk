@@ -6,7 +6,7 @@
                 <h1 class="text-gradient">Tt.</h1>
                 <h3>Update Your Profile!</h3>
             </div>
-            <!-- registeration form  -->
+            <!-- registration form  -->
             <vee-form @submit="update" :validation-schema="schema">
 
                 <!-- backdrop image -->
@@ -14,7 +14,7 @@
                     <div class="d-flex">
                         <h6>Backdrop Image:</h6>
                         <p class="ms-auto clear mb-0" @click="backdropUrl = ''; user.backdropUrl = null">remove<i class="fa-solid fa-eraser"></i></p>
-                        <p class="ms-auto clear mb-0" v-if="backdropUrl !== ''" @click="backdropUrl = ''">revert<i class="fa-solid fa-eraser"></i></p>
+                        <p class="ms-auto clear mb-0" v-if="backdropUrl !== ''" @click="backdropUrl = ''">revert<i class="fa-solid fa-backward"></i></p>
                     </div>
                     <div class="backdrop">
                         <img v-if="user.backdropUrl !== null && backdropUrl === ''" :src="user.backdropUrl" alt="backdrop image" v-motion-pop >

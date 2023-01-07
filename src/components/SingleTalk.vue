@@ -10,9 +10,14 @@
                     <p class="mb-2"	>{{ talk.description }}</p>
                     <div class="row">
                         <div class="col-lg-12 col-6 d-flex">
-                            <div class="circular mb-2" v-for="(image, i) in talk.usersDisplayUrl" :key="i">
-                                <img :src="image" alt="member image">
-                            </div>
+                            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2" v-for="(user, i) in talk.users" :key="i">
+                                <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
+                                <img
+                                    src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
+                                    alt="profile image" 
+                                    v-else
+                                >
+                            </router-link>
                         </div>
                         <div class="col-lg-12 col-6">
                             <button class="talk-btn w-100 light" v-if="!talk.memberOf" @click.self.prevent="join(talk)" :disabled="loading" v-motion-pop >

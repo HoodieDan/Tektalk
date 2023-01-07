@@ -129,6 +129,9 @@ button.talk-btn {
 .other-talks:hover {
     color: #e7e9ea;
 }
+.pointer {
+    cursor: pointer;
+}
 .logo-text {
     font-weight: 700;
     background: linear-gradient(to right, #20BF55, #01BAEF);

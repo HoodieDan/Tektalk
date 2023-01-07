@@ -23,9 +23,9 @@
                  @click="openImage(profile.displayUrl)" 
                 >
                 <img
-                 src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
+                 src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
+                 :alt="profile.name"
                  @click="openImage('https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png')" 
-                 alt="profile image" 
                  v-else
                 >
             </div>
@@ -222,7 +222,7 @@ export default {
 
         if (localStorage.getItem('token')) {
             try {
-                profile = await axios.get(`/profile?apiKey=${apiKey}`)
+                profile = await axios.get(`/profile?apiKey=${apiKey}`);
             } catch (error) {
                 if (error.message === 'Unable to verify token') {
                     auth.signOut()
