@@ -47,7 +47,7 @@
                     <!-- name  -->
                     <label for="name">Event Name:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-solid fa-signature icon"></i>
+                        <i class="fa-solid fa-signature icon res-icon"></i>
                         <vee-field name="name" id="name" type="text" class="input field" placeholder="Name" v-model="tekEvent.name" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="name"></ErrorMessage>
@@ -55,7 +55,7 @@
                     <!-- startTime  -->
                     <label for="startTime">Start Time:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-regular fa-calendar-days icon"></i>
+                        <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="startTime" id="startTime" type="datetime-local" class="date" placeholder="startTime" v-model="tekEvent.startTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
@@ -63,7 +63,7 @@
                     <!-- endTime  -->
                     <label for="endTime">End Time:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-regular fa-calendar-days icon"></i>
+                        <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="endTime" id="endTime" type="datetime-local" class="date" placeholder="endTime" v-model="tekEvent.endTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>

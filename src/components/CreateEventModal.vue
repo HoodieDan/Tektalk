@@ -41,7 +41,7 @@
                     <!-- name  -->
                     <label for="name">Event Name:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-solid fa-signature icon"></i>
+                        <i class="fa-solid fa-signature icon res-icon"></i>
                         <vee-field name="name" id="name" type="text" class="input field" placeholder="Eg: GDG Devfest" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="name"></ErrorMessage>
@@ -49,7 +49,7 @@
                     <!-- startTime  -->
                     <label for="startTime">Start Time:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-solid fa-at icon"></i>
+                        <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="startTime" id="startTime" type="datetime-local" class="date" placeholder="startTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
@@ -57,7 +57,7 @@
                     <!-- endTime  -->
                     <label for="endTime">End Time:</label>
                     <div class="form-item mt-2 mb-3">
-                        <i class="fa-regular fa-envelope icon"></i>
+                        <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="endTime" id="endTime" type="datetime-local" class="date" placeholder="endTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>
@@ -75,13 +75,13 @@
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-solid fa-user-pen description-icon"></i>
                         <vee-field
-                        as="textarea" 
-                        rows="3" 
-                        name="description" 
-                        id="description" 
-                        type="text" 
-                        class="input field" 
-                        placeholder="Let others know something about your event!" 
+                            as="textarea" 
+                            rows="3" 
+                            name="description" 
+                            id="description" 
+                            type="text" 
+                            class="input field" 
+                            placeholder="Let others know something about your event!" 
                         />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="description"></ErrorMessage>
@@ -147,6 +147,7 @@ export default {
                 this.$toast.error(error.response.data.message);
                 return;
             }
+            console.log(Created);
             
             this.$emit('close');
             this.loading = false;
