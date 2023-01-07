@@ -238,7 +238,7 @@ div.post {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.tab:nth-of-type(3) {
+.tab:nth-of-type(4) {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
