@@ -86,7 +86,6 @@ export default {
       } catch (error) {
         return;
       }
-      console.log(deets.data.talkInfo);
 
       try {
         res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1&filter=${to.params.talk}`)

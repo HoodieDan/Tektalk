@@ -50,7 +50,7 @@
                     <label for="startTime">Start Time:</label>
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
-                        <vee-field name="startTime" id="startTime" type="datetime-local" ref="afterTarget" class="date" placeholder="startTime" />
+                        <vee-field name="startTime" v-model="start" id="startTime" type="datetime-local" ref="startTime" class="date" placeholder="startTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
 
@@ -58,7 +58,7 @@
                     <label for="endTime">End Time:</label>
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
-                        <vee-field name="endTime" id="endTime" type="datetime-local" ref="beforeTarget" class="date" placeholder="endTime" />
+                        <vee-field name="endTime" v-model="end" id="endTime" type="datetime-local" ref="endTime" class="date" placeholder="endTime" />
                     </div>
                     <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>
 
@@ -109,13 +109,15 @@ export default {
         return {
             color: 'FFF',
             loading: false,
+            start: '',
+            end: '',
             schema: {
                 profileImage: '',
                 name: "required|min:3|max:100",
-                endTime: "required",
-                startTime: "required",
+                endTime: `required`,
+                startTime: `required`,
                 location: "required",
-                description: "min:1|max:300",
+                description: "required|min:1|max:300",
             },
             eventImg: [],
             displayUrl: '',

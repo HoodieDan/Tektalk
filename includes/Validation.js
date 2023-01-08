@@ -5,7 +5,7 @@ import {
 import {
   required, min, max, email, alpha_spaces as alphaSpaces,
   min_value as minVal, max_value as maxVal, alpha_num as alphaNum,
-  confirmed, not_one_of as excluded, 
+  confirmed, not_one_of as excluded, between as between,
   // after as afters, before as befores,
 } from '@vee-validate/rules';
 
@@ -26,6 +26,7 @@ export default {
     defineRule('alpha_num', alphaNum);
     defineRule('passwords_mismatch', confirmed);
     defineRule('country_excluded', excluded);
+    defineRule('between', between);
     // defineRule('after', afters);
     // defineRule('before', befores);
 
@@ -44,8 +45,10 @@ export default {
           country_excluded: 'Due to restrictions, we do not accept users from this location anymore.',
           tos: 'You must accept the terms of service before using this app.',
           // after: 'You cannot enter a time before startTime',
-          // before: 'You cannot enter a time after startTime',
+          // before: `You cannot enter a time before the ${ctx.rule.params}`,
+          between: `You must enter a date between ${ctx.rule.params[0]} and ${ctx.rule.params[1]}`,
         };
+        console.log(ctx);
 
         const message = messages[ctx.rule.name] ? messages[ctx.rule.name] : `The field ${ctx.field} is invalid`;
         return message;

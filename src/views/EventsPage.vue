@@ -13,6 +13,13 @@
         <div>
             <CreateEventModal :current-user="currentUser" v-if="openCreateEventModal" @push="push" @close="openCreateEventModal = false" v-motion-pop />
         </div>
+
+        <div v-if="events">
+            <div class="no-results mt-3 mb-3" v-if="events.length == 0">
+                <h5>No events available...</h5>
+            </div>
+        </div>
+
     </div>
 </template>
 

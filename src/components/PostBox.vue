@@ -1,7 +1,8 @@
 <template>
-  <div class="" v-if="user !== null">
+  <div class="">
     <div class="post-box">
-        <div class="row">
+        <PostBoxSkeleton v-if="user === null" />
+        <div class="row" v-else>
             <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
                 <div class="circular">
                     <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl !== null" >
@@ -89,6 +90,7 @@ import { authStore } from '../stores/auth';
 import PageLoader from './PageLoader.vue';
 import url from '../../includes/ImgUrl';
 import TagResults from './TagResults.vue';
+import PostBoxSkeleton from './PostBoxSkeleton.vue';
 
 export default {
     name: "PostBox",
@@ -216,22 +218,26 @@ export default {
                 this.$toast.success('Posted Successfully');
             }
 
+            if (this.body === '' && !this.files === []) {
+                this.$toast.error('Post body and files cannot be empty.')
+            } else {
+                this.$emit('posted', {
+                    authorId: this.user.userId,
+                    authorImage: this.user.displayUrl,
+                    commentCount: 0,
+                    images: this.images,
+                    isVerified: this.user.verified,
+                    likeCount: 0,
+                    name: this.user.name,
+                    postBody: this.body,
+                    postDate: new Date().toString(),
+                    postId: res.data.postId,
+                    postedIn: this.postedIn,
+                    username: this.user.username,
+                    mentions: this.mentions,
+                })
+            }
             this.loading = false;
-            this.$emit('posted', {
-                authorId: this.user.userId,
-                authorImage: this.user.displayUrl,
-                commentCount: 0,
-                images: this.images,
-                isVerified: this.user.verified,
-                likeCount: 0,
-                name: this.user.name,
-                postBody: this.body,
-                postDate: new Date().toString(),
-                postId: res.data.postId,
-                postedIn: this.postedIn,
-                username: this.user.username,
-                mentions: this.mentions,
-            })
             resetForm();
             this.files = [];
             this.images = [];
@@ -284,7 +290,7 @@ export default {
         }
     },
     props: ["placeholder", "category", "postedIn"],
-    components: { PageLoader, TagResults }
+    components: { PageLoader, TagResults, PostBoxSkeleton }
 }
 </script>
 

@@ -1,10 +1,16 @@
 <template>
   <div class="container">
-    <div class="head mb-4">
+    <div class="head no-results mb-4">
         <h3>Notifications</h3>
     </div>
     <PageLoader :color="color" :height="30" :width="30" v-if="notifications === null" class="mt-5" />
-    <h4 v-if="notifications === []" >No new notifications to show.</h4>
+    
+    <div v-if="notifications">
+      <div class="no-results mt-3 mb-3" v-if="notifications.length == 0">
+        <h5>No notificatios to display...</h5>
+      </div>
+    </div>
+
     <NotificationItem v-for="notification in notifications" :key="notification._id" :notification="notification" />
   </div>
 </template>
@@ -28,10 +34,9 @@ export default {
         };
     },
     components: { NotificationItem, PageLoader },
-    async beforeRouteLeave (to, from, next) {
+    async beforeDestroy () {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.patch(`seen-notifications?apiKey=${apiKey}`);
-        next();
     }
 }
 </script>

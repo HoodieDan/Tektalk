@@ -178,6 +178,12 @@
      :loggedInUser="loggedInUser"
      v-motion-pop
     />
+
+    <div v-if="posts || talks">
+        <div v-if="(posts.length == 0 || talks.length == 0) && !posts_loading" class="no-results">
+            <h5>Nothing to display.</h5>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -328,6 +334,11 @@ export default {
             if (this.posts_loading) {
                 return;
             }
+            if (this.posts) {
+                if (this.posts.length < 25) {
+                    return;
+                }
+            }
             const apiKey = import.meta.env.VITE_API_KEY;
             this.posts_loading = true;
             if (this.currentTab === 'Talks') {
@@ -466,7 +477,6 @@ export default {
             } else if (this.$route.query.tab === 'Talks') {
                 try {
                     talks = await axios.get(`/talk/username/${this.$route.params.username}?apiKey=${apiKey}`);
-                    console.log(talks);
                 } catch (error) {
                     this.$toast.error('An error occurred while loading Talks');
                     return;
@@ -542,7 +552,7 @@ export default {
             return 
         },
         noPosts() {
-            return ((!this.posts) && this.posts_loading === false);
+            return ((this.posts == []) && this.posts_loading === false);
         }
     },
     // beforeRouteLeave (to, from, next) {

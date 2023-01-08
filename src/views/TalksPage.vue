@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <h5 class="ms-2" >Your Talks</h5>
+    <div class="no-results">
+      <h5 class="ms-2" >Your Talks</h5>
+    </div>
     <div v-for="talk in userTalks" :key="talk.id" class="mb-2">
       <SingleTalk :talk="talk" v-if="userTalks !== []" @leave="removeTalk" />
     </div>
-    <h6 class="mt-3 mb-3 text-gradient" v-if="noTalks" >No talks to show.</h6>
 
-    <div class="mt-4" >
+    <div v-if="userTalks">
+      <div class="no-results mt-3 mb-3" v-if="userTalks.length == 0">
+        <h5>No talks to show...</h5>
+      </div>
+    </div>
+
+    <div class="mt-5 no-results" >
       <h5 class="ms-2" >Other Talks</h5>
     </div>
-    <div v-for="talk in allTalks" :key="talk.id" class="mb-2">
+    <div v-for="talk in allTalks" :key="talk.id" class="mb-2" >
       <SingleTalk :talk="talk" @join="pushTalk" />
     </div>
   </div>
