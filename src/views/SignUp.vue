@@ -83,7 +83,7 @@
 
         <!-- register button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="reg_in_submission">
-            <PageLoader :color="color" :height="30" :width="30" v-motion-pop v-if="reg_in_submission" />
+            <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="reg_in_submission" />
             <h5 class="light mt-2 mb-2" v-motion-pop v-else>Register!</h5>
         </button>
 

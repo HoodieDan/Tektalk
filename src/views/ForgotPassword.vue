@@ -16,7 +16,7 @@
         <!-- submit button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5">
             <!-- show loader if logging user in and show button text if not  -->
-            <PageLoader :width="30" :height="30" :color="color" v-if="email_in_submission" v-motion-pop />
+            <PageLoader :width="20" :height="20" :color="color" v-if="email_in_submission" v-motion-pop />
             <h5 class="light mt-2 mb-2" v-motion-pop v-else>Submit!</h5>
         </button>
 

@@ -123,7 +123,7 @@
         </div>
     </div>
 
-    <PageLoader class="mb-5" :width="60" :color="color" :height="60" v-else />
+    <PageLoader class="mb-5 mt-5" :width="20" :color="color" :height="20" v-else />
 
     <!-- Like and Share Buttons -->
     <div class="like-and-share row" >

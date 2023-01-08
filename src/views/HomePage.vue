@@ -6,20 +6,31 @@
         keywords="Tektalk"
         url="https://tektalk.vercel.app"
     />
+
     <PostBox 
      :placeholder="placeholder"
      :category="category"
      :postedIn="postedIn"
      @posted="pushPost"
     />
+
     <PostItem
      v-for="post in posts" 
      :key="post.postId" 
      :post="post" 
      :images="post.images" 
     />
+
+    <div v-if="posts">
+      <div class="no-results mt-3 mb-3" v-if="posts.length == 0">
+        <p class="mb-0">No posts to display... <br>
+          Find more users in the Network Page
+        </p>
+      </div>
+    </div>
+
     <!-- <button @click="getPosts">Get</button> -->
-    <PageLoader :width="30" :height="30" :color="color" v-if="loading" v-motion-pop />
+    <PageLoader :width="20" :height="20" :color="color" v-if="loading" v-motion-pop />
   </div>
 </template>
 

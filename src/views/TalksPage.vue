@@ -9,7 +9,7 @@
 
     <div v-if="userTalks">
       <div class="no-results mt-3 mb-3" v-if="userTalks.length == 0">
-        <h5>No talks to show...</h5>
+        <p class="mb-0">No talks to display...</p>
       </div>
     </div>
 

@@ -16,7 +16,7 @@
 
         <div v-if="events">
             <div class="no-results mt-3 mb-3" v-if="events.length == 0">
-                <h5>No events available...</h5>
+                <p class="mb-0">No events available at the moment...</p>
             </div>
         </div>
 

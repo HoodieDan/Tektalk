@@ -3,11 +3,11 @@
     <div class="head no-results mb-4">
         <h3>Notifications</h3>
     </div>
-    <PageLoader :color="color" :height="30" :width="30" v-if="notifications === null" class="mt-5" />
+    <PageLoader :color="color" :height="20" :width="20" v-if="notifications === null" class="mt-5" />
     
     <div v-if="notifications">
       <div class="no-results mt-3 mb-3" v-if="notifications.length == 0">
-        <h5>No notificatios to display...</h5>
+        <p class="mb-0">No notifications to display...</p>
       </div>
     </div>
 

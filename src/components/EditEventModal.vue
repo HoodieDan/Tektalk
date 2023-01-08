@@ -11,7 +11,7 @@
             </div>
 
             <div class="mt-5 mb-5" v-if="findingEvent">
-                <PageLoader :color="color" :height="30" :width="30" />
+                <PageLoader :color="color" :height="20" :width="20" />
             </div>
 
             <div class="py-3 px-5" v-else>

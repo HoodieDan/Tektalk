@@ -137,7 +137,7 @@
                 <!-- update button  -->
                 <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="loading">
                     <h5 class="light mt-2 mb-2 update" v-motion-pop v-if="!loading">Update!</h5>
-                    <PageLoader :color="color" :height="30" :width="30" v-motion-pop v-else />
+                    <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-else />
                 </button>
 
                 <!-- update error message  -->

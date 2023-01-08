@@ -169,7 +169,7 @@
             <SingleTalk :talk="talk" @leave="removeTalk" />
         </div>
     </div>
-    <PageLoader :color="color" :height="40" :width="40" class="mt-2 mb-2" v-if="posts_loading" />
+    <PageLoader :color="color" :height="20" :width="20" class="mt-2 mb-2" v-if="posts_loading" />
     <FollowModal
      v-if="followModalOpen"
      @close="followModalOpen = false"
@@ -181,7 +181,7 @@
 
     <div v-if="posts || talks">
         <div v-if="(posts.length == 0 || talks.length == 0) && !posts_loading" class="no-results">
-            <h5>Nothing to display.</h5>
+            <p class="mb-0">No {{ currentTab }} to display.</p>
         </div>
     </div>
   </div>
