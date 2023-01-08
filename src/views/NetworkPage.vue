@@ -19,31 +19,47 @@
             </div>
 
             <!-- tabs -->
-            <div class="tabs mt-3 mb-3">
+            <div class="tabs mt-3 mb-1">
                 <div class="row">
                     <!-- posts  -->
-                    <div class="col-lg-3 col-md-3 col-3 b-r text-center tab" :class="{ 'active-tab': this.currentTab === 'users' }" @click="this.currentTab = 'users'">
-                        <h6 class="mt-2 mb-2">Users</h6>
+                    <div class="col-4 b-r text-center tab" :class="{ 'active-tab': this.currentTab === 'users' }" @click="this.currentTab = 'users'">
+                        <h6 class="mt-2 mb-2 tab-text">Users</h6>
                     </div>
 
                     <!-- Contributions  -->
-                    <div class="col-lg-3 col-md-3 col-3 b-r text-center tab" :class="{ 'active-tab': this.currentTab === 'talks' }" @click="this.currentTab = 'talks'">
-                        <h6 class="mt-2 mb-2">Talks</h6>
+                    <div class="col-4 b-r text-center tab" :class="{ 'active-tab': this.currentTab === 'talks' }" @click="this.currentTab = 'talks'">
+                        <h6 class="mt-2 mb-2 tab-text">Talks</h6>
                     </div>
 
                     <!-- Talks  -->
-                    <div class="col-lg-3 col-md-3 col-3 text-center b-r tab" :class="{ 'active-tab': this.currentTab === 'posts' }" @click="this.currentTab = 'posts'">
-                        <h6 class="mt-2 mb-2">Posts</h6>
+                    <div class="col-4 text-center tab" :class="{ 'active-tab': this.currentTab === 'posts' }" @click="this.currentTab = 'posts'">
+                        <h6 class="mt-2 mb-2 tab-text">Posts</h6>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <div class="tabs mb-3 mt-3">
+                <div class="row">
+                    <!-- Comments  -->
+                    <div class="col-6 text-center tab b-r" :class="{ 'active-tab': this.currentTab === 'comments' }" @click="this.currentTab = 'comments'">
+                        <h6 class="mt-2 mb-2 tab-text">Comments</h6>
                     </div>
 
-                    <!-- Comments  -->
-                    <div class="col-lg-3 col-md-3 col-3 text-center tab" :class="{ 'active-tab': this.currentTab === 'comments' }" @click="this.currentTab = 'comments'">
-                        <h6 class="mt-2 mb-2">Comments</h6>
+                    <div class="col-6 tab text-center" :class="{ 'active-tab': this.currentTab === 'events' }" @click="this.currentTab = 'events'">
+                        <h6 class="mt-2 mb-2 tab-text">Events</h6>
                     </div>
                 </div>
             </div>
 
             <div>
+                <div v-if="result[thisCategory]">
+                    <div class="no-results mt-3 mb-3" v-if="result[thisCategory].length == 0">
+                        <p class="mb-0">No results for {{ thisCategory }}...</p>
+                    </div>
+                </div>
+
                 <div class="mt-5 mb-5" v-if="searching">
                     <PageLoader :height="20" :width="20" :color="color" />
                 </div>
@@ -55,7 +71,9 @@
 
                     <Comment :comment="comment" v-for="comment in result.comments" :key="comment.id" :user="currentUser" v-else-if="currentTab === 'comments'" />
 
-                    <SingleTalk :talk="talk" v-for="talk in result.talks" :key="talk.id" v-else-if="currentTab === 'talks'" />
+                    <SingleTalk :talk="talk" v-for="talk in result.talks" :key="talk.id" v-else-if="currentTab === 'talks'" class="mb-2" />
+
+                    <SingleEvent :event="event" v-for="event in result.events" :key="event.id" v-else-if="currentTab === 'events'" />
                 </div>
             </div>
         </div>
@@ -67,6 +85,7 @@ import axios from 'axios';
 import Comment from '../components/Comment.vue';
 import PageLoader from '../components/PageLoader.vue';
 import PostItem from '../components/PostItem.vue';
+import SingleEvent from '../components/SingleEvent.vue';
 import SingleTalk from '../components/SingleTalk.vue';
 import SingleUser from '../components/SingleUser.vue';
 
@@ -154,6 +173,9 @@ export default {
     computed: {
         queryLength() {
             return this.query.length;
+        },
+        thisCategory() {
+            return this.$route.query.category;
         }
     },
     methods: {
@@ -214,7 +236,7 @@ export default {
             }
         }
     },
-    components: { PageLoader, PostItem, SingleUser, Comment, SingleTalk }
+    components: { PageLoader, PostItem, SingleUser, Comment, SingleTalk, SingleEvent }
 }
 </script>
 
@@ -240,7 +262,7 @@ div.post {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.tab:nth-of-type(4) {
+.tab:nth-of-type(3), .tab:nth-of-type(5) {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -291,5 +313,13 @@ input[type='text'] {
 }
 input:focus {
     outline-style: 1px solid linear-gradient(to right, #20BF55, #01BAEF);
+}
+@media (max-width: 390px) {
+    .tab-text {
+        font-size: small;
+    }
+    .tabs {
+        padding: 0.7rem 1rem;
+    }
 }
 </style>

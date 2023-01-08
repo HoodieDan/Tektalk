@@ -82,7 +82,9 @@ export default {
         try {
           profile = await axios.get(`/profile?apiKey=${apiKey}`)
         } catch (error) {
-          this.$toast.error(error.response.data.message);
+
+          this.$toast.error('An error occured. Please try again later.');
+
           if (error.response.data.message === 'Unable to verify token') {
             auth.signOut()
             localStorage.clear()

@@ -179,11 +179,18 @@
      v-motion-pop
     />
 
-    <div v-if="posts || talks">
-        <div v-if="(posts.length == 0 || talks.length == 0) && !posts_loading" class="no-results">
+    <div v-if="posts && (currentTab === 'Posts' || currentTab === 'Contributions')">
+        <div v-if="(posts.length == 0) && !posts_loading" class="no-results">
             <p class="mb-0">No {{ currentTab }} to display.</p>
         </div>
     </div>
+
+    <div v-if="talks && currentTab === 'Talks'">
+        <div v-if="talks.length == 0 && !posts_loading" class="no-results">
+            <p class="mb-0">No talks to display.</p>
+        </div>
+    </div>
+
   </div>
 </template>
 
