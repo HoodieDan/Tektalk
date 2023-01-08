@@ -48,7 +48,6 @@ export default {
           // before: `You cannot enter a time before the ${ctx.rule.params}`,
           between: `You must enter a date between ${ctx.rule.params[0]} and ${ctx.rule.params[1]}`,
         };
-        console.log(ctx);
 
         const message = messages[ctx.rule.name] ? messages[ctx.rule.name] : `The field ${ctx.field} is invalid`;
         return message;

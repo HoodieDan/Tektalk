@@ -167,8 +167,10 @@ export default {
                 return;
             }
             this.$router.push({
-                category: newVal,
-                q: this.query
+                query: {
+                    category: newVal,
+                    q: this.query
+                }
             });
         },
         async query(newVal) {
@@ -196,7 +198,7 @@ export default {
             }
 
             this.searching = false;
-            console.log(res.data);
+            // console.log(res.data);
             this.result.posts = res.data.posts;
             this.result.users = res.data.users;
             this.result.comments = res.data.comments;
