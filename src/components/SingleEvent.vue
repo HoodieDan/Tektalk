@@ -164,9 +164,6 @@ export default {
         format(date) {
             const dat = new Date(date)
             return this.timePosted(dat) + ' on ' + this.datePosted(dat);
-            // const dat = date.split('T');
-            // const res =  dat[0] + '' + dat[1]
-            // return res;
         },
         async deleteEvent(eve) {
             const apiKey = import.meta.env.VITE_API_KEY;
