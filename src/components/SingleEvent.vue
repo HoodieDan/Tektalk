@@ -155,9 +155,15 @@ export default {
         edit(values) {
             this.$emit('edit', values)
         },
+        timePosted(dat) {
+            return dat.toString().slice(16,21);
+        },
+        datePosted(dat) {
+            return dat.toString().slice(4,15);
+        },
         format(date) {
             const dat = new Date(date)
-            return dat;
+            return this.timePosted(dat) + ' on ' + this.datePosted(dat);
             // const dat = date.split('T');
             // const res =  dat[0] + '' + dat[1]
             // return res;
