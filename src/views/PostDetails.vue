@@ -336,7 +336,7 @@ export default {
             return link.test(item);
         },
         shavedItem(item) {
-            return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
+            return item.split(/[-\s!$%^&*()+~=`{}\[\]:";.?.\/]/)[0];
         }
     },
     async created() {

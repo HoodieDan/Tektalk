@@ -262,7 +262,11 @@ div.post {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.tab:nth-of-type(3), .tab:nth-of-type(5) {
+.tab:nth-of-type(3) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.tab:nth-of-type(5) {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
