@@ -147,7 +147,7 @@ export default {
             (this.user.username === 'ndujekwu'))
         },
         postArray() {
-            return this.comment.commentBody.split(' ');
+            return this.comment.commentBody.split(/[-\s^*+|~`\[\]]/);
         }
     },
     props: ["comment", "user"],

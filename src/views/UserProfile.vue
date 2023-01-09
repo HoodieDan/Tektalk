@@ -378,9 +378,9 @@ export default {
 
                 if (posts.data.posts.length !== 0) {
                     this.posts_loading = false;
-                    posts.data.posts.forEach((post) => {
-                    this.posts.push(post);
-                    })
+                    if (this.posts) {
+                        this.posts.push(...posts.data.posts)
+                    }
                     this.postPageNumber += 1;
                 } else {
                     this.posts_loading = false;
