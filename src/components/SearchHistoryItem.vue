@@ -44,6 +44,8 @@ export default {
 }
 .close-modal {
     background-color: #000;
+    outline: none;
+    border: none;
 }
 .close-modal.fa-solid { 
     width: 35px;
