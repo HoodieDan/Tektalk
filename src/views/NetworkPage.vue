@@ -241,7 +241,7 @@ export default {
             this.history.unshift(x)
         },
         async saveSearch() {
-            this.history.shift({
+            this.history.unshift({
                 'search': this.query,
                 'searchId': 1,
             });
