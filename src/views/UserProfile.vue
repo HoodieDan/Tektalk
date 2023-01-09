@@ -288,6 +288,7 @@ export default {
                 this.postPageNumber = 2;
             }
 
+            // console.log(posts.data.posts);
             this.profile = user_profile.data;
         }
     },
@@ -341,11 +342,11 @@ export default {
             if (this.posts_loading) {
                 return;
             }
-            if (this.posts) {
-                if (this.posts.length < 25) {
-                    return;
-                }
-            }
+            // if (this.posts) {
+            //     if (this.posts.length < 25) {
+            //         return;
+            //     }
+            // }
             const apiKey = import.meta.env.VITE_API_KEY;
             this.posts_loading = true;
             if (this.currentTab === 'Talks') {

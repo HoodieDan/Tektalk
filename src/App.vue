@@ -10,9 +10,12 @@
     <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
     <BottomMenu  v-if="!$route.meta.hideNavbar" />
     <div class="row main-row">
+      <!-- menu  -->
       <div class="col-lg-2 col-md-1 side-menu">
         <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
       </div>
+
+      <!-- router view -->
       <div class="col-lg-7 col-md-11 pad middle">
         <router-view v-slot="{ Component }" >
           <transition name="fade" mode="out-in">
@@ -21,8 +24,10 @@
         </router-view>
         <ImageModal v-if="showImage" v-motion-pop />
       </div>
+
+      <!-- Suggestions -->
       <div class="col-lg-3 col-0">
-        <Suggestions class="pad" :suggestedTalks="suggestedTalks"  v-if="!$route.meta.hideNavbar"/>
+        <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
       </div>
     </div>
   </div>
@@ -130,11 +135,6 @@ export default {
       ImageModalOpen() {
         this.showImage = !this.showImage;
       },
-      // currentRoute() {
-      //   if (this.user.unreadNotifications) {
-      //     this.user.unreadNotifications = false;
-      //   }
-      // }
     },
     components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader },
 }
@@ -151,6 +151,10 @@ export default {
     to {
         opacity: 0;
     }
+}
+.sugg {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .side-menu {
   padding: 0;

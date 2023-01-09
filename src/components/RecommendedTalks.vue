@@ -6,7 +6,7 @@
       <div v-if="suggestedTalks.length === 0">
         <ItemSkeleton :height='35' :number='5' :margin='13' />    
       </div>
-      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id" v-else >
+      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id" @click.self="redirect(talk)" v-else >
         <div class="col-2 ps-0">
           <div class="circular">
             <img :src="talk.displayUrl" alt="talk image">
@@ -21,11 +21,11 @@
         <div class="col-4 pe-0">
           <!-- follow button  -->
           <button class="talk-btn w-100" v-if="!talk.memberOf" :disabled="join_in_progress" v-motion-pop @click.prevent="join(talk)">
-              <p class="other-talks mb-0 foll" >Join</p>
+              <p class="other-talks mb-0 foll" @click.prevent="join(talk)" >Join</p>
           </button>
           <!-- unfollow button  -->
           <button class="talk-outline-btn w-100 h-100" :disabled="join_in_progress" v-motion-pop @click.prevent="leave(talk)" v-else >
-              <p class="other-talks mb-0 foll" >Leave</p>
+              <p class="other-talks mb-0 foll" @click.prevent="leave(talk)" >Leave</p>
           </button>
         </div>
       </div>
@@ -76,6 +76,7 @@ export default {
             
             this.$toast.success('Joined Talk Successfully!');
             talk.memberOf = true;
+            talk.memberCount += 1;
         },
         async leave(talk) {
             if (!localStorage.getItem('token')) {
@@ -95,6 +96,20 @@ export default {
             }
             this.$toast.success('Left Talk Successfully!');
             talk.memberOf = false;
+            talk.memberCount -= 1;
+        },
+        redirect(talk) {
+          if (!localStorage.getItem('token')) {
+              this.$router.push({ name: 'Auth' })
+              return;
+          }
+
+          this.$router.push({
+            name: 'Talk', 
+            params: { 
+              talk: talk.name 
+            } 
+          })
         }
     },
     props: [ 'suggestedTalks' ],
@@ -119,6 +134,7 @@ div.recommendation {
   width: 100%;
   align-items: center;
   /* justify-content: space-between; */
+  padding: 0.5rem;
   margin-bottom: 0.5rem;
   margin-right: 0;
   cursor: pointer;

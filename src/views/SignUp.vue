@@ -102,7 +102,7 @@ export default {
     data() {
         return {
             schema: {
-                name: "required|min:3|max:100|alpha_spaces",
+                name: "required|min:1|max:50|alpha_spaces",
                 email: "required|min:11|max:100|email",
                 username: "required|min:1|max:25",
                 password: "required|min:8|max:30",

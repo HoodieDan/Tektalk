@@ -24,6 +24,28 @@ export default {
         suggested: null,
       }
     },
+    methods: {
+      followUser(user) {
+        const found = this.suggested.find((use) => {
+          return use.username === user.username;
+        })
+
+        found.isFolowing = true;
+      },
+      unfollowUser(user) {
+        const found = this.suggested.find((use) => {
+          return use.username === user.username;
+        })
+
+        found.isFolowing = false;
+      },
+      joinTalk(talk) {
+        this.$emit('join', talk)
+      },
+      leaveTalk(talk) {
+        this.$emit('leave', talk)
+      }
+    },
     props: [ 'suggestedTalks' ],
 }
 </script>

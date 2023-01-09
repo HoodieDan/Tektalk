@@ -134,7 +134,7 @@ export default {
             findingEvent: true,
             schema: {
                 profileImage: '',
-                name: "required|min:3|max:100",
+                name: "required|min:3|max:25",
                 endTime: "required",
                 startTime: "required",
                 location: "required",

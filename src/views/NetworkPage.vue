@@ -15,7 +15,7 @@
             <div>
 
                 <div v-if="!getting_history">
-                    <SingleHistoryItem v-for="historyItem in history" :key="historyItem.id" :history-item="historyItem" @del="deleteHistoryItem" @search="searchAgain" />
+                    <SingleHistoryItem v-for="historyItem in history" :key="historyItem.searchId" :history-item="historyItem" @del="deleteHistoryItem" @search="searchAgain" />
                 </div>
 
                 <div class="mt-5 mb-5" v-else>
@@ -241,20 +241,22 @@ export default {
             this.history.unshift(x)
         },
         async saveSearch() {
-            this.history.unshift({
-                'search': this.query,
-                'searchId': 1,
-            });
-
             const apiKey = import.meta.env.VITE_API_KEY;
 
+            let res;
+
             try {
-                await axios.post(`/network/save-search?apiKey=${apiKey}`, {
+                res = await axios.post(`/network/save-search?apiKey=${apiKey}`, {
                     'search': this.query,
                 })
             } catch (error) {
                 return;
             }
+
+            this.history.unshift({
+                'search': this.query,
+                'searchId': res.data.searchId,
+            });
         }
     },
     watch: {

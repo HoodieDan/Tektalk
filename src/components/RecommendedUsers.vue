@@ -22,11 +22,11 @@
             <div class="col-4 ps-0" >
                 <!-- follow button  -->
                 <button class="talk-btn w-100" v-if="!user.isFollowing" :disabled="follow_in_progress" v-motion-pop @click.prevent="follow(user)">
-                    <p class="other-talks mb-0 foll" >Follow</p>
+                    <p class="other-talks mb-0 foll" @click.prevent="follow(user)" >Follow</p>
                 </button>
                 <!-- unfollow button  -->
                 <button class="talk-outline-btn w-100 h-100" :disabled="follow_in_progress" v-motion-pop @click.prevent="unfollow(user)" v-else >
-                    <p class="other-talks mb-0 foll" >Unfollow</p>
+                    <p class="other-talks mb-0 foll" @click.prevent="unfollow(user)" >Unfollow</p>
                 </button>
             </div>
         </router-link>
@@ -109,6 +109,9 @@ div.recommendation {
     margin-bottom: 0.5rem;
     cursor: pointer;
     transition: all 0.5s;
+}
+.row.no-underline.light {
+    padding: 0.5rem;
 }
 div.recommendation:hover {
   background-color: #191919;
