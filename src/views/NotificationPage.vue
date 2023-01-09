@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <NotificationItem v-for="notification in notifications" :key="notification._id" :notification="notification" />
+    <NotificationItem v-for="notification in notifications" :key="notification._id" @click="seen" :notification="notification" />
   </div>
 </template>
 
@@ -25,6 +25,16 @@ export default {
         const apiKey = import.meta.env.VITE_API_KEY;
         const res = await axios.get(`notifications?apiKey=${apiKey}`);
         this.notifications = res.data.userNotifications;
+
+        if (this.notifications) {
+          let resp;
+
+          try {
+            resp = await axios.patch(`seen-notifications?apiKey=${apiKey}`);
+          } catch (error) {
+            return;
+          }
+        }
     },
     data() {
         return {
@@ -33,11 +43,24 @@ export default {
             color: "FFF"
         };
     },
-    components: { NotificationItem, PageLoader },
-    async beforeDestroy () {
+    methods: {
+      async seen() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const res = await axios.patch(`seen-notifications?apiKey=${apiKey}`);
-    }
+
+        let res;
+
+        try {
+          res = await axios.patch(`seen-notifications?apiKey=${apiKey}`);
+        } catch (error) {
+          return;
+        }
+
+        this.notifications.forEach((notification) =>{
+          notification.seen = true;
+        })
+      }
+    },
+    components: { NotificationItem, PageLoader },
 }
 </script>
 

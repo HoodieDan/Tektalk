@@ -3,14 +3,33 @@
         <div class="search-div mb-5">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
-                <input type="text" class="input field" placeholder="Explore" v-model="query" />
+                <input type="text" class="input field" placeholder="Explore" @blur="saveSearch" v-model="query" />
             </div>
         </div>
 
         <div class="history" v-if="!search_in_progress">
-            <div class="post">
+            <div class="post mb-3">
                 <h4 class="mb-0">Search History</h4>
             </div>
+
+            <div>
+
+                <div v-if="!getting_history">
+                    <SingleHistoryItem v-for="historyItem in history" :key="historyItem.id" :history-item="historyItem" @del="deleteHistoryItem" @search="searchAgain" />
+                </div>
+
+                <div class="mt-5 mb-5" v-else>
+                    <PageLoader :height="20" :width="20" :color="color" />
+                </div>
+
+            </div>
+
+            <div v-if="history">
+                <div class="no-results mt-3 mb-3" v-if="history.length == 0 && !getting_history">
+                    <p class="mb-0">No search history...</p>
+                </div>
+            </div>
+
         </div>
 
         <div class="results" v-else>
@@ -73,7 +92,7 @@
 
                     <SingleTalk :talk="talk" v-for="talk in result.talks" :key="talk.id" v-else-if="currentTab === 'talks'" class="mb-2" />
 
-                    <SingleEvent :event="event" v-for="event in result.events" :key="event.id" v-else-if="currentTab === 'events'" />
+                    <SingleEvent :event="event" v-for="event in result.events" :key="event.id" v-else-if="currentTab === 'events'" class="mb-2" />
                 </div>
             </div>
         </div>
@@ -88,6 +107,7 @@ import PostItem from '../components/PostItem.vue';
 import SingleEvent from '../components/SingleEvent.vue';
 import SingleTalk from '../components/SingleTalk.vue';
 import SingleUser from '../components/SingleUser.vue';
+import SingleHistoryItem from '../components/SearchHistoryItem.vue';
 
 export default {
     name: "NetworkPage",
@@ -131,6 +151,20 @@ export default {
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
 
+        this.getting_history = true;
+
+        let his;
+
+        try {
+            his = await axios.get(`/network/search-history?apiKey=${apiKey}`)
+        } catch (error) {
+            this.$toast.error('An error occured while getting search history.')
+            this.getting_history = false;
+            return;
+        }
+        this.getting_history = false;
+        this.history = his.data.searchHistory;
+
         if (this.$route.query.q) {
             this.searching = true;
 
@@ -157,6 +191,7 @@ export default {
         return {
             search_in_progress: false,
             searching: false,
+            getting_history: false,
             query: "",
             currentTab: "users",
             color: "FFF",
@@ -167,7 +202,8 @@ export default {
                 comments: null,
                 talks: null,
                 users: null,
-            }
+            },
+            history: null,
         };
     },
     computed: {
@@ -181,6 +217,44 @@ export default {
     methods: {
         switchTab(tab) {
             this.currentTab = tab;
+        },
+        deleteHistoryItem(item) {
+            const found = this.history.find((his) => {
+                return his.searchId === item.searchId;
+            })
+
+            const i = this.history.indexOf(found)
+
+            const x = this.history.splice(i, 1)[0];
+        },
+        searchAgain(item) {
+            this.query = item.search;
+
+            const found = this.history.find((his) => {
+                return his.searchId === item.searchId;
+            })
+
+            const i = this.history.indexOf(found)
+
+            const x = this.history.splice(i, 1)[0];
+
+            this.history.unshift(x)
+        },
+        async saveSearch() {
+            this.history.push({
+                'search': this.query,
+                'searchId': 1,
+            });
+
+            const apiKey = import.meta.env.VITE_API_KEY;
+
+            try {
+                await axios.post(`/network/save-search?apiKey=${apiKey}`, {
+                    'search': this.query,
+                })
+            } catch (error) {
+                return;
+            }
         }
     },
     watch: {
@@ -230,13 +304,12 @@ export default {
         async queryLength(newVal) {
             if (newVal > 0) {
                 this.search_in_progress = true;
-            }
-            else {
+            } else {
                 this.search_in_progress = false;
             }
         }
     },
-    components: { PageLoader, PostItem, SingleUser, Comment, SingleTalk, SingleEvent }
+    components: { PageLoader, PostItem, SingleUser, Comment, SingleTalk, SingleEvent, SingleHistoryItem }
 }
 </script>
 

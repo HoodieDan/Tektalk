@@ -17,8 +17,10 @@
             <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />
             <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-else  />
         </div>
-        <div class="text-center" v-if="!loading && users === []" >
-            <h6>No {{ field }} to display</h6>
+        <div v-if="users">
+            <div class="no-results mt-3 mb-3" v-if="users.length == 0 && !loading">
+                <p class="mb-0">This user has no {{ field }} at the moment...</p>
+            </div>
         </div>
     </div>
   </div>

@@ -14,8 +14,10 @@
                 <ItemSkeleton v-if="loading" :height='85' :number='number' :margin='10' />    
                 <SingleUser v-for="user in users" :key="user.userId" :loggedInUser="loggedInUser" :user="user" v-else  />
             </div>
-            <div class="mt-5 mb-5" v-if="loading === false && users === []" >
-                <h6>There are no likes for this post at the moment</h6>
+            <div v-if="users">
+                <div class="no-results mt-3 mb-3" v-if="users.length == 0 && !loading">
+                    <p class="mb-0">No likes for this post at the moment...</p>
+                </div>
             </div>
         </div>
     </div>

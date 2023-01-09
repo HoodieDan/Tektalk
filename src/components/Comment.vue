@@ -117,7 +117,7 @@ export default {
             return link.test(item);
         },
         shavedItem(item) {
-            return item.split(/[-\s!$%^&*()+~=`{}\[\]:";.?.\/]/)[0];
+            return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
         }
     },
     computed: {
@@ -147,7 +147,7 @@ export default {
             (this.user.username === 'ndujekwu'))
         },
         postArray() {
-            return this.comment.commentBody.split(/[-\s^&*()+|~`\[\]";<>]/);
+            return this.comment.commentBody.split(' ');
         }
     },
     props: ["comment", "user"],

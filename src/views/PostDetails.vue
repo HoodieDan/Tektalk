@@ -222,7 +222,7 @@ export default {
             return this.post.mentions.length > 0
         },
         postArray() {
-            return this.post.postBody.split(/[-\s^&*()+|~`\[\]";<>]/);
+            return this.post.postBody.split(' ');
         },
     },
     methods: {
@@ -336,7 +336,7 @@ export default {
             return link.test(item);
         },
         shavedItem(item) {
-            return item.split(/[-\s!$%^&*()+~=`{}\[\]:";.?.\/]/)[0];
+            return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
         }
     },
     async created() {
