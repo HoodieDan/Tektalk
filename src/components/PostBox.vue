@@ -140,17 +140,24 @@ export default {
         },
         isTag() {
             let link = /@/;
-            const bodyArr = this.body.split(' ')
-
-            return link.test(bodyArr[bodyArr.length - 1]);
+            let bodyArr; 
+            if (this.body) {
+                bodyArr = this.body.split(' ')
+                return link.test(bodyArr[bodyArr.length - 1]);
+            }
         },
         search() {
             let link = /@/;
-            const bodyArr = this.body.split(' ')
+            let bodyArr; 
+            if (this.body) {
+                bodyArr = this.body.split(' ')
+            }
 
-            if (link.test(bodyArr[bodyArr.length - 1])) {
-                const user = bodyArr[bodyArr.length - 1]
-                return user.slice(1);
+            if (bodyArr) {
+                if (link.test(bodyArr[bodyArr.length - 1])) {
+                    const user = bodyArr[bodyArr.length - 1]
+                    return user.slice(1);
+                }
             }
         }
     },

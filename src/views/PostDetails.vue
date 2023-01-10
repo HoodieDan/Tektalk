@@ -280,15 +280,10 @@ export default {
             this.number = count;
             this.likeModalOpen = true;
         },
-        removeFromArray(commentId) {
+        removeFromArray(Id) {
             const deletedComment = this.comments.find((comment) => {
-                comment.commentId === commentId;
+                return comment.commentId === Id;
             })
-            if (!deletedComment) {
-                this.getComments();
-                this.post.commentCount -= 1;
-                return;
-            }
             const index = this.comments.indexOf(deletedComment);
             this.comments.splice(index, 1);
             this.post.commentCount -= 1;

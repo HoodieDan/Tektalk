@@ -81,17 +81,24 @@ export default {
     computed: {
         isTag() {
             let link = /@/;
-            const bodyArr = this.status.split(' ')
-
-            return link.test(bodyArr[bodyArr.length - 1]);
+            let bodyArr;
+            if (this.status) {
+                bodyArr = this.status.split(' ');
+                return link.test(bodyArr[bodyArr.length - 1]);
+            }
         },
         search() {
             let link = /@/;
-            const bodyArr = this.status.split(' ')
+            let bodyArr;
+            if (this.status) {
+                bodyArr = this.status.split(' ');
+            }
 
-            if (link.test(bodyArr[bodyArr.length - 1])) {
-                const user = bodyArr[bodyArr.length - 1]
-                return user.slice(1);
+            if (bodyArr) {
+                if (link.test(bodyArr[bodyArr.length - 1])) {
+                    const user = bodyArr[bodyArr.length - 1];
+                    return user.slice(1);
+                }
             }
         }
     },

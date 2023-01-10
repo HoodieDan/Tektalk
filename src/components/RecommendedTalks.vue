@@ -6,28 +6,30 @@
       <div v-if="suggestedTalks.length === 0">
         <ItemSkeleton :height='35' :number='5' :margin='13' />    
       </div>
-      <div class="recommendation row ms-0" v-for="talk in suggestedTalks" :key="talk.id" @click.self="redirect(talk)" v-else >
-        <div class="col-2 ps-0">
-          <div class="circular">
-            <img :src="talk.displayUrl" alt="talk image">
+      <div class="recommendation" v-for="talk in suggestedTalks" :key="talk.id" v-else>
+        <router-link :to="{ name: 'Talk', params: { talk: talk.name } }" class="no-underline light row" >
+          <div class="col-2 ps-0">
+            <div class="circular">
+              <img :src="talk.displayUrl" alt="talk image">
+            </div>
           </div>
-        </div>
-        <div class="col-6 pe-0 ps-lg-3">
-          <div class="details">
-            <h6 class="talk-name">{{ talk.name }}</h6>
-            <p class="subtext">{{ talk.memberCount }} members</p>
+          <div class="col-6 pe-0 ps-lg-3">
+            <div class="details">
+              <h6 class="talk-name">{{ talk.name }}</h6>
+              <p class="subtext">{{ talk.memberCount }} members</p>
+            </div>
           </div>
-        </div>
-        <div class="col-4 pe-0">
-          <!-- follow button  -->
-          <button class="talk-btn w-100" v-if="!talk.memberOf" :disabled="join_in_progress" v-motion-pop @click.prevent="join(talk)">
-              <p class="other-talks mb-0 foll" @click.prevent="join(talk)" >Join</p>
-          </button>
-          <!-- unfollow button  -->
-          <button class="talk-outline-btn w-100 h-100" :disabled="join_in_progress" v-motion-pop @click.prevent="leave(talk)" v-else >
-              <p class="other-talks mb-0 foll" @click.prevent="leave(talk)" >Leave</p>
-          </button>
-        </div>
+          <div class="col-4">
+            <!-- follow button  -->
+            <button class="talk-btn w-100" v-if="!talk.memberOf" :disabled="join_in_progress" v-motion-pop @click.prevent="join(talk)">
+                <p class="other-talks mb-0 foll" @click.self="join(talk)" >Join</p>
+            </button>
+            <!-- unfollow button  -->
+            <button class="talk-outline-btn w-100 h-100" :disabled="join_in_progress" v-motion-pop @click.prevent="leave(talk)" v-else >
+                <p class="other-talks mb-0 foll" @click.self="leave(talk)" >Leave</p>
+            </button>
+          </div>
+        </router-link>
       </div>
     </div>
     <!-- Policy -->
@@ -99,11 +101,6 @@ export default {
             talk.memberCount -= 1;
         },
         redirect(talk) {
-          if (!localStorage.getItem('token')) {
-              this.$router.push({ name: 'Auth' })
-              return;
-          }
-
           this.$router.push({
             name: 'Talk', 
             params: { 
