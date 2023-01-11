@@ -119,8 +119,7 @@ export default {
         try {
             event = await axios.get(`/event/id/${this.id}?apiKey=${apiKey}`)
         } catch (error) {
-            // this.$toast(error.response.data.message)
-            console.log(error);
+            this.$toast(error.response.data.errors[0].msg)
             return;
         }
         

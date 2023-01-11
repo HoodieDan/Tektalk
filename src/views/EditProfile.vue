@@ -260,17 +260,8 @@ export default {
             try {
                 updated = await axios.patch(`/profile/edit?apiKey=${apiKey}`, formData);
             } catch (error) {
-                // this.show_alert = true;
                 this.loading = false;
-            
-                // if (error.response.data.message === 'Email address already exists!') {
-                //     this.alert_message = 'A user with this email already exixts.';
-                // } else if (error.response.data.message === 'The username is already taken.') {
-                //     this.alert_message = 'A user with this username already exists.';
-                // } else {
-                //     this.alert_message = 'An error occured, please try again later';
-                // }
-                this.$toast.error(error.response.data.message);
+                this.$toast.error(error.response.data.errors[0].msg);
                 return;
             }
             

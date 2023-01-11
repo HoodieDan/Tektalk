@@ -469,6 +469,7 @@ export default {
                     this.$router.push({ name: 'Error' });
                     // this.$router.push({ name: 'Error' });
                 }
+                this.$toast.error(error.response.data.errors[0].msg);
             }
             let posts;
             let talks

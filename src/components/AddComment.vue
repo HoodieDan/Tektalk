@@ -154,7 +154,7 @@ export default {
                 try {
                     res = await axios.get(`/tag-user?apiKey=${apiKey}&search=${search}`)
                 } catch (error) {
-                    console.log(error);
+                    this.$toast.error(error.response.data.errors[0].msg);
                 }
                 this.results = res.data.users;
                 this.searching = false;
