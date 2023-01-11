@@ -16,8 +16,8 @@
         <p class="small text-left">No. of members: {{ talkDetails.memberCount }}</p>
 
         <div class="row">
-          <div class="members d-flex col-lg-6">
-            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2 me-1" v-for="(user, i) in talkDetails.users" :key="i" v-motion-roll-right>
+          <div class="members d-flex col-12">
+            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2" v-for="(user, i) in talkDetails.users" :key="i" v-motion-roll-right>
                 <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
                 <img
                     src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
@@ -26,7 +26,7 @@
                 >
             </router-link>
           </div>
-          <div class="col-lg-0 col-6"></div>
+          <!-- <div class="col-lg-0 col-6"></div> -->
           <div class="buttons col-lg-12 col-6">
             <button class="talk-btn w-100 light" v-if="!talkDetails.memberOf" @click.self.prevent="join(talkDetails)" :disabled="progress" v-motion-pop >
                 <p class="mb-0" v-if="!progress" @click.self.prevent="join(talkDetails)" v-motion-pop >Join</p>
