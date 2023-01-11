@@ -170,7 +170,7 @@ export default {
                 updated = await axios.patch(`/event/edit/${this.id}?apiKey=${apiKey}`, formData);
             } catch (error) {
                 this.loading = false;
-                this.$toast.error(error.response.data.message);
+                this.$toast.error(error.response.data.errors[0].msg);
                 return;
             }
             console.log(updated);

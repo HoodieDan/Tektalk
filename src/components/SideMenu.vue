@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="mid">
-                <h6 class="mb-3 head">Popular Talks</h6>
+                <h5 class="mb-2 head">Popular Talks</h5>
                 <div v-if="popularTalks.length === 0">
                     <ItemSkeleton :height='30' :number='5' :margin='13' />    
                 </div>
@@ -106,7 +106,7 @@ h6 {
     backdrop-filter: blur(45px);
     color: #e7e9ea;
     font-weight: 300;
-    padding: 1rem 2rem 0;
+    padding-bottom: 0;
     z-index: 1001;
     overflow-y: initial !important;
     overflow-x: hidden;
@@ -115,11 +115,17 @@ h6 {
     overflow-y: auto;
 }
 .logo-group {
-    align-items: flex-end;
+    align-items: center;
     font-family: 'Poppins', sans-serif;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    height: 10%;
+    /* padding-bottom: 1rem; */
+    padding-left: 1.5rem;
+}
+.logo {
+    margin-bottom: -0.3rem;
 }
 .logo,
 .logo-text {
@@ -134,8 +140,37 @@ h6 {
     height: 100%;
     display: flex;
     flex-direction: column;
+    /* justify-content: space-between; */
+}
+.top-nav {
+    height: 30%;
+    padding-left: 1.5rem;
+    /* margin-bottom: 2.5rem; */
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
+.mid {
+    height: 50%;
+    padding-left: 1.5rem;
+    padding-right: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.bottom-nav {
+    margin-top: 0.5rem;
+    height: 10%;
+    border-top: 1px solid #222222;
+    display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+}
+/* .bottom-nav.link {
+    margin: 0 auto;
+} */
 .fa {
     margin-right: 0.5rem;
 }
@@ -143,7 +178,6 @@ h6 {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 0 auto;
     cursor: pointer;
     transition: all 0.5s;
 }
@@ -184,31 +218,14 @@ h6 {
 }
 .head {
     font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #222222;
+    color: #FFF;
 }
-.bottom-nav {
-    margin-top: 0.5rem;
-    border-top: 1px solid #222222;
-}
+
 .sign-out {
     align-self: center !important;
 }
 .talk-btn.no-underline {
     height: auto;
-}
-@media (max-width: 1366px) {
-    .navi {
-        margin-bottom: 0;
-    }
-}
-@media (max-width: 1200px) {
-    /* p.members {
-        display: none;
-    } */
-    .navi {
-        margin-bottom: 0.3rem;
-    }
 }
 @media (max-width: 992px) {
     .menu {
@@ -219,11 +236,20 @@ h6 {
     .talk-btn {
         display: none;
     }
+    .logo-group {
+        padding-left: 1rem;
+    }
     .mid {
         border-top: 1px solid #222222;
-        display: flex;
-        flex-direction: column;
-        justify-items: center;
+        padding-left: 0;
+        align-items: center;
+        padding-right: 0;
+        margin-top: 1rem;
+    }
+    div.top-nav {
+        padding-left: 0;
+        align-items: center;
+        margin-top: 1rem;
     }
     .talk {
         margin: 1rem auto;
@@ -248,12 +274,21 @@ h6 {
     }
 }
 @media (max-height: 650px) {
-    .link {
-        margin: auto;
+    .logo-group {
+        align-items: flex-end;
     }
-    /* .navi {
-        margin-bottom: 0.5rem;
-    } */
+    .logo-text {
+        position: relative;
+        top: 0.5rem;
+    }
+    .logo {
+        padding-bottom: 0.1rem;
+    }
+    .mid {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     p {
         margin-bottom: 0.5rem;
     }
@@ -262,18 +297,9 @@ h6 {
     }
 }
 @media (min-height: 900px) {
-    .top-nav > * {
-        /* margin-bottom: 2rem; */
-        /* margin-top: 2rem; */
-    }
     .mid > * {
         margin-top: 2rem;
         margin-bottom: 2rem;
-    }
-}
-@media (min-width: 1240px) {
-    div.link {
-        margin-bottom: 0.5rem;
     }
 }
 </style>

@@ -13,7 +13,7 @@
               <img :src="talk.displayUrl" alt="talk image">
             </div>
           </div>
-          <div class="col-6 pe-0 ps-lg-3">
+          <div class="col-6 pe-0 ps-md-3">
             <div class="details">
               <h6 class="talk-name">{{ talk.name }}</h6>
               <p class="subtext">{{ talk.memberCount }} members</p>
@@ -181,7 +181,6 @@ div.cont {
     div.col-6 {
       flex: 0 0 70%;
       max-width: 70%;
-      padding-left: 5px !important;
     }
     div.col-4 {
       flex: 0 0 30%;

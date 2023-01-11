@@ -17,7 +17,7 @@
 
         <div class="row">
           <div class="members d-flex col-lg-6">
-            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2 me-1" v-for="(user, i) in talkDetails.users" :key="i">
+            <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2 me-1" v-for="(user, i) in talkDetails.users" :key="i" v-motion-roll-right>
                 <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
                 <img
                     src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
@@ -99,6 +99,18 @@ export default {
         vm.talkDetails = deets.data.talkInfo;
       })
     },
+    async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        let profile;
+
+        try {
+            profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+        this.currentUser = profile.data;
+    },
     data() {
         return {
             category: 'Post',
@@ -108,6 +120,7 @@ export default {
             loading: false,
             progress: false,
             color: 'FFF',
+            currentUser: null,
             talkDetails: null,
         }
     },
@@ -172,6 +185,13 @@ export default {
         this.talkDetails.memberOf = true;
         this.talkDetails.memberCount += 1;
         this.$toast.success(res.data.message);
+
+        if (this.talkDetails.users.length < 10) {
+          this.talkDetails.users.push({
+            username: this.currentUser.username,
+            displayUrl: this.currentUser.displayUrl,
+          })
+        }
       },
       async leave(talk) {
           if (!localStorage.getItem('token')) {
@@ -194,6 +214,14 @@ export default {
           this.talkDetails.memberOf = false;
           this.talkDetails.memberCount -= 1;
           this.$toast.success(res.data.message);
+
+          const user = this.talkDetails.users.find((use) => {
+            return use.username === this.currentUser.username;
+          })
+
+          const i = this.talkDetails.users.indexOf(user)
+
+          this.talkDetails.users.splice(i, 1)
       }
   }
 }

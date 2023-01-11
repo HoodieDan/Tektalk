@@ -23,7 +23,14 @@ export default {
     name: "NotificationsPage",
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const res = await axios.get(`notifications?apiKey=${apiKey}`);
+        let res;
+
+        try {
+          res = await axios.get(`notifications?apiKey=${apiKey}`);
+        } catch (error) {
+          this.$toast.error('An error occured while fetching notifications');
+          return;
+        }
         this.notifications = res.data.userNotifications;
 
         if (this.notifications) {

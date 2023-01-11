@@ -68,10 +68,12 @@ export default {
 
             techEvent.attendeesCount += 1;
             techEvent.willAttend = true;
-            techEvent.attendees.push({
-                'username': this.currentUser.username,
-                'displayUrl': this.currentUser.displayUrl,
-            })
+            if (techEvent.attendees.length < 5) {
+                techEvent.attendees.push({
+                    'username': this.currentUser.username,
+                    'displayUrl': this.currentUser.displayUrl,
+                })
+            }
 
             const index = this.events.indexOf(techEvent);
 
@@ -90,9 +92,11 @@ export default {
                 return user.username === this.currentUser.username;
             })
 
-            const i = techEvent.attendees.indexOf(user)
+            if (user) {
+                const i = techEvent.attendees.indexOf(user)
 
-            techEvent.attendees.splice(i, 1)
+                techEvent.attendees.splice(i, 1)
+            }
 
             const index = this.events.indexOf(techEvent);
 

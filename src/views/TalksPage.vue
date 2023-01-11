@@ -36,10 +36,23 @@ export default {
         vm.userTalks = res.data.userTalks;
       });
     },
+    async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        let profile;
+
+        try {
+            profile = await axios.get(`/profile?apiKey=${apiKey}`)
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+        this.currentUser = profile.data;
+    },
     data() {
       return {
         userTalks: [],
         allTalks: [],
+        currentUser: null,
       }
     },
     methods: {
@@ -50,6 +63,13 @@ export default {
         const index = this.allTalks.indexOf(found);
         this.allTalks.splice(index, 1);
         this.userTalks.push(talk);
+
+        if (found.users.length < 5) {
+          found.users.push({
+            username: this.currentUser.username,
+            displayUrl: this.currentUser.displayUrl,
+          })
+        }
       },
       removeTalk(talk) {
         const found = this.userTalks.find((item) => {
@@ -58,6 +78,15 @@ export default {
         const index = this.userTalks.indexOf(found);
         this.userTalks.splice(index, 1);
         this.allTalks.unshift(talk);
+        const user = found.users.find((user)=> {
+            return user.username === this.currentUser.username;
+        })
+
+        if (user) {
+          const i = found.users.indexOf(user)
+
+          found.users.splice(i, 1)
+        }
       }
     },
     computed: {

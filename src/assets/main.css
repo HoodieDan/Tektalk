@@ -25,6 +25,8 @@
     color: #FFF;
     font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   p {
     font-size: 0.9rem;
