@@ -112,21 +112,22 @@ export default {
             }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
-        
-            const comment = await axios.post(`/comment?apiKey=${apiKey}`, {
-                postId: this.$route.params.postID,
-                body: values.status
-            });
 
-            if (comment.status === 200) {
-                this.comment_message = 'Comment Posted!';
-                this.loading = false;
-                this.$emit('increase-comment', values.status, comment.data.commentId, this.mentions)
-            } else {
+            let comment;
+
+            try {
+                comment = await axios.post(`/comment?apiKey=${apiKey}`, {
+                    postId: this.$route.params.postID,
+                    body: values.status
+                });
+            } catch (error) {
                 this.comment_message = 'An error occured, please try again later!';
                 this.loading = false;
             }
 
+            this.comment_message = 'Comment Posted!';
+            this.loading = false;
+            this.$emit('increase-comment', values.status, comment.data.commentId, this.mentions)
             resetForm();
         },
         tag(user) {

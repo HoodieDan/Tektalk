@@ -230,11 +230,15 @@ export default {
             this.comments = [];
             this.getting_comments = true;
             const apiKey = import.meta.env.VITE_API_KEY;
-            const comment = await axios.get(`/comment/?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
-            this.comments = comment.data.comments;
-            if (comment.status === 200) {
-                this.getting_comments = false;
+            let comment;
+            try {
+                comment = await axios.get(`/comment/?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
+            } catch (error) {
+                this.$toast.error('An error occured while loading comments')
+                return;
             }
+            this.comments = comment.data.comments;
+            this.getting_comments = false;
         },
         openImage(image) {
             const post = postStore();

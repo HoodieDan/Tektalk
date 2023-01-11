@@ -51,12 +51,15 @@ export default {
     async created(){
         this.loading = true;
         const apiKey = import.meta.env.VITE_API_KEY;
-        const res = await axios.get(`follow/${this.$route.params.username}?apiKey=${apiKey}&field=${this.field}`);
-        if (res.status === 200) {
-            this.loading = false;
-        } else {
+        let res;
+
+        try {
+            res = await axios.get(`follow/${this.$route.params.username}?apiKey=${apiKey}&field=${this.field}`);
+        } catch (error) {
             return;
         }
+        
+        this.loading = false;
         this.users = res.data.users;
     }
 }
