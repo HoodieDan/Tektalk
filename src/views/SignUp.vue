@@ -125,7 +125,7 @@ export default {
                 this.reg_in_submission = false;
                 console.error(error.response.data.message);
 
-                this.$toast.error(error.response.data.message);
+                this.$toast.error(error.response.data.errors[0].msg);
                 return;
             }
 
