@@ -6,14 +6,14 @@
       <div v-if="suggestedTalks.length === 0">
         <ItemSkeleton :height='35' :number='5' :margin='13' />    
       </div>
-      <div class="recommendation" v-for="talk in suggestedTalks" :key="talk.id" v-else>
+      <div class="recommendation ps-3" v-for="talk in suggestedTalks" :key="talk.id" v-else>
         <router-link :to="{ name: 'Talk', params: { talk: talk.name } }" class="no-underline light row" >
           <div class="col-2 ps-0">
             <div class="circular">
               <img :src="talk.displayUrl" alt="talk image">
             </div>
           </div>
-          <div class="col-6 pe-0 ps-md-3">
+          <div class="col-6 pe-0">
             <div class="details">
               <h6 class="talk-name">{{ talk.name }}</h6>
               <p class="subtext">{{ talk.memberCount }} members</p>

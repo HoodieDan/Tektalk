@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <PageLoader :color="color" :height="20" :width="20" class="mt-5 mb-5" v-motion-pop v-if="searching" />
 
-    <div class="banner p-3 mb-2 text-center">
+    <div class="banner p-3 mb-2 text-center" v-if="!searching">
       <div class="bg"></div>
       <div class="bg bg2"></div>
       <div class="bg bg3"></div>
@@ -46,6 +47,7 @@
      :placeholder="placeholder" 
      :postedIn="postedIn" 
      @posted="pushPost"
+     v-if="!searching"
     />
 
     <PostItem
@@ -118,6 +120,7 @@ export default {
             posts: [],
             pageNumber: 1,
             loading: false,
+            searching: false,
             progress: false,
             color: 'FFF',
             currentUser: null,
@@ -127,7 +130,7 @@ export default {
     computed: {
         postedIn() {
             return this.$route.params.talk;
-        }
+        },
     },
     methods: {
       async getPosts() {
@@ -222,7 +225,38 @@ export default {
           const i = this.talkDetails.users.indexOf(user)
 
           this.talkDetails.users.splice(i, 1)
+      },
+      async getTalkDetails() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        this.posts = null;
+        this.talkDetails = null;
+        this.searching = true;
+        let res;
+        let deets;
+
+        try {
+          deets = await axios.get(`/talk/talk-name/${this.$route.params.talk}?apiKey=${apiKey}`)
+        } catch (error) {
+          return;
+        }
+
+        try {
+          res = await axios.get(`/post?apiKey=${apiKey}&pageNumber=1&filter=${this.$route.params.talk}`)
+        } catch (error) {
+          this.searching = false;
+          return;
+        }
+
+        this.searching = false;
+        this.posts = res.data.posts;
+        this.pageNumber = 2;
+        this.talkDetails = deets.data.talkInfo;
       }
+  },
+  watch: {
+    postedIn() {
+      this.getTalkDetails();
+    }
   }
 }
 </script>
