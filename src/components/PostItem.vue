@@ -315,6 +315,7 @@ img.user-img {
 .mentions {
     border-top: 1px solid #222222;
 }
+
 @media (max-width: 992px) {
     .function-icons {
         margin-left: 20%;

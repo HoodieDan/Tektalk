@@ -228,6 +228,9 @@ div.no-results {
     margin-bottom: 0.5rem;
     cursor: pointer;
 }
+p.body-wrapper {
+    word-break: break-all;
+}
 @keyframes fade-in {
     from {
         opacity: 0;
