@@ -298,8 +298,8 @@ h6 {
 }
 @media (min-height: 900px) {
     .mid > * {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
+        /* margin-top: 2rem; */
+        margin-bottom: 1rem;
     }
 }
 </style>
