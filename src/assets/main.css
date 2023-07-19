@@ -181,6 +181,7 @@ button.talk-btn {
 }
 .alert {
     color: #ff0f0f;
+    padding: 0;
 }
 .no-hover:hover {
     color: #e7e9ea !important;

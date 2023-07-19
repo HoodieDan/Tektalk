@@ -11,7 +11,7 @@
             <i class="fa-regular fa-envelope icon"></i>
             <vee-field id="email" type="email" name="email" class="input field" placeholder="Email" />
         </div>
-        <ErrorMessage class="error mb-2 text-gradient" name="email"></ErrorMessage>
+        <ErrorMessage class="error mb-2 alert" name="email"></ErrorMessage>
 
         <!-- password  -->
         <label for="paswword">Password:</label>
@@ -19,7 +19,7 @@
             <i class="fa-solid fa-lock icon"></i>
             <vee-field id="password" type="password" name="password" class="input field" placeholder="Password" />
         </div>
-        <ErrorMessage class="error-message mb-2 text-gradient" name="password"></ErrorMessage>
+        <ErrorMessage class="error-message mb-2 alert" name="password"></ErrorMessage>
 
         <!-- login button  -->
         <button type="submit" class="talk-btn w-100 mb-2 mt-5">
