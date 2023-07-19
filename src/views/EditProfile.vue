@@ -65,7 +65,7 @@
                     <i class="fa-solid fa-signature icon"></i>
                     <vee-field name="name" id="name" type="text" class="input field" placeholder="Name" v-model="user.name" />
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="name"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="name"></ErrorMessage>
 
                 <!-- username  -->
                 <label for="username">Username:</label>
@@ -73,7 +73,7 @@
                     <i class="fa-solid fa-at icon"></i>
                     <vee-field name="username" id="username" type="text" class="input field" placeholder="Username" v-model="user.username" />
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="username"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="username"></ErrorMessage>
 
                 <!-- email  -->
                 <label for="email">Email:</label>
@@ -81,7 +81,7 @@
                     <i class="fa-regular fa-envelope icon"></i>
                     <vee-field name="email" id="email" type="email" class="input field" placeholder="Email"  v-model="user.email" />
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="email"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="email"></ErrorMessage>
 
                 <!-- location  -->
                 <label for="location">Location:</label>
@@ -89,7 +89,7 @@
                     <i class="fa-solid fa-location-crosshairs icon"></i>
                     <vee-field name="location" id="location" type="text" class="input field" placeholder="Location"  v-model="user.location" />
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="location"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="location"></ErrorMessage>
 
                 <!-- stack  -->
                 <label for="name">Area of Expertise:</label>
@@ -102,6 +102,8 @@
                         <option value="DevOps">DevOps</option>
                         <option value="Design">UI/UX Design</option>
                         <option value="Guest">Product Design</option>
+                        <option value="ML/AI">Mobile Development</option>
+                        <option value="ML/AI">Data Analysis</option>
                         <option value="ML/AI">ML/AI</option>
                         <option value="Data Science">Data Science</option>
                         <option value="App Development">App Development</option>
@@ -115,7 +117,7 @@
                         <option value="I don't know, man">I don't know, man</option>
                     </vee-field>
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="stack"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="stack"></ErrorMessage>
 
                 <!-- Bio  -->
                 <label for="paswword">Bio:</label>
@@ -132,7 +134,7 @@
                      v-model="user.bio"
                     />
                 </div>
-                <ErrorMessage class="error mb-2 text-gradient" name="bio"></ErrorMessage>
+                <ErrorMessage class="error mb-2 alert" name="bio"></ErrorMessage>
 
                 <!-- update button  -->
                 <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="loading">
@@ -141,7 +143,7 @@
                 </button>
 
                 <!-- update error message  -->
-                <p class="alert p-0" v-if="show_alert">{{ alert_message }}</p>
+                <p class="alert p-3" v-if="show_alert">{{ alert_message }}</p>
             </vee-form>
             <p class="text-gradient" v-if="successful" >{{ success_message }}</p>
         </div>
