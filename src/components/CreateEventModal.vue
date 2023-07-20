@@ -44,7 +44,7 @@
                         <i class="fa-solid fa-signature icon res-icon"></i>
                         <vee-field name="name" id="name" type="text" class="input field" placeholder="Eg: GDG Devfest" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="name"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="name"></ErrorMessage>
 
                     <!-- startTime  -->
                     <label for="startTime">Start Time:</label>
@@ -52,7 +52,7 @@
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="startTime" v-model="start" id="startTime" type="datetime-local" ref="startTime" class="date" placeholder="startTime" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="startTime"></ErrorMessage>
 
                     <!-- endTime  -->
                     <label for="endTime">End Time:</label>
@@ -60,7 +60,7 @@
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="endTime" v-model="end" id="endTime" type="datetime-local" ref="endTime" class="date" placeholder="endTime" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="endTime"></ErrorMessage>
 
                     <!-- location  -->
                     <label for="location">Location/Event link:</label>
@@ -68,7 +68,7 @@
                         <i class="fa-solid fa-location-crosshairs icon"></i>
                         <vee-field name="location" id="location" type="text" class="input field" placeholder="Eg: Lagos" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="location"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="location"></ErrorMessage>
 
                     <!-- description  -->
                     <label for="paswword">Description:</label>
@@ -84,7 +84,7 @@
                             placeholder="Let others know something about your event!" 
                         />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="description"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="description"></ErrorMessage>
 
                     <!-- Create button  -->
                     <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="loading">
@@ -113,7 +113,7 @@ export default {
             end: '',
             schema: {
                 profileImage: '',
-                name: "required|min:3|max:25",
+                name: "required|min:3|max:100",
                 endTime: `required`,
                 startTime: `required`,
                 location: "required",

@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-signature icon res-icon"></i>
                         <vee-field name="name" id="name" type="text" class="input field" placeholder="Name" v-model="tekEvent.name" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="name"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="name"></ErrorMessage>
 
                     <!-- startTime  -->
                     <label for="startTime">Start Time:</label>
@@ -58,7 +58,7 @@
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="startTime" id="startTime" type="datetime-local" class="date" placeholder="startTime" v-model="tekEvent.startTime" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="startTime"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="startTime"></ErrorMessage>
 
                     <!-- endTime  -->
                     <label for="endTime">End Time:</label>
@@ -66,7 +66,7 @@
                         <i class="fa-regular fa-calendar-days icon res-icon"></i>
                         <vee-field name="endTime" id="endTime" type="datetime-local" class="date" placeholder="endTime" v-model="tekEvent.endTime" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="endTime"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="endTime"></ErrorMessage>
 
                     <!-- location  -->
                     <label for="location">Location/Event link:</label>
@@ -74,7 +74,7 @@
                         <i class="fa-solid fa-location-crosshairs icon"></i>
                         <vee-field name="location" id="location" type="text" class="input field" placeholder="Location" v-model="tekEvent.location" />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="location"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="location"></ErrorMessage>
 
                     <!-- description  -->
                     <label for="paswword">Description:</label>
@@ -91,7 +91,7 @@
                             v-model="tekEvent.description"
                         />
                     </div>
-                    <ErrorMessage class="error mb-2 text-gradient" name="description"></ErrorMessage>
+                    <ErrorMessage class="error mb-2 alert" name="description"></ErrorMessage>
 
                     <!-- update button  -->
                     <button type="submit" class="talk-btn w-100 mb-2 mt-5" :disabled="loading">
@@ -133,7 +133,7 @@ export default {
             findingEvent: true,
             schema: {
                 profileImage: '',
-                name: "required|min:3|max:25",
+                name: "required|min:3|max:100",
                 endTime: "required",
                 startTime: "required",
                 location: "required",

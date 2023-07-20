@@ -1,11 +1,13 @@
 <template>
     <div class="event w-100 pb-0">
-        <div class="open-edit" v-if="currentUser">
-            <i class="fa-solid fa-pen-nib" v-if="currentUser.username === event.admin.username" @click="openEditEventModal = true"></i>
-        </div>
-        <div class="delete" v-if="currentUser">
-            <i class="fa-solid fa-trash" v-if="(currentUser.username === event.admin.username) && !deleting" @click="deleteEvent(event)"></i>
-            <PageLoader :color="color" :height="35" :width="35" v-motion-pop v-if="deleting" />
+        <div class="funcs">
+            <div class="open-edit" v-if="currentUser">
+                <i class="fa-solid fa-pen-nib" v-if="currentUser.username === event.admin.username" @click="openEditEventModal = true"></i>
+            </div>
+            <div class="delete" v-if="currentUser">
+                <i class="fa-solid fa-trash" v-if="(currentUser.username === event.admin.username) && !deleting" @click="deleteEvent(event)"></i>
+                <PageLoader :color="color" :height="35" :width="35" v-motion-pop v-if="deleting" />
+            </div>
         </div>
         <div class="light no-underline">
             <div class="row p-2">
@@ -197,20 +199,26 @@ div.event {
     border-radius: 5px;
     position: relative;
 }
+div.funcs {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1rem;
+}
 .open-edit {
-    position: absolute;
+    position: inline-block;
     cursor: pointer;
-    right: 15px;
-    top: 5px;
+    /* right: 15px; */
+    /* top: 5px; */
     z-index: 10;
     width: 25px;
     height: 25px;
+    padding-right: 2rem;
 }
 .delete {
-    position: absolute;
+    position: inline-block;
     cursor: pointer;
-    right: 45px;
-    top: 5px;
+    /* right: 45px; */
+    /* top: 5px; */
     z-index: 10;
     width: 25px;
     height: 25px;
