@@ -69,7 +69,7 @@
                     <ErrorMessage class="error mb-2 alert" name="endTime"></ErrorMessage>
 
                     <!-- location  -->
-                    <label for="location">Location/Event link:</label>
+                    <label for="location">Event link:</label>
                     <div class="form-item mt-2 mb-3">
                         <i class="fa-solid fa-location-crosshairs icon"></i>
                         <vee-field name="location" id="location" type="text" class="input field" placeholder="Location" v-model="tekEvent.location" />
