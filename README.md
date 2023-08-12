@@ -1,6 +1,6 @@
 # Tektalk
 
-This template should help get you started developing with Vue 3 in Vite.
+Social Networking Platform
 
 ## Recommended IDE Setup
 
