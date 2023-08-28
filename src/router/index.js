@@ -140,6 +140,22 @@ const router = createRouter({
       component: () => import('../views/ChangePassword.vue')
     },
     {
+      path: '/chats',
+      name: 'Chats',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/Chats.vue')
+    },
+    {
+      path: '/chats/:id',
+      name: 'Chat',
+      meta: {
+        requiresAuth: true,
+      },
+      component: () => import('../views/Chat.vue')
+    },
+    {
       path: '/:catchAll(.*)*',
       redirect: { name: 'home' },
     },

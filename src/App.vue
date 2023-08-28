@@ -26,8 +26,11 @@
       </div>
 
       <!-- Suggestions -->
-      <div class="col-lg-3 col-0">
+      <div class="col-lg-3 col-0" v-if="thisRoute !== 'Chat'">
         <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
+      </div>
+      <div v-else>
+        
       </div>
     </div>
   </div>
@@ -42,6 +45,7 @@ import BottomMenu from './components/BottomMenu.vue';
 import { authStore } from './stores/auth';
 import ImageModal from './components/ImageModal.vue';
 import { postStore } from './stores/post';
+import { socketStore } from './stores/socket';
 import PreLoader from './components/PreLoader.vue';
 
 export default {
@@ -60,8 +64,11 @@ export default {
     },
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
-
+      const sockett = socketStore();
       let res;
+
+      sockett.connectToSocket();
+
       try {
         res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
         this.suggestedTalks = res.data.suggestedTalks;
@@ -129,6 +136,9 @@ export default {
       },
       currentRoute() {
         return this.$route.from === 'Notifications';
+      },
+      thisRoute() {
+        return this.$route.name;
       }
     },
     watch: {
@@ -174,6 +184,9 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .sugg {
+    display: none;
+  }
   .side-menu {
     display: none;
   }

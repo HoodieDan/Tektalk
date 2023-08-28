@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-menu">
+  <div class="bottom-menu" v-if="currentRoute !== 'Chat'">
     <div class="route">
         <router-link :to="{ name: 'Home' }"><i class="fa fa-solid fa-house" :class="{ 'active': currentRoute === 'Home' }" ></i></router-link>
     </div>
