@@ -30,8 +30,8 @@
         <div class="col-lg-3 col-0" v-if="thisRoute !== 'Chat'">
           <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
         </div>
-        <div v-else>
-          
+        <div class="col-lg-3 col-0" v-else>
+          <ChatUserProfile class="pad sugg"></ChatUserProfile>
         </div>
       </div>
     </div>
@@ -49,6 +49,7 @@ import ImageModal from './components/ImageModal.vue';
 import { postStore } from './stores/post';
 import { socketStore } from './stores/socket';
 import PreLoader from './components/PreLoader.vue';
+import ChatUserProfile from './components/ChatUserProfile.vue';
 
 export default {
     name: "App",
@@ -85,6 +86,7 @@ export default {
       }
 
       const auth = authStore();
+      auth.getCurrentUser();
       const uid = localStorage.getItem('uid');
       this.uid = uid;
       
@@ -148,7 +150,7 @@ export default {
         this.showImage = !this.showImage;
       },
     },
-    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader },
+    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader, ChatUserProfile },
 }
 </script>
 

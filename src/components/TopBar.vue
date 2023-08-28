@@ -326,6 +326,7 @@ input:focus {
     .top-bar {
         padding: 1rem;
         backdrop-filter: blur(100px);
+        display: block;
     }
     .col-10 h4, 
     .logo-text {

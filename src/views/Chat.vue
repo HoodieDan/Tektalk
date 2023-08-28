@@ -96,27 +96,25 @@ export default {
     async created() {
         const chatt = chatStore();
         const sockett = socketStore();
+        const id = this.$route.params.id;
+        const apiKey = import.meta.env.VITE_API_KEY;
+        let res;
         let resp;
 
-        if (chatt.user) {
+        if (chatt.user !== null) {
             this.user = chatt.user;
         } else {
             try {
-                resp = await axios.get(`profile/id/${this.$route.params.id}?apiKey=${apikey}`)
+                resp = await axios.get(`/profile/id/${id}?apiKey=${apiKey}`);
             } catch (error) {
                 return;
             }
-
             this.user = {
                 ...resp.data,
                 'isVerified': resp.data.verified,
             }
         }
         this.prevRoute = chatt.prevRoute;
-
-        const id = this.$route.params.id;
-        const apiKey = import.meta.env.VITE_API_KEY;
-        let res;
 
         try {
             res = await axios.get(`message/${id}?apiKey=${apiKey}`)
@@ -166,7 +164,9 @@ export default {
         },
         scrollToLastMessage() {
             const bottom = document.querySelector('.bottom-of-chat-container');
-            this.$refs.chatContainer.scrollTop = bottom.offsetTop;
+            if (this.$refs.chatContainer) {
+                this.$refs.chatContainer.scrollTop = bottom.offsetTop;
+            }
         },
         noOfFiles(number) {
             this.files = number
