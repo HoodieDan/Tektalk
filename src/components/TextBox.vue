@@ -177,12 +177,6 @@ export default {
             this.$emit('handle', this.files.length)
         },
         async post(values, { resetForm }) {
-            // const mention = values.status.match(/@\w+/g);
-            // if (mention) {
-            //     mention.forEach((item) => {
-            //         this.mentions.push(item.slice(1))
-            //     })
-            // }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let res;
@@ -287,6 +281,7 @@ div.row.w-100 {
 }
 div.img-wrapper {
     right: 1rem;
+    max-height: 50%;
 }
 div.file-input {
     position: absolute;
@@ -383,15 +378,12 @@ img.user-img {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
-/* @media (max-width: 330px) {
-    .talk-btn {
-        padding: 0.5rem;
-    }
-} */
 @media (max-width: 768px) {
     .col-11 {
         padding-left: 2rem;
     }
+}
+@media (max-width: 575px) {
     div.img-wrapper {
         left: 0.5rem;
     }
