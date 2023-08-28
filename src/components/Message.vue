@@ -108,7 +108,7 @@ export default {
         //     return this.message.mentions.length > 0
         // },
         postArray() {
-            return this.message.text.split(/[-\s^*+|~`\[\]]/);
+            return this.message.text.split(/[\s^*+|~`\[\]]/);
         }
     },
     props: ['message', 'images'],
