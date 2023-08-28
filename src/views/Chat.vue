@@ -50,6 +50,7 @@
             </div>
         </div>
         <div ref="chatContainer" class="chat-container" :class="{ 'file-chat-container': files > 0 }">
+            <PageLoader :color="color" :height="20" :width="20" v-if="loading" class="p-2" />
             <MessageComponent 
                 v-for="message in messages" 
                 :key="message.id" 
@@ -69,7 +70,7 @@ import TextBox from '../components/TextBox.vue'
 import MessageComponent from '../components/Message.vue';
 import { chatStore } from '../stores/chat';
 import { socketStore } from '../stores/socket';
-import { io } from 'socket.io-client';
+import PageLoader from '../components/PageLoader.vue';
 
 export default {
     name: 'Chat',
@@ -81,6 +82,8 @@ export default {
             socket: null,
             connected: false,
             files: 0,
+            color: 'FFF',
+            loading: true,
         }
     },
     async beforeRouteEnter(to, from, next) {
@@ -119,10 +122,11 @@ export default {
             res = await axios.get(`message/${id}?apiKey=${apiKey}`)
         } catch (error) {
             console.log(error);
+            return;
         } finally {
             this.scrollToLastMessage();
         }
-
+        this.loading = false;
         this.messages = res.data.messages;
 
         // websocket connection
@@ -133,7 +137,6 @@ export default {
         })
 
         this.socket.on('onNewMessage', (event) => {
-            // console.log(event);
             this.messages.push(event)
         })
 
@@ -180,7 +183,7 @@ export default {
         chatt.setUser(null);
         next();
     },
-    components: { TextBox, MessageComponent }
+    components: { TextBox, MessageComponent, PageLoader }
 }
 </script>
 <style scoped>

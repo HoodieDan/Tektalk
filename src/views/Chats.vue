@@ -51,10 +51,6 @@ export default {
 </script>
 
 <style scoped>
-/* .container {
-    background-color: #000;
-    border-radius: 5px;
-} */
 @media (max-width: 768px) {
     .head {
         display: none;

@@ -1,36 +1,38 @@
 <template>
-  <div class="container-fluid main-fluid">
-    <vue-headful
-        title="Tektalk"
-        description="TekTalk is a social network aimed for tech driven individuals to
-          be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
-          also welcomes everyone, guests included."
-    />
+  <div>
     <PreLoader v-if="!showPage" />
-    <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
-    <BottomMenu  v-if="!$route.meta.hideNavbar" />
-    <div class="row main-row">
-      <!-- menu  -->
-      <div class="col-lg-2 col-md-1 side-menu">
-        <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
-      </div>
+    <div class="container-fluid main-fluid">
+      <vue-headful
+          title="Tektalk"
+          description="TekTalk is a social network aimed for tech driven individuals to
+            be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
+            also welcomes everyone, guests included."
+      />
+      <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
+      <BottomMenu  v-if="!$route.meta.hideNavbar" />
+      <div class="row main-row">
+        <!-- menu  -->
+        <div class="col-lg-2 col-md-1 side-menu">
+          <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
+        </div>
 
-      <!-- router view -->
-      <div class="col-lg-7 col-md-11 pad middle">
-        <router-view v-slot="{ Component }" >
-          <transition name="fade" mode="out-in">
-            <component :is="Component" ></component>
-          </transition>
-        </router-view>
-        <ImageModal v-if="showImage" v-motion-pop />
-      </div>
+        <!-- router view -->
+        <div class="col-lg-7 col-md-11 pad middle">
+          <router-view v-slot="{ Component }" >
+            <transition name="fade" mode="out-in">
+              <component :is="Component" ></component>
+            </transition>
+          </router-view>
+          <ImageModal v-if="showImage" v-motion-pop />
+        </div>
 
-      <!-- Suggestions -->
-      <div class="col-lg-3 col-0" v-if="thisRoute !== 'Chat'">
-        <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
-      </div>
-      <div v-else>
-        
+        <!-- Suggestions -->
+        <div class="col-lg-3 col-0" v-if="thisRoute !== 'Chat'">
+          <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
+        </div>
+        <div v-else>
+          
+        </div>
       </div>
     </div>
   </div>
@@ -67,7 +69,7 @@ export default {
       const sockett = socketStore();
       let res;
 
-      sockett.connectToSocket();
+      sockett.connectToSocket();  
 
       try {
         res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
@@ -151,6 +153,9 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid {
+  max-width: 1366px;
+}
 .disappear {
   animation: disappear 1s cubic-bezier(0.645,0.045,0.355,1) 2s forwards;
 }

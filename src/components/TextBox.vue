@@ -202,12 +202,12 @@ export default {
                     this.$toast.error(err.response.data.message);
                     return;
                 }
+                this.files = [];
                 this.$emit('handle', this.files.length)
             }
 
             this.loading = false;
             resetForm();
-            this.files = [];
             this.images = [];
         },
         tag(user) {

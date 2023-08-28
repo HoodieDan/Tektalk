@@ -1,7 +1,8 @@
 <template>
-  <div class="top-bar fade-in">
+  <div class="top-bar fade-in fixed-top">
     <!-- desktop topbar  -->
-    <div class="row desktop">
+    <div class="row desktop container">
+        <div class="col-lg-2"></div>
         <div class="col-lg-8 col-md-8 col-sm-6 search-div">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
@@ -196,6 +197,9 @@ export default {
 /* .circular {
     border: 1px solid #A9A9A9;
 } */
+/* .container {
+    margin-left: auto;
+} */
 .route {
     white-space:nowrap;
     overflow:hidden;
@@ -216,11 +220,17 @@ h4 {
     font-weight: 700;
 }
 .top-bar {
-   position: fixed;
+   /* position: fixed; */
    width: 100%;
-   padding: 1rem 1rem 1rem 16.67%;
+   padding: 1rem;
    background-color: #000;
    z-index: 1000;
+   display: flex;
+   justify-content: center;
+}
+.desktop.container,
+.col-sm-6.ms-auto {
+    padding-right: 0;
 }
 .row {
     margin: 0;

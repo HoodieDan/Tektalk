@@ -45,7 +45,7 @@
                     <!-- <p class="subtext text-gradient">@{{ user.username }}</p> -->
                     <p class="last mb-0" :class="{ 'unseen': chat.unread > 0 }">
                         <!-- <i class="fa-solid fa-envelope-circle-check"></i> -->
-                        <i class="fa-solid fa-check" v-if="chat.status == 'sender'"></i>
+                        <i class="fa-solid fa-check no-hover" v-if="chat.status == 'sender'"></i>
                         {{ chat.text }}
                     </p>
                 </div>
@@ -133,6 +133,9 @@ div.user {
 p.time {
     color: #7c7c7c;
     font-size: 0.8rem;
+}
+.no-hover {
+    background-color: transparent;
 }
 .unseen {
     color: #FFF !important;
