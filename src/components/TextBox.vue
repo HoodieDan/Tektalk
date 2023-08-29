@@ -186,7 +186,7 @@ export default {
             this.files.forEach((file) => {
                 formData.append("image", file);
             });
-            formData.append("text", this.body);
+            formData.append("text", values.status);
             if (this.upload_alert === "") {
                 try {
                     res = await axios.post(`message/${this.$route.params.id}?apiKey=${apiKey}`, formData);
@@ -204,11 +204,11 @@ export default {
                 this.$toast.error('Post body and files cannot be empty.')
             } else {
                 this.$emit('sent', {
-                    id: res.messageId,
+                    id: res.data.messageId,
                     createdAt: new Date().toString(),
                     imagesUrl: this.images,
                     status: 'sender',
-                    text: this.body,
+                    text: values.status,
                 })
             }
 
@@ -292,7 +292,9 @@ div.row.w-100 {
     padding-right: 0;
 }
 .img-display {
-    display: inline-block;
+    width: 100%;
+    background-color: #000;
+    z-index: 1000;
 }
 div.img-wrapper {
     right: 1rem;

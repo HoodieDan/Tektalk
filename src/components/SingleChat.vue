@@ -9,7 +9,7 @@
                 </div>
             </router-link>
             <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="col-10 chat-link no-underline row">
-                <div class="user-details col-lg-11 col-10">
+                <div class="user-details col-11">
                     <div class="d-flex align-items-center">
                         <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="mb-0 light no-underline light name me-2">{{ chat.name }}</router-link>
                         <div class="badge ps-0" v-if="chat.isVerified">
@@ -52,7 +52,7 @@
                     </p>
                 </div>
 
-                <div class="col-lg-1 col-2">
+                <div class="col-1">
                     <div class="dot" v-if="chat.unread > 0" >
                         <p class="subtext mb-0 unread">{{ chat.unread }}</p>
                     </div>
@@ -124,7 +124,7 @@ export default {
             } else if (width > 468) {
                 return this.chat.text.slice(0, 30);
             } else {
-                return this.chat.text.slice(0, 22)
+                return this.chat.text.slice(0, 25)
             }
         },
         textlength() {
@@ -138,7 +138,7 @@ export default {
             } else if (width > 400) {
                 return this.chat.text.length > 30;
             } else {
-                return this.chat.text.length > 22;
+                return this.chat.text.length > 25;
             }
         }
     },
@@ -215,6 +215,13 @@ p.time {
     }
     .foll {
         font-size: 0.6rem;
+    }
+}
+@media (max-width: 420px) {
+    .col-1 {
+        position: absolute;
+        right: 0rem;
+        bottom: 1.3rem;
     }
 }
 </style>

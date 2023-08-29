@@ -108,6 +108,28 @@
                 <p>{{ profile.bio }}</p>
             </div>
 
+            <div class="others">
+                <router-link :to="{ name: 'Chat', params: { id: profile.userId } }" class="circle" v-if="profile.username !== loggedInUser.username">
+                    <i class="fa-regular fa-message"></i>
+                </router-link>
+                
+                <!-- <a href="#" target="_blank" class="circle">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+
+                <a href="#" target="_blank" class="circle">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+                
+                <a href="#" target="_blank" class="circle">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                
+                <a href="#" target="_blank" class="circle">
+                    <i class="fa-brands fa-instagram"></i>
+                </a> -->
+            </div>
+
             <!-- followers and following  -->
             <div class="row mt-4" v-motion-pop >
                 <div class="col-6 b-r text-center foll" @click="openFollowModal('followers', profile.followersCount)" >
@@ -603,6 +625,21 @@ div.circular {
     left: 50px;
     bottom: 100px;
     cursor: default;
+}
+div.others {
+    display: flex;
+}
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    width: 2rem;
+    height: 2rem;
+    outline: 1px solid #FFF;
+    color: #A9A9A9;
+    border-radius: 50%;
+    margin-right: 1rem;
 }
 div.info {
     padding: 1.5rem 50px;

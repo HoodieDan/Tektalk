@@ -17,7 +17,8 @@
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
-            <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i>
+            <!-- <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i> -->
+            <i class="fa-regular fa-trash-can delete dark" v-if="canDelete && !deleting" @click="deletePost"></i>
         </div>
         <div class="loader-div" v-if="deleting">
             <page-loader :color="color" :height="20" :width="20" />

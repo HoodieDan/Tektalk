@@ -1,7 +1,7 @@
 <template>
     <div class="container chat-page">
         <div class="no-message" :class="{ 'h-100': messages.length == 0 }" v-if="messages">
-            <div class="mt-3 mb-3" v-if="messages.length == 0">
+            <div class="mt-3 mb-3 p-5" v-if="messages.length == 0">
                 <p class="mb-0">No messages to display. Send this user a message to begin a chat.</p>
             </div>
         </div>
@@ -56,6 +56,7 @@
                 :key="message.id" 
                 :message="message" 
                 :images="message.imagesUrl"
+                @delete="removefromArray"
             />
             <div id="bottom-of-chat-container" class="bottom-of-chat-container"></div>
         </div>
@@ -121,11 +122,10 @@ export default {
         } catch (error) {
             console.log(error);
             return;
-        } finally {
-            this.scrollToLastMessage();
         }
         this.loading = false;
         this.messages = res.data.messages;
+        this.$nextTick(() => this.scrollToLastMessage());
 
         // websocket connection
         this.socket = sockett.socket;
@@ -139,16 +139,16 @@ export default {
         })
 
         this.socket.on('onDelete', (event) => {
-            console.log(event);
             const deletedMessage = this.messages.find((message) => {
                 return message.id === event.id;
             })
             const i = this.messages.indexOf(deletedMessage);
-            this.messages.splice(1, 1);
+            this.messages.splice(i, 1);
         })
-
-        this.scrollToLastMessage()
     },
+    // mounted() {
+    //     this.scrollToLastMessage()
+    // },
     methods: {
         goBack() {
             this.$router.push(this.prevRoute);
@@ -173,14 +173,21 @@ export default {
         },
         push(message) {
             this.messages.push(message);
+        },
+        removefromArray(id) {
+            const deletedMessage = this.messages.find((message) => {
+                return message.id === id;
+            })
+            const i = this.messages.indexOf(deletedMessage);
+            this.messages.splice(i, 1);
         }
     },
     computed: {
     },
-    updated() {
-        // whenever data changes and the component re-renders, this is called.
-        this.$nextTick(() => this.scrollToLastMessage());
-    },
+    // updated() {
+    //     // whenever data changes and the component re-renders, this is called.
+    //     this.$nextTick(() => this.scrollToLastMessage());
+    // },
     beforeRouteLeave (to, from, next) {
         const chatt = chatStore()
         chatt.setUser(null);
