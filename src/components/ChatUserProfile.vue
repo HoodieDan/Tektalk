@@ -1,6 +1,6 @@
 <template>
     <div class="container" >
-      <ProfileSkeleton v-if='profile === null' />
+      <ChatUserProfileSkeleton v-if='profile === null' />
       <div class="profile-container w-100" v-else >
           <!-- backdrop image  -->
           <div class="backdrop-image w-100">
@@ -119,7 +119,7 @@
   
   <script>
   import PageLoader from '../components/PageLoader.vue'
-  import ProfileSkeleton from '../components/ProfileSkeleton.vue'
+  import ChatUserProfileSkeleton from '../components/ChatUserProfileSkeleton.vue'
   import axios from 'axios'
   import { postStore } from '../stores/post';
   import { authStore } from '../stores/auth';
@@ -204,7 +204,7 @@
               return this.$route.params.username;
           },
       },
-      components: { PageLoader, ProfileSkeleton },
+      components: { PageLoader, ChatUserProfileSkeleton },
   }
   </script>
   

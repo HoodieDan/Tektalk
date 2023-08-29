@@ -60,7 +60,7 @@
             <div id="bottom-of-chat-container" class="bottom-of-chat-container"></div>
         </div>
         <div class="text-box" :class="{ 'file-text-box': files > 0 }">
-            <TextBox @handle="noOfFiles" />
+            <TextBox @handle="noOfFiles" @sent="push" />
         </div>
     </div>
 </template>
@@ -170,6 +170,9 @@ export default {
         },
         noOfFiles(number) {
             this.files = number
+        },
+        push(message) {
+            this.messages.push(message);
         }
     },
     computed: {
@@ -219,6 +222,7 @@ export default {
 }
 .file-text-box {
     height: auto !important;
+    /* position: absolute; */
 }
 .wrapper {
     padding-top: 0.5rem;
@@ -266,15 +270,6 @@ export default {
         height: 65% !important;
     }
 }
-/* @media (max-width: 400px) and (max-height: 750px) {
-    .chat-container {
-        height: 90%;
-        border-top: none;
-    }
-    .text-box {
-        height: 10%;
-    }
-} */
 @media (max-width: 400px) and (max-height: 750px) {
     .chat-container {
         height: 87%;

@@ -8,11 +8,11 @@
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                 </div>
             </router-link>
-            <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="col-10 chat-link no-underline">
-                <div class="user-details">
+            <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="col-10 chat-link no-underline row">
+                <div class="user-details col-lg-11 col-10">
                     <div class="d-flex align-items-center">
-                        <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="mb-0 light no-underline light name" :class="{ 'me-2': !chat.isVerified }">{{ chat.name }}</router-link>
-                        <div class="badge" v-if="chat.isVerified">
+                        <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="mb-0 light no-underline light name me-2">{{ chat.name }}</router-link>
+                        <div class="badge ps-0" v-if="chat.isVerified">
                             <svg
                                 width="17px"
                                 height="17px"
@@ -46,12 +46,16 @@
                     <p class="last mb-0" :class="{ 'unseen': chat.unread > 0 }">
                         <!-- <i class="fa-solid fa-envelope-circle-check"></i> -->
                         <i class="fa-solid fa-check no-hover" v-if="chat.status == 'sender'"></i>
-                        {{ chat.text }}
+                        {{ trimmedText }}
+                        <span v-if="textlength">...</span>
+                        <span v-if="imageWithNoCaption">image</span>
                     </p>
                 </div>
 
-                <div class="dot" v-if="chat.unread > 0" >
-                    <!-- <p class="subtext">{{ chat.unread }}</p> -->
+                <div class="col-lg-1 col-2">
+                    <div class="dot" v-if="chat.unread > 0" >
+                        <p class="subtext mb-0 unread">{{ chat.unread }}</p>
+                    </div>
                 </div>
             </router-link>
         </div>
@@ -106,6 +110,37 @@ export default {
                 return dayAndMonth;
             }
         },
+        imageWithNoCaption() {
+            return (this.chat.imagesUrl.length > 0) && (this.chat.text.length === 0)
+        },
+        trimmedText() {
+            const width = window.innerWidth;
+            if (width > 1365) {
+                return this.chat.text.slice(0, 60);
+            } else if (width > 1140) {
+                return this.chat.text.slice(0, 50);
+            } else if (width > 768) {
+                return this.chat.text.slice(0, 40);
+            } else if (width > 468) {
+                return this.chat.text.slice(0, 30);
+            } else {
+                return this.chat.text.slice(0, 22)
+            }
+        },
+        textlength() {
+            const width = window.innerWidth;
+            if (width > 1365) {
+                return this.chat.text.length > 60;
+            } else if (width > 1140) {
+                return this.chat.text.length > 50;
+            } else if (width > 992) {
+                return this.chat.text.length > 40;
+            } else if (width > 400) {
+                return this.chat.text.length > 30;
+            } else {
+                return this.chat.text.length > 22;
+            }
+        }
     },
     props: ['chat'],
     components: { PageLoader },
@@ -147,14 +182,26 @@ p.time {
     padding: 0 0.5rem 0 0;
 }
 .dot {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 50%;
-    background-color: #20BF55;
-    position: absolute;
+    background-color: #01BAEF;
+    /* position: absolute;
     right: 0;
-    bottom: 0.4rem;
+    bottom: 0.4rem; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.6rem;
     z-index: 10;
+    aspect-ratio: 1/1;
+}
+.unread {
+    color: #000;
+    font-weight: 700;
+    padding: 0.3rem;
 }
 @media (max-width: 500px) {
     .button-div {
@@ -165,9 +212,6 @@ p.time {
     }
     .subtext {
         font-size: 0.6rem;
-    }
-    .name {
-        margin-right: 0 !important;
     }
     .foll {
         font-size: 0.6rem;

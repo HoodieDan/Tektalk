@@ -2,7 +2,7 @@
   <!-- <div class=""> -->
     <div class="post-box">
     <TagResults :loading="searching" :users="results" @tag="tag" v-if="show_tag_box" />
-    <div v-if="noOfImages !== 0">
+    <div v-if="noOfImages !== 0" class="img-display">
         <div
             class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
         >
@@ -86,7 +86,7 @@ export default {
     data() {
         return {
             schema: {
-                status: "min:0|max:200",
+                status: "",
                 file_input: "",
                 loggedIn: false,
             },
@@ -174,6 +174,7 @@ export default {
                 }
                 return;
             });
+
             this.$emit('handle', this.files.length)
         },
         async post(values, { resetForm }) {
@@ -181,7 +182,6 @@ export default {
             const apiKey = import.meta.env.VITE_API_KEY;
             let res;
 
-            const post = postStore();
             var formData = new FormData();
             this.files.forEach((file) => {
                 formData.append("image", file);
@@ -198,6 +198,18 @@ export default {
                 }
                 this.files = [];
                 this.$emit('handle', this.files.length)
+            }
+
+            if (this.body === '' && !this.files === []) {
+                this.$toast.error('Post body and files cannot be empty.')
+            } else {
+                this.$emit('sent', {
+                    id: res.messageId,
+                    createdAt: new Date().toString(),
+                    imagesUrl: this.images,
+                    status: 'sender',
+                    text: this.body,
+                })
             }
 
             this.loading = false;
@@ -278,6 +290,9 @@ div.row.w-100 {
 }
 .col-11 {
     padding-right: 0;
+}
+.img-display {
+    display: inline-block;
 }
 div.img-wrapper {
     right: 1rem;
