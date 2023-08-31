@@ -89,12 +89,13 @@ export default {
             let deleted;
             try {
                 deleted = await axios.delete(`comment?apiKey=${apiKey}&commentId=${commentId}`);
-            } catch {
+            } catch (error) {
                 this.loading = false;
                 this.show_alert = true;
-                this.alert_message = 'Could not delete comment, try again later'
+                this.$toast.error('Could not delete comment, try again later');
                 return;
             }
+            console.log(deleted.data);
             this.$emit("delete", commentId);
             this.loading = false;
         },

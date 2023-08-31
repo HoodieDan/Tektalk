@@ -94,12 +94,11 @@ import PostBoxSkeleton from './PostBoxSkeleton.vue';
 
 export default {
     name: "PostBox",
-    async created() {
+    created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`);
         const auth = authStore();
         this.loggedIn = auth.userLoggedIn;
-        this.user = profile.data;
+        this.user = auth.user;
     },
     data() {
         return {

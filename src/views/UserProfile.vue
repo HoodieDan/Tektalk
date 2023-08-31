@@ -113,21 +113,21 @@
                     <i class="fa-regular fa-message"></i>
                 </router-link>
                 
-                <!-- <a href="#" target="_blank" class="circle">
+                <a :href="profile.socials.github" target="_blank" class="circle" v-if="profile.socials.github">
                     <i class="fa-brands fa-github"></i>
                 </a>
 
-                <a href="#" target="_blank" class="circle">
+                <a :href="profile.socials.twitter" target="_blank" class="circle" v-if="profile.socials.twitter">
                     <i class="fa-brands fa-x-twitter"></i>
                 </a>
                 
-                <a href="#" target="_blank" class="circle">
+                <a :href="profile.socials.linkedIn" target="_blank" class="circle" v-if="profile.socials.linkedIn">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
                 
-                <a href="#" target="_blank" class="circle">
+                <a :href="profile.socials.instagram" target="_blank" class="circle" v-if="profile.socials.instagram">
                     <i class="fa-brands fa-instagram"></i>
-                </a> -->
+                </a>
             </div>
 
             <!-- followers and following  -->
@@ -255,20 +255,6 @@ export default {
         let talks;
         let profile = null;
 
-        if (localStorage.getItem('token')) {
-            try {
-                profile = await axios.get(`/profile?apiKey=${apiKey}`);
-            } catch (error) {
-                if (error.message === 'Unable to verify token') {
-                    auth.signOut()
-                    localStorage.clear()
-                    return;
-                }
-                return;
-            }
-            this.loggedInUser = profile.data;
-        }
-
         if (user_profile) {
             if (user_profile.status === 200) {
                 if (this.$route.query.tab === 'Contributions') {
@@ -310,6 +296,7 @@ export default {
                 this.postPageNumber = 2;
             }
 
+            this.loggedInUser = auth.user;
             this.profile = user_profile.data;
         }
     },

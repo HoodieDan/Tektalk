@@ -344,18 +344,8 @@ export default {
         const auth = authStore();
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
         
-        if (localStorage.getItem('token')) {
-            let profile;
-            try {
-                profile = await axios.get(`/profile?apiKey=${apiKey}`)
-            } catch (error) {
-                if (error.response.data.message === 'Unable to verify token') {
-                    auth.signOut()
-                    localStorage.clear()
-                    return;
-                }
-            }
-            this.user = profile.data;
+        if (auth.user) {
+            this.user = auth.user;
         }
 
         if (response.status !== 200) {
@@ -365,9 +355,10 @@ export default {
         this.post = response.data.post[0];
         this.loading = false;
 
-        if (localStorage.getItem('token')) {
-            this.loggedIn = true;
-        }
+        // if (localStorage.getItem('token')) {
+        //     this.loggedIn = true;
+        // }
+        this.loggedIn = auth.userLoggedIn;
         this.getComments();
     },
 }

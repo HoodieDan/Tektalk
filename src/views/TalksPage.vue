@@ -25,6 +25,8 @@
 <script>
 import SingleTalk from '../components/SingleTalk.vue';
 import axios from 'axios';
+import { authStore } from '../stores/auth'
+
 export default {
     name: 'TalksPage',
     components: { SingleTalk },
@@ -37,16 +39,8 @@ export default {
       });
     },
     async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        let profile;
-
-        try {
-            profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-        this.currentUser = profile.data;
+        const auth = authStore();
+        this.currentUser = auth.user;
     },
     data() {
       return {

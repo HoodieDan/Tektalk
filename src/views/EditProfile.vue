@@ -119,6 +119,38 @@
                 </div>
                 <ErrorMessage class="error mb-2 alert" name="stack"></ErrorMessage>
 
+                <!-- github  -->
+                <label for="location">Github link:</label>
+                <div class="form-item mt-2 mb-3">
+                    <i class="fa-brands fa-github icon"></i>
+                    <vee-field name="github" id="github" type="text" class="input field" placeholder="Github Link"  v-model="user.socials.github" />
+                </div>
+                <ErrorMessage class="error mb-2 alert" name="github"></ErrorMessage>
+                
+                <!-- instagram  -->
+                <label for="location">Instagram link:</label>
+                <div class="form-item mt-2 mb-3">
+                    <i class="fa-brands fa-instagram icon"></i>
+                    <vee-field name="instagram" id="instagram" type="text" class="input field" placeholder="Instagram Link"  v-model="user.socials.instagram" />
+                </div>
+                <ErrorMessage class="error mb-2 alert" name="instagram"></ErrorMessage>
+                
+                <!-- linkedin  -->
+                <label for="location">LinkedIn link:</label>
+                <div class="form-item mt-2 mb-3">
+                    <i class="fa-brands fa-linkedin-in icon"></i>
+                    <vee-field name="linkedin" id="linkedin" type="text" class="input field" placeholder="Linkedin Link"  v-model="user.socials.linkedin" />
+                </div>
+                <ErrorMessage class="error mb-2 alert" name="linkedin"></ErrorMessage>
+                
+                <!-- twitter  -->
+                <label for="location">Twitter link:</label>
+                <div class="form-item mt-2 mb-3">
+                    <i class="fa-brands fa-x-twitter icon"></i>
+                    <vee-field name="twitter" id="twitter" type="text" class="input field" placeholder="Twitter link"  v-model="user.socials.twitter" />
+                </div>
+                <ErrorMessage class="error mb-2 alert" name="twitter"></ErrorMessage>
+
                 <!-- Bio  -->
                 <label for="paswword">Bio:</label>
                 <div class="form-item mt-2 mb-3">
@@ -183,6 +215,10 @@ export default {
             vm.user.bio = profile.data.bio;
             vm.user.displayUrl = profile.data.displayUrl;
             vm.user.backdropUrl = profile.data.backdropUrl;
+            vm.user.socials.github = profile.data.socials.github;
+            vm.user.socials.instagram = profile.data.socials.instagram;
+            vm.user.socials.twitter = profile.data.socials.twitter;
+            vm.user.socials.linkedin = profile.data.socials.linkedIn;
         })
     },
     data() {
@@ -210,6 +246,10 @@ export default {
                 location: "required|min:3",
                 stack: "required",
                 bio: "min:1|max:200",
+                github: "",
+                instagram: "",
+                linkedin: "",
+                twitter: "",
             },
             user: {
                 name: '',
@@ -220,6 +260,12 @@ export default {
                 bio: '',
                 displayUrl: null,
                 backdropUrl: null,
+                socials: {
+                    github: "",
+                    instagram: "",
+                    linkedin: "",
+                    twitter: "",
+                }
             },
             loading: false,
             show_alert: false,
@@ -257,6 +303,10 @@ export default {
             formData.append('stack', values.stack);
             formData.append('location', values.location);
             formData.append('bio', values.bio);
+            formData.append('instagram', values.instagram);
+            formData.append('twitter', values.twitter);
+            formData.append('linkedIn', values.linkedin);
+            formData.append('github', values.github);
 
             let updated;
             try {
@@ -321,6 +371,9 @@ div.circular {
 .edit {
     background-color: #000;
     border-radius: 5px;
+}
+.fa-brands {
+    padding-bottom: 0.5rem;
 }
 .file-input__input {
   width: 0.1px;

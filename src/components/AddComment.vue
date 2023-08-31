@@ -47,19 +47,8 @@ import TagResults from './TagResults.vue';
 export default {
     name: 'AddComment',
     async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        
-        let profile;
-        try {
-            profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        } catch (error) {
-            if (error.response.data.message === 'Unable to verify token') {
-                auth.signOut()
-                localStorage.clear()
-                return;
-            }
-        }
-        this.user = profile.data;
+        const auth = authStore();
+        this.user = auth.user;
     },
     data() {
         return {

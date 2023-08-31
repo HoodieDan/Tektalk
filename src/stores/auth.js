@@ -30,7 +30,7 @@ export const authStore = defineStore('auth', {
             localStorage.setItem('uid', response.data.userId)
             localStorage.setItem('token', response.data.token);
 
-            this.loggedIn()
+            this.loggedIn();
         },
         async login(values) {
             const response = await axios.post(`/auth/login?apiKey=${apiKey}`, {
@@ -41,7 +41,7 @@ export const authStore = defineStore('auth', {
             localStorage.setItem('uid', response.data.userId)
             localStorage.setItem('token', response.data.token)
 
-            this.loggedIn()
+            this.loggedIn();
         },
         setLoggedInUser(user) {
             this.user = user;

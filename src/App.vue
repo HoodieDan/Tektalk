@@ -110,6 +110,7 @@ export default {
           return;
         }
         this.user = profile.data;
+        // auth.setLoggedInUser(profile.data);
       }
     },
     data() {

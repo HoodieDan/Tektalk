@@ -66,6 +66,8 @@ import PostBox from '../components/PostBox.vue';
 import axios from 'axios';
 import PostItem from '../components/PostItem.vue';
 import PageLoader from '../components/PageLoader.vue';
+import { authStore } from '../stores/auth'
+
 export default {
     name: "SingleTalkPage",
     components: { PostBox, PostItem, PageLoader },
@@ -102,16 +104,8 @@ export default {
       })
     },
     async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        let profile;
-
-        try {
-            profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-        this.currentUser = profile.data;
+        const auth = authStore();
+        this.currentUser = auth.user;
     },
     data() {
         return {

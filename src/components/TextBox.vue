@@ -78,10 +78,8 @@ export default {
     name: "TextBox",
     async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const profile = await axios.get(`/profile?apiKey=${apiKey}`);
         const auth = authStore();
         this.loggedIn = auth.userLoggedIn;
-        this.user = profile.data;
     },
     data() {
         return {
@@ -93,7 +91,6 @@ export default {
             body: "",
             files: [],
             status: "",
-            user: null,
             upload_alert: "",
             show_tag_box: false,
             loading: false,
