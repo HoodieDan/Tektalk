@@ -113,6 +113,7 @@ h6 {
 }
 .nav-group {
     overflow-y: auto;
+    max-height: 1040.50px;
 }
 .logo-group {
     align-items: center;

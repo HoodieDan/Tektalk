@@ -1,7 +1,8 @@
 <template>
-  <div class="top-bar fade-in">
+  <div class="top-bar fade-in fixed-top">
     <!-- desktop topbar  -->
-    <div class="row desktop">
+    <div class="row desktop container">
+        <div class="col-lg-2"></div>
         <div class="col-lg-8 col-md-8 col-sm-6 search-div">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
@@ -17,7 +18,9 @@
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-else >
             <div class="d-flex icons">
-                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Messages' }" ></i>
+                <router-link :to="{ name: 'Chats'}" class="light no-underline">
+                    <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Chats' }" ></i>
+                </router-link>
                 <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                     <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
                     <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
@@ -31,7 +34,7 @@
     </div>
 
     <!-- mobile top bar -->
-    <div class="row mobile fade-in">
+    <div class="row mobile fade-in" v-if="currentRoute !== 'Chat'">
         <router-link :to="{name: 'Home'}" class="col-2 no-underline d-flex align-items-center">
             <h3 class="logo-text mb-0">Tt</h3>
         </router-link>
@@ -39,8 +42,8 @@
             <h6 class="mb-0">{{ currentRoute }}</h6>
         </div>
         <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
-            <router-link :to="{ name: 'Home' }" class="light" >
-                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Messages' }" ></i>
+            <router-link :to="{ name: 'Chats' }" class="light no-underline" >
+                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Chats' }" ></i>
             </router-link>
             <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                 <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
@@ -66,12 +69,63 @@
             </router-link>
         </div>
     </div>
+    <div class="row fade-in mobile" v-else>
+        <div class="col-2">
+            <i class="fa-solid fa-arrow-left" @click="goBack"></i>
+        </div>
+        <div class="col-3" v-if="chat !== null">
+            <router-link :to="{name: 'Profile', params: { username: chat.username }}">
+                <div class="circular">
+                    <img :src="chat.displayUrl" alt="gorgeous" v-if="chat.displayUrl">
+                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                </div>
+            </router-link>
+        </div>
+        <div class="col-7" v-if="chat !== null">
+            <div class="user-details">
+                    <div class="d-flex align-items-center">
+                        <router-link :to="{name: 'Profile', params: { username: chat.username }}" class="mb-0 light no-underline light name" :class="{ 'me-2': !chat.isVerified }">{{ chat.name }}</router-link>
+                        <div class="badge" v-if="chat.isVerified">
+                            <svg
+                                width="17px"
+                                height="17px"
+                                fill="#d9d9d9"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                aria-label="Verification badge"
+                                class="
+                                r-jwli3a
+                                r-4qtqp9
+                                r-yyyyoo
+                                r-1xvli5t
+                                r-9cviqr
+                                r-f9ja8p
+                                r-og9te1
+                                r-bnwqim
+                                r-1plcrui
+                                r-lrvibr
+                                "
+                            >
+                                <g>
+                                <path
+                                    d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"
+                                />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="subtext text-gradient mb-0">@{{ chat.username }}</p>
+                </div>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
 import ImageSkeleton from './ImageSkeleton.vue';
 import { authStore } from '../stores/auth.js'
+import { chatStore } from '../stores/chat'
+import axios from 'axios';
 
 export default {
     name: 'TopBar',
@@ -86,6 +140,8 @@ export default {
         return {
             query: '',
             loggedIn: null,
+            chat: null,
+            prevRoute: null,
         }
     },
     methods: {
@@ -94,11 +150,42 @@ export default {
         },
         read() {
             this.$emit('read');
+        },
+        goBack() {
+            this.$router.push(this.prevRoute);
         }
     },
     computed: {
         currentRoute() {
             return this.$route.name;
+        },
+        chatRoute() {
+            return this.$route.params.id;
+        }
+    },
+    watch: {
+        async currentRoute(newVal) {
+            const chatt = chatStore();
+            const apikey = import.meta.env.VITE_API_KEY;
+            let res;
+
+            if (newVal == 'Chat') {
+                this.prevRoute = chatt.prevRoute;
+                if (chatt.user) {
+                    this.chat = JSON.parse(JSON.stringify(chatt.user));
+                } else {
+                    try {
+                        res = await axios.get(`profile/id/${this.$route.params.id}?apiKey=${apikey}`)
+                    } catch (error) {
+                        return;
+                    }
+
+                    this.chat = {
+                        ...res.data,
+                        'isVerified': res.data.verified,
+                    }
+                }
+            }
         }
     },
     props: ['currentUser'],
@@ -107,6 +194,12 @@ export default {
 </script>
 
 <style scoped>
+/* .circular {
+    border: 1px solid #A9A9A9;
+} */
+/* .container {
+    margin-left: auto;
+} */
 .route {
     white-space:nowrap;
     overflow:hidden;
@@ -127,11 +220,17 @@ h4 {
     font-weight: 700;
 }
 .top-bar {
-   position: fixed;
+   /* position: fixed; */
    width: 100%;
-   padding: 1rem 1rem 1rem 16.67%;
+   padding: 1rem;
    background-color: #000;
    z-index: 1000;
+   display: flex;
+   justify-content: center;
+}
+.desktop.container,
+.col-sm-6.ms-auto {
+    padding-right: 0;
 }
 .row {
     margin: 0;
@@ -227,6 +326,7 @@ input:focus {
     .top-bar {
         padding: 1rem;
         backdrop-filter: blur(100px);
+        display: block;
     }
     .col-10 h4, 
     .logo-text {
@@ -235,6 +335,19 @@ input:focus {
     .circular {
         width: 30px;
         height: 30px;
+    }
+    .circular {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+@media (max-width: 500px) {
+    .name {
+        font-size: 0.8rem;
+        margin-right: 0 !important;
+    }
+    .subtext {
+        font-size: 0.6rem;
     }
 }
 @media (max-width: 300px) {

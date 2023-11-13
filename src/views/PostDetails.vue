@@ -17,7 +17,8 @@
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
-            <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i>
+            <!-- <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i> -->
+            <i class="fa-regular fa-trash-can delete dark" v-if="canDelete && !deleting" @click="deletePost"></i>
         </div>
         <div class="loader-div" v-if="deleting">
             <page-loader :color="color" :height="20" :width="20" />
@@ -343,18 +344,8 @@ export default {
         const auth = authStore();
         const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
         
-        if (localStorage.getItem('token')) {
-            let profile;
-            try {
-                profile = await axios.get(`/profile?apiKey=${apiKey}`)
-            } catch (error) {
-                if (error.response.data.message === 'Unable to verify token') {
-                    auth.signOut()
-                    localStorage.clear()
-                    return;
-                }
-            }
-            this.user = profile.data;
+        if (auth.user) {
+            this.user = auth.user;
         }
 
         if (response.status !== 200) {
@@ -364,9 +355,10 @@ export default {
         this.post = response.data.post[0];
         this.loading = false;
 
-        if (localStorage.getItem('token')) {
-            this.loggedIn = true;
-        }
+        // if (localStorage.getItem('token')) {
+        //     this.loggedIn = true;
+        // }
+        this.loggedIn = auth.userLoggedIn;
         this.getComments();
     },
 }

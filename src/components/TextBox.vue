@@ -1,86 +1,68 @@
 <template>
-  <div class="">
+  <!-- <div class=""> -->
     <div class="post-box">
-        <PostBoxSkeleton v-if="user === null" />
-        <div class="row" v-else>
-            <router-link :to="{name: 'Profile', params: { username: user.username }}" class="col-lg-1 col-md-1 col-sm-2 col-2">
-                <div class="circular">
-                    <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl !== null" >
-                    <img
-                        src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
-                        alt="profile image" 
-                        v-else
-                    >
-                </div>
-            </router-link>
-            <div class="col-lg-11 col-md-11 col-sm-10 col-10 form">
-                <vee-form class="form" @submit="post" :validation-schema="schema">
-                    <div class="row w-100">
-                        <div class="col-lg-6 col-md-6 ">
-                            <vee-field as="textarea" name="status" id="status" rows="2" :placeholder="placeholder"
-                            v-model="body" ref="body"></vee-field>
-                        </div>
-                        <div class="col-lg-6 col-md-6 buttons">
-                            <div class="attached">
-                                <i class="fa-solid fa-paperclip no-underline" :class="iconClass"></i>
-                                <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient no-underline': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
-                                <p class="subtext mb-0 p-0 alert" v-else>{{ upload_alert }}</p>
-                            </div>
-                            <div class="file-input">
-                                <vee-field
-                                    type="file"
-                                    name="file_input"
-                                    id="file_input"
-                                    class="file-input__input"
-                                    @change="handleFileUpload($event)"
-                                    multiple
-                                />
-                                <label class="file-input__label" for="file_input">
-                                    <i class="fa-regular fa-image"></i></label>
-                            </div>
-                            <button type="submit" class="talk-btn" :disabled="loading" >
-                                <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="loading"/>
-                                <p class="other-talks" v-motion-pop v-else>Share</p>
-                            </button>
-                        </div>
-                    </div>
-                    <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
-                </vee-form>
-            </div>
-        </div>
-        <TagResults :loading="searching" :users="results" @tag="tag" v-if="show_tag_box" />
-        <div v-if="noOfImages !== 0">
-            <div
-                class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
-            >
-                <div :class="{ 'col-12 ps-0': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
-                    <button class="close-modal" @click="removeImage(images[0], files[0])">
-                        <i class="fa-solid fa-xmark light" />
-                    </button>
-                    <img
-                        :src="images[0]" 
-                        alt="" 
-                        class="br-5 p-0 user-img"
-                        :class="{ 'br-right': noOfImages > 1 }"
-                    >
-                </div>
-                <div
-                    class="col-6 ps-1" 
-                    v-if="noOfImages > 1"
+    <TagResults :loading="searching" :users="results" @tag="tag" v-if="show_tag_box" />
+    <div v-if="noOfImages !== 0" class="img-display">
+        <div
+            class="row pt-2 pb-3 pe-3 ps-2 img-wrapper"
+        >
+            <div :class="{ 'col-12 ps-0': noOfImages === 1, 'col-6 pe-1': noOfImages > 1 }">
+                <button class="close-modal" @click="removeImage(images[0], files[0])">
+                    <i class="fa-solid fa-xmark light" />
+                </button>
+                <img
+                    :src="images[0]" 
+                    alt="" 
+                    class="br-5 p-0 user-img"
+                    :class="{ 'br-right': noOfImages > 1 }"
                 >
-                    <button class="close-modal" @click="removeImage(images[1], files[1])">
-                        <i class="fa-solid fa-xmark light" />
-                    </button>
-                    <img
-                        :src="images[1]" 
-                        alt="" 
-                        class="br-5 p-0 user-img br-left"
-                    >
-                </div>
+            </div>
+            <div
+                class="col-6 ps-1" 
+                v-if="noOfImages > 1"
+            >
+                <button class="close-modal" @click="removeImage(images[1], files[1])">
+                    <i class="fa-solid fa-xmark light" />
+                </button>
+                <img
+                    :src="images[1]" 
+                    alt="" 
+                    class="br-5 p-0 user-img br-left"
+                >
             </div>
         </div>
     </div>
-  </div>
+        <div class="form">
+            <vee-form class="form" @submit="post" :validation-schema="schema">
+                <div class="row w-100">
+                    <div class="col-11 d-flex">
+                        <vee-field name="status" id="status" :placeholder="placeholder"
+                        v-model="body" ref="body"></vee-field>
+                        <div class="file-input">
+                            <vee-field
+                                type="file"
+                                name="file_input"
+                                id="file_input"
+                                class="file-input__input"
+                                @change="handleFileUpload($event)"
+                                multiple
+                            />
+                            <label class="file-input__label" for="file_input">
+                                <i class="fa-regular fa-image"></i></label>
+                        </div>
+                    </div>
+                    <div class="col-1 buttons">
+                        <button type="submit" class="talk-btn" :disabled="loading" >
+                            <PageLoader :color="color" :height="16" :width="16" v-if="loading" class="p-2" />
+                            <i class="fa-regular fa-paper-plane no-hover" v-else></i>
+                        </button>
+                    </div>
+                </div>
+                <ErrorMessage class="subtext text-gradient" name="status"></ErrorMessage>
+            </vee-form>
+        </div>
+    </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -93,33 +75,29 @@ import TagResults from './TagResults.vue';
 import PostBoxSkeleton from './PostBoxSkeleton.vue';
 
 export default {
-    name: "PostBox",
-    created() {
+    name: "TextBox",
+    async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
         const auth = authStore();
         this.loggedIn = auth.userLoggedIn;
-        this.user = auth.user;
     },
     data() {
         return {
             schema: {
-                status: "min:0|max:200",
+                status: "",
                 file_input: "",
                 loggedIn: false,
             },
             body: "",
             files: [],
             status: "",
-            user: null,
             upload_alert: "",
             show_tag_box: false,
             loading: false,
             searching: false,
             results: null,
-            show_upload_alert: false,
             color: 'FFF',
             images: [],
-            mentions: []
         };
     },
     computed: {
@@ -167,6 +145,8 @@ export default {
 
             this.images.splice(index, 1);
             this.files.splice(index2, 1);
+
+            this.$emit('handle', this.files.length)
         },
         handleFileUpload($event) {
             this.files = [...$event.target.files];
@@ -191,61 +171,46 @@ export default {
                 }
                 return;
             });
+
+            this.$emit('handle', this.files.length)
         },
         async post(values, { resetForm }) {
-            const mention = values.status.match(/@\w+/g);
-            if (mention) {
-                mention.forEach((item) => {
-                    this.mentions.push(item.slice(1))
-                })
-            }
             this.loading = true;
             const apiKey = import.meta.env.VITE_API_KEY;
             let res;
 
-            const post = postStore();
             var formData = new FormData();
             this.files.forEach((file) => {
                 formData.append("image", file);
             });
-            formData.append("body", this.body);
-            formData.append("category", this.category);
-            formData.append("postedIn", this.postedIn);
+            formData.append("text", values.status);
             if (this.upload_alert === "") {
                 try {
-                    res = await axios.post(`post?apiKey=${apiKey}`, formData);
+                    res = await axios.post(`message/${this.$route.params.id}?apiKey=${apiKey}`, formData);
                 }
                 catch (err) {
                     this.loading = false;
                     this.$toast.error(err.response.data.message);
-
                     return;
                 }
-                this.$toast.success('Posted Successfully');
+                this.files = [];
+                this.$emit('handle', this.files.length)
             }
 
             if (this.body === '' && !this.files === []) {
                 this.$toast.error('Post body and files cannot be empty.')
             } else {
-                this.$emit('posted', {
-                    authorId: this.user.userId,
-                    authorImage: this.user.displayUrl,
-                    commentCount: 0,
-                    images: this.images,
-                    isVerified: this.user.verified,
-                    likeCount: 0,
-                    name: this.user.name,
-                    postBody: this.body,
-                    postDate: new Date().toString(),
-                    postId: res.data.postId,
-                    postedIn: this.postedIn,
-                    username: this.user.username,
-                    mentions: this.mentions,
+                this.$emit('sent', {
+                    id: res.data.messageId,
+                    createdAt: new Date().toString(),
+                    imagesUrl: this.images,
+                    status: 'sender',
+                    text: values.status,
                 })
             }
+
             this.loading = false;
             resetForm();
-            this.files = [];
             this.images = [];
         },
         tag(user) {
@@ -293,6 +258,13 @@ export default {
             }
             this.results = res.data.users;
             this.searching = false;
+        },
+        show_tag_box(newVal) {
+            if (newVal === true) {
+                this.$emit('handle', 1)
+            } else {
+                this.$emit('handle', 0)
+            }
         }
     },
     props: ["placeholder", "category", "postedIn"],
@@ -304,15 +276,41 @@ export default {
 div.post-box {
     width: 100%;
     background-color: #000;
-    padding: 1.5rem 1rem;
+    padding: 0.5rem;
     border-radius: 5px;
-    margin-bottom: 0.5rem;
 }
-/* div.form {
-    display: flex;
+div.form {
+    right: 1rem;
+}
+div.row.w-100 {
     align-items: center;
 }
-div.form > *, div.buttons > * {
+.col-11 {
+    padding-right: 0;
+}
+.img-display {
+    width: 100%;
+    background-color: #000;
+    z-index: 1000;
+}
+div.img-wrapper {
+    right: 1rem;
+    max-height: 50%;
+}
+div.file-input {
+    position: absolute;
+    z-index: 5;
+    right: 0.2rem;
+}
+input#status {
+    background-color: #000;
+    border: 1px solid #FFF;
+    color: #e7e9ea;
+    width: 100%;
+    border-radius: 16px;
+    padding: 0.2rem 2.5rem 0.2rem 0.5rem;
+}
+/* div.form > *, div.buttons > * {
     margin-right: 0.5rem;
 } */
 .close-modal {
@@ -352,7 +350,8 @@ textarea:focus {
   z-index: -1;
 }
 .talk-btn {
-  padding: 0.5rem 2rem;
+  padding: 0.2rem;
+  color: #e7e9ea;
 }
 .other-talks {
   margin: 0;
@@ -365,11 +364,6 @@ div.buttons {
 div.attached {
     display: flex;
     align-items: center;
-}
-.fa-paperclip:hover {
-    background-color: transparent;
-    color: #e7e9ea;
-    cursor: default;
 }
 .img-fluid.col-6 {
     border-radius: 5px;
@@ -398,9 +392,14 @@ img.user-img {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
-@media (max-width: 330px) {
-    .talk-btn {
-        padding: 0.5rem;
+@media (max-width: 768px) {
+    .col-11 {
+        padding-left: 2rem;
+    }
+}
+@media (max-width: 575px) {
+    div.img-wrapper {
+        left: 0.5rem;
     }
 }
 </style>

@@ -1,33 +1,38 @@
 <template>
-  <div class="container-fluid main-fluid">
-    <vue-headful
-        title="Tektalk"
-        description="TekTalk is a social network aimed for tech driven individuals to
-          be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
-          also welcomes everyone, guests included."
-    />
+  <div>
     <PreLoader v-if="!showPage" />
-    <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
-    <BottomMenu  v-if="!$route.meta.hideNavbar" />
-    <div class="row main-row">
-      <!-- menu  -->
-      <div class="col-lg-2 col-md-1 side-menu">
-        <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
-      </div>
+    <div class="container-fluid main-fluid">
+      <vue-headful
+          title="Tektalk"
+          description="TekTalk is a social network aimed for tech driven individuals to
+            be able to meet like minded individuals for whatever reason it may be. It is made for but not limited to techies. Tektalk
+            also welcomes everyone, guests included."
+      />
+      <TopBar  v-if="!$route.meta.hideNavbar" :currentUser="user" @read="read" />
+      <BottomMenu  v-if="!$route.meta.hideNavbar" />
+      <div class="row main-row">
+        <!-- menu  -->
+        <div class="col-lg-2 col-md-1 side-menu">
+          <SideMenu :popularTalks="popularTalks" v-if="!$route.meta.hideNavbar" />
+        </div>
 
-      <!-- router view -->
-      <div class="col-lg-7 col-md-11 pad middle">
-        <router-view v-slot="{ Component }" >
-          <transition name="fade" mode="out-in">
-            <component :is="Component" ></component>
-          </transition>
-        </router-view>
-        <ImageModal v-if="showImage" v-motion-pop />
-      </div>
+        <!-- router view -->
+        <div class="col-lg-7 col-md-11 pad middle">
+          <router-view v-slot="{ Component }" >
+            <transition name="fade" mode="out-in">
+              <component :is="Component" ></component>
+            </transition>
+          </router-view>
+          <ImageModal v-if="showImage" v-motion-pop />
+        </div>
 
-      <!-- Suggestions -->
-      <div class="col-lg-3 col-0">
-        <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
+        <!-- Suggestions -->
+        <div class="col-lg-3 col-0" v-if="thisRoute !== 'Chat'">
+          <Suggestions class="pad sugg" :suggestedTalks="suggestedTalks" v-if="!$route.meta.hideNavbar"/>
+        </div>
+        <div class="col-lg-3 col-0" v-else>
+          <ChatUserProfile class="pad sugg"></ChatUserProfile>
+        </div>
       </div>
     </div>
   </div>
@@ -42,7 +47,9 @@ import BottomMenu from './components/BottomMenu.vue';
 import { authStore } from './stores/auth';
 import ImageModal from './components/ImageModal.vue';
 import { postStore } from './stores/post';
+import { socketStore } from './stores/socket';
 import PreLoader from './components/PreLoader.vue';
+import ChatUserProfile from './components/ChatUserProfile.vue';
 
 export default {
     name: "App",
@@ -60,8 +67,11 @@ export default {
     },
     async created() {
       const apiKey = import.meta.env.VITE_API_KEY;
-
+      const sockett = socketStore();
       let res;
+
+      sockett.connectToSocket();  
+
       try {
         res = await axios.get(`talk/suggested-popular?apiKey=${apiKey}`)
         this.suggestedTalks = res.data.suggestedTalks;
@@ -76,6 +86,7 @@ export default {
       }
 
       const auth = authStore();
+      auth.getCurrentUser();
       const uid = localStorage.getItem('uid');
       this.uid = uid;
       
@@ -99,6 +110,7 @@ export default {
           return;
         }
         this.user = profile.data;
+        // auth.setLoggedInUser(profile.data);
       }
     },
     data() {
@@ -129,6 +141,9 @@ export default {
       },
       currentRoute() {
         return this.$route.from === 'Notifications';
+      },
+      thisRoute() {
+        return this.$route.name;
       }
     },
     watch: {
@@ -136,11 +151,14 @@ export default {
         this.showImage = !this.showImage;
       },
     },
-    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader },
+    components: { SideMenu, TopBar, Suggestions, BottomMenu, ImageModal, PreLoader, ChatUserProfile },
 }
 </script>
 
 <style scoped>
+.container-fluid {
+  max-width: 1366px;
+}
 .disappear {
   animation: disappear 1s cubic-bezier(0.645,0.045,0.355,1) 2s forwards;
 }
@@ -174,6 +192,9 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .sugg {
+    display: none;
+  }
   .side-menu {
     display: none;
   }

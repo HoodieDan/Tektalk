@@ -27,6 +27,7 @@
 import axios from 'axios';
 import SingleEvent from '../components/SingleEvent.vue';
 import CreateEventModal from '../components/CreateEventModal.vue';
+import { authStore } from '../stores/auth';
 
 export default {
     name: 'EventsPage',
@@ -39,16 +40,8 @@ export default {
         })
     },
     async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        let profile;
-
-        try {
-            profile = await axios.get(`/profile?apiKey=${apiKey}`)
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-        this.currentUser = profile.data;
+        const auth = authStore();
+        this.currentUser = auth.user;
     },
     data() {
         return {
