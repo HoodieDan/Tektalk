@@ -178,21 +178,27 @@ export default {
         timePosted() {
             const date = new Date().toString();
             const currentTime = date.slice(16,21);
+            const currentYear = date.slice(11, 15);
             const day = date.slice(4,15);
             const dayPosted = this.post.postDate.slice(4,15);
+            const yearPosted = this.post.postDate.slice(11, 15);
             const dayAndMonth = this.post.postDate.slice(4, 11)
 
             let time;
 
-            if (this.post.postDate) {
-                time = this.post.postDate.slice(16,21);
-            }
-            if (time === currentTime) {
-                return 'now'
-            } else if (day === dayPosted) {
-                return time;
+            if (yearPosted === currentYear) {
+                if (this.post.postDate) {
+                    time = this.post.postDate.slice(16,21);
+                }
+                if (time === currentTime) {
+                    return 'now'
+                } else if (day === dayPosted) {
+                    return time;
+                } else {
+                    return dayAndMonth;
+                }
             } else {
-                return dayAndMonth;
+                return `${dayAndMonth} ${yearPosted}`;
             }
         },
         webShareApiSupported() {
@@ -235,6 +241,7 @@ div.post {
     font-weight: 500;
     background: linear-gradient(to right, #20BF55, #01BAEF);
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     -webkit-background-clip: text;
     cursor: pointer;
 }
