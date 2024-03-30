@@ -38,9 +38,9 @@
                                 <label class="file-input__label" for="file_input">
                                     <i class="fa-regular fa-image"></i></label>
                             </div>
-                            <button type="submit" class="talk-btn" :disabled="loading" >
+                            <button type="submit" class="talk-btn w-50" :disabled="loading" >
                                 <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="loading"/>
-                                <p class="other-talks" v-motion-pop v-else>Share</p>
+                                <p class="other-talks" v-else>Share</p>
                             </button>
                         </div>
                     </div>
@@ -94,11 +94,10 @@ import PostBoxSkeleton from './PostBoxSkeleton.vue';
 
 export default {
     name: "PostBox",
-    created() {
+    async created() {
         const apiKey = import.meta.env.VITE_API_KEY;
-        const auth = authStore();
-        this.loggedIn = auth.userLoggedIn;
-        this.user = auth.user;
+        const profile = await axios.get(`/profile?apiKey=${apiKey}`);
+        this.user = profile.data;
     },
     data() {
         return {
@@ -224,7 +223,7 @@ export default {
                 this.$toast.success('Posted Successfully');
             }
 
-            if (this.body === '' && !this.files === []) {
+            if (this.body === '' && this.files.length === 0) {
                 this.$toast.error('Post body and files cannot be empty.')
             } else {
                 this.$emit('posted', {

@@ -65,9 +65,14 @@ export default {
     async beforeRouteEnter(to, from, next) {
       const apiKey = import.meta.env.VITE_API_KEY;
       const res = await axios.get(`/post/related-posts?apiKey=${apiKey}&pageNumber=1`)
+      localStorage.setItem('posts', JSON.stringify(res.data.posts));
       next((vm) => {
-        vm.posts = res.data.posts;
         vm.pageNumber = 2;
+        if (localStorage.getItem('posts')) {
+          vm.posts = JSON.parse(localStorage.getItem('posts'));
+        } else {
+          vm.posts = res.data.posts;
+        }
       })
     },
     methods: {

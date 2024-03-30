@@ -56,7 +56,7 @@ export const authStore = defineStore('auth', {
                 profile = await axios.get(`/profile?apiKey=${apiKey}`)
             } catch (error) {
                 if (error.response.data.message === 'Unable to verify token') {
-                    auth.signOut()
+                    this.signOut()
                     localStorage.clear()
                     return;
                 }

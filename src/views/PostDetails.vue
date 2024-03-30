@@ -142,7 +142,7 @@
         <AddComment @increase-comment="addOne" v-motion-pop />
     </div>
 
-    <div class="post no-pointer" v-if="comments !== []">
+    <div class="post no-pointer" v-if="comments.length > 0">
         <h4 class="mb-0">Comments</h4>
     </div>
 
@@ -275,10 +275,14 @@ export default {
             const unlike = await axios.patch(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
         },
         likeOrUnlike(isLiked) {
-            if (isLiked) {
-                this.unlike()
+            if (this.loggedInUser) {
+                if (isLiked) {
+                    this.unlike()
+                } else {
+                    this.like()
+                } 
             } else {
-                this.like()
+                this.$router.push('/auth')
             }
         },
         openLikeModal(count) {
