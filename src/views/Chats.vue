@@ -39,6 +39,12 @@ export default {
             console.log(error);
         }
 
+        // if (localStorage.getItem('chats')) {
+        //     this.chat = JSON.parse(localStorage.getItem('chats'))
+        // } else {
+        //     this.chats = res.data.chats;
+        //     localStorage.setItem('chats', JSON.stringify(res.data.chats));
+        // }
         this.chats = res.data.chats;
     },
     methods: {

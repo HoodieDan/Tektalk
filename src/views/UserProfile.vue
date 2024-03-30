@@ -109,7 +109,7 @@
             </div>
 
             <div class="others">
-                <router-link :to="{ name: 'Chat', params: { id: profile.userId } }" class="circle" v-if="profile.username !== loggedInUser.username">
+                <router-link :to="{ name: 'Chat', params: { id: profile.userId } }" class="circle" v-if="(profile !== loggedInUser) && (loggedInUser !== null)">
                     <i class="fa-regular fa-message"></i>
                 </router-link>
                 
@@ -637,6 +637,7 @@ div.info {
 .username {
     font-weight: 500;
     background: linear-gradient(to right, #20BF55, #01BAEF);
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     cursor: pointer;

@@ -197,7 +197,7 @@ export default {
                 this.$emit('handle', this.files.length)
             }
 
-            if (this.body === '' && !this.files === []) {
+            if (this.body === '' && this.files === []) {
                 this.$toast.error('Post body and files cannot be empty.')
             } else {
                 this.$emit('sent', {
