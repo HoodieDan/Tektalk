@@ -108,7 +108,7 @@
                 <p>{{ profile.bio }}</p>
             </div>
 
-            <div class="others">
+            <div class="others mt-3">
                 <router-link :to="{ name: 'Chat', params: { id: profile.userId } }" class="circle" v-if="(profile !== loggedInUser) && (loggedInUser !== null)">
                     <i class="fa-regular fa-message"></i>
                 </router-link>
