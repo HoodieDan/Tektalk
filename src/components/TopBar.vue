@@ -1,9 +1,14 @@
 <template>
   <div class="top-bar fade-in fixed-top">
     <!-- desktop topbar  -->
-    <div class="row desktop container">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8 col-md-8 col-sm-6 search-div">
+    <div class="row desktop container-fluid">
+        <div class="col-lg-2 col-md-2">
+            <div class="logo-group d-flex">
+                <h3 class="logo-text">Tt</h3>
+                <h3 class="logo">TekTalk.</h3>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-6 search-div">
             <div class="search">
                 <i class="fa-solid fa-magnifying-glass icon"></i>
                 <input type="text" class="input field" placeholder="Find User" v-model="query" />
@@ -197,9 +202,35 @@ export default {
 /* .circular {
     border: 1px solid #A9A9A9;
 } */
-/* .container {
-    margin-left: auto;
-} */
+.container-fluid.row.desktop {
+    margin-left: 0;
+    padding-left: 0;
+    position: relative;
+}
+.container.row.desktop .col-lg-2:nth-of-type(1) {
+    position: relative;
+    right: 6rem;
+}
+.logo-group {
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    height: 100%;
+}
+.logo {
+    margin-bottom: -0.1rem;
+}
+.logo,
+.logo-text {
+    animation: right-slide 0.5s cubic-bezier(0.645,0.045,0.355,1) forwards;
+}
+.logo {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #e7e9ea;
+}
 .route {
     white-space:nowrap;
     overflow:hidden;
@@ -222,9 +253,9 @@ h4 {
 .top-bar {
    /* position: fixed; */
    width: 100%;
-   padding: 1rem;
+   padding: 1rem 1rem 1rem 0;
    background-color: #000;
-   z-index: 1000;
+   /* z-index: 1000; */
    display: flex;
    justify-content: center;
 }

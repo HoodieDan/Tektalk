@@ -176,13 +176,36 @@ import { Head } from '@vueuse/head'
 export default {
     name: "PostDetails",
     components: { AddComment, PageLoader, Comment, LikersModal, Head },
+    async created() {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const auth = authStore();
+        const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
+        
+        if (auth.user) {
+            this.user = auth.user;
+            this.loggedIn = true;
+        }
+
+        if (response.status !== 200) {
+            this.$router.push({ name: home })
+        }
+
+        this.post = response.data.post[0];
+        this.loading = false;
+
+        // if (localStorage.getItem('token')) {
+        //     this.loggedIn = true;
+        // }
+        this.loggedIn = auth.userLoggedIn;
+        this.getComments();
+    },
     data() {
         return {
             post: {},
             loading: true,
             color: 'FFF',
             loggedIn: false,
-            comments: null,
+            comments: [],
             user: null,
             likeModalOpen: false,
             deleting: false,
@@ -275,7 +298,7 @@ export default {
             const unlike = await axios.patch(`/unlike?apiKey=${apiKey}&postId=${this.$route.params.postID}`);
         },
         likeOrUnlike(isLiked) {
-            if (this.loggedInUser) {
+            if (this.loggedIn) {
                 if (isLiked) {
                     this.unlike()
                 } else {
@@ -342,29 +365,7 @@ export default {
         shavedItem(item) {
             return item.split(/[-\s!$%^&*()+|~=`{}\[\]:";.<>?.\/]/)[0];
         }
-    },
-    async created() {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        const auth = authStore();
-        const response = await axios.get(`/post/postId/${this.$route.params.postID}?apiKey=${apiKey}`);
-        
-        if (auth.user) {
-            this.user = auth.user;
-        }
-
-        if (response.status !== 200) {
-            this.$router.push({ name: home })
-        }
-
-        this.post = response.data.post[0];
-        this.loading = false;
-
-        // if (localStorage.getItem('token')) {
-        //     this.loggedIn = true;
-        // }
-        this.loggedIn = auth.userLoggedIn;
-        this.getComments();
-    },
+    }
 }
 </script>
 

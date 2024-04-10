@@ -33,10 +33,10 @@
         </div>
     </div>
         <div class="form">
-            <vee-form class="form" @submit="post" :validation-schema="schema">
+            <vee-form autocomplete="off" class="form" @submit="post" :validation-schema="schema">
                 <div class="row w-100">
                     <div class="col-11 d-flex">
-                        <vee-field name="status" id="status" :placeholder="placeholder"
+                        <vee-field autocomplete="false" name="status" id="status" :placeholder="placeholder"
                         v-model="body" ref="body"></vee-field>
                         <div class="file-input">
                             <vee-field
@@ -197,7 +197,7 @@ export default {
                 this.$emit('handle', this.files.length)
             }
 
-            if (this.body === '' && this.files === []) {
+            if ((this.body === '') && (this.files.length = 0)) {
                 this.$toast.error('Post body and files cannot be empty.')
             } else {
                 this.$emit('sent', {

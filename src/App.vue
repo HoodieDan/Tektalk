@@ -1,7 +1,7 @@
 <template>
   <div>
     <PreLoader v-if="!showPage" />
-    <div class="container-fluid main-fluid">
+    <div class="main-fluid">
       <vue-headful
           title="Tektalk"
           description="TekTalk is a social network aimed for tech driven individuals to

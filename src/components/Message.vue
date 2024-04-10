@@ -111,24 +111,28 @@ export default {
         },
         timePosted() {
             const date = new Date().toString();
-            const currentTime = date.slice(16, 21);
-            const currentDate = date.slice(4, 11);
-            const day = date.slice(4, 15);
-            const timePosted = this.message.createdAt.slice(16, 21);
-            const dayPosted = this.message.createdAt.slice(4, 15);
-            const dayAndMonth = this.message.createdAt.slice(4, 11);
+            const currentTime = date.slice(16,21);
+            const currentYear = date.slice(11, 15);
+            const day = date.slice(4,15);
+            const dayPosted = this.message.createdAt.slice(4,15);
+            const yearPosted = this.message.createdAt.slice(11, 15);
+            const dayAndMonth = this.message.createdAt.slice(4, 11)
+
             let time;
-            if (this.message.createdAt) {
-                time = this.message.createdAt.slice(16, 21);
-            }
-            if (time === currentTime) {
-                return 'now';
-            }
-            else if (day === dayPosted) {
-                return 'Today, ' + time;
-            }
-            else {
-                return dayAndMonth + `, ${timePosted}`;
+
+            if (yearPosted === currentYear) {
+                if (this.message.createdAt) {
+                    time = this.message.createdAt.slice(16,21);
+                }
+                if (time === currentTime) {
+                    return 'now'
+                } else if (day === dayPosted) {
+                    return time;
+                } else {
+                    return dayAndMonth;
+                }
+            } else {
+                return `${dayAndMonth}, ${yearPosted}`;
             }
         },
         postArray() {

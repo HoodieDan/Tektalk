@@ -91,7 +91,8 @@ export default {
 
 <style scoped>
 h6.card-head {
-margin-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
 }
 div.recommended {
     height: auto;
@@ -131,7 +132,7 @@ margin: 0;
 }
 .talk-name {
     margin-bottom: 0.1rem;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
 .foll {
     font-size: 0.7rem;

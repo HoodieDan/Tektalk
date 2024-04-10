@@ -41,7 +41,7 @@
       <p>Ads into</p>
       <p>The Team</p>
       <p>More...</p>
-      <p class="no-cursor">© 2022 Tektalk, Inc</p>
+      <p class="no-cursor">© 2024 Tektalk, Inc</p>
     </div>
   </div>
 </template>
@@ -117,6 +117,7 @@ export default {
 <style scoped>
 h6.card-head {
   margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 div.recommended {
     height: auto;
@@ -158,7 +159,7 @@ margin: 0;
 }
 .talk-name {
     margin-bottom: 0.1rem;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 }
 .foll {
     font-size: 0.7rem;
@@ -170,7 +171,7 @@ div.cont {
   flex-wrap: wrap;
 }
 .cont p {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   margin-right: 0.7rem;
   color: #A9A9A9;
 }
@@ -193,6 +194,11 @@ div.cont {
   }
   div.cont {
     display: none;
+  }
+}
+@media (max-width: 575px) {
+  h6 {
+    font-size: 1rem;
   }
 }
 </style>

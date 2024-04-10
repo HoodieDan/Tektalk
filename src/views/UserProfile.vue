@@ -298,7 +298,7 @@ export default {
 
             this.loggedInUser = auth.user;
             this.profile = user_profile.data;
-        }
+                    }
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);

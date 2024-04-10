@@ -217,7 +217,7 @@ export default {
 
 <style scoped>
 p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 div.post {
     width: 100%;
@@ -236,6 +236,9 @@ div.post {
 }
 .circular {
     border: 1px solid #A9A9A9;
+}
+.light.no-underline {
+    font-size: 0.9rem;
 }
 .username {
     font-weight: 500;

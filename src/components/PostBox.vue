@@ -332,7 +332,7 @@ textarea {
     border: none;
     width: 100%;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 500;
     resize: none;
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="menu fade-in">
         <div class="nav-group">
-            <div class="logo-group d-flex">
+            <!-- <div class="logo-group d-flex">
                 <h3 class="logo-text">Tt</h3>
                 <h3 class="logo">TekTalk.</h3>
-            </div>
+            </div> -->
             <div class="top-nav">
                 <div class="link home">
                     <router-link to="/" class="navi" :class="{ 'active': currentRoute === 'Home' }" ><i class="fa fa-solid fa-house"></i><span>Home</span></router-link>
@@ -107,67 +107,44 @@ h6 {
     color: #e7e9ea;
     font-weight: 300;
     padding-bottom: 0;
-    z-index: 1001;
-    overflow-y: initial !important;
-    overflow-x: hidden;
+    /* z-index: 1001; */
+    /* overflow-y: initial !important;
+    overflow-x: hidden; */
 }
 .nav-group {
-    overflow-y: auto;
-    max-height: 1040.50px;
-}
-.logo-group {
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    height: 10%;
-    /* padding-bottom: 1rem; */
-    padding-left: 1.5rem;
-}
-.logo {
-    margin-bottom: -0.3rem;
-}
-.logo,
-.logo-text {
-    animation: right-slide 0.5s cubic-bezier(0.645,0.045,0.355,1) forwards;
-}
-.logo {
-    font-weight: 700;
-    font-size: 1rem;
-    color: #e7e9ea;
-}
-.nav-group {
-    height: 100%;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
+    justify-content: space-between;
+    position: fixed;
+    overflow-y: scroll;
+}
+.nav-group::-webkit-scrollbar {
+    display: none;
 }
 .top-nav {
-    height: 30%;
+    margin-top: 5.5rem;
     padding-left: 1.5rem;
     /* margin-bottom: 2.5rem; */
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 .mid {
-    height: 50%;
     padding-left: 1.5rem;
-    padding-right: 2rem;
+    padding-right: 1.5rem;
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 .bottom-nav {
-    margin-top: 0.5rem;
-    height: 10%;
+    margin-top: 2.5rem;
     border-top: 1px solid #222222;
     display: flex;
     align-items: center;
-    padding-left: 1.5rem;
+    padding: 1rem 1.5rem 0 1.5rem;
 }
 /* .bottom-nav.link {
     margin: 0 auto;
@@ -180,6 +157,7 @@ h6 {
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 1rem;
     transition: all 0.5s;
 }
 .link:hover, .navi:hover, .talk-group:hover {
@@ -190,7 +168,6 @@ h6 {
     font-size: 0.8rem;
     text-decoration: none;
     color: #e7e9ea;
-    margin-bottom: 0.5rem;
     transition: all 0.5s;
 }
 .talk-group {
@@ -224,6 +201,7 @@ h6 {
 
 .sign-out {
     align-self: center !important;
+    margin-bottom: 0
 }
 .talk-btn.no-underline {
     height: auto;
@@ -240,18 +218,6 @@ h6 {
     .logo-group {
         padding-left: 1rem;
     }
-    .mid {
-        border-top: 1px solid #222222;
-        padding-left: 0;
-        align-items: center;
-        padding-right: 0;
-        margin-top: 1rem;
-    }
-    div.top-nav {
-        padding-left: 0;
-        align-items: center;
-        margin-top: 1rem;
-    }
     .talk {
         margin: 1rem auto;
     }
@@ -264,6 +230,9 @@ h6 {
         flex-direction: column;
         justify-items: center;
     }
+    .bottom-nav {
+        padding: 1rem 0;
+    }
     .fa {
         width: 2rem;
     }
@@ -274,7 +243,7 @@ h6 {
         margin-bottom: auto;
     }
 }
-@media (max-height: 650px) {
+/* @media (max-height: 650px) {
     .logo-group {
         align-items: flex-end;
     }
@@ -296,11 +265,10 @@ h6 {
     p.members {
         display: none;
     }
-}
-@media (min-height: 900px) {
+} */
+/* @media (min-height: 900px) {
     .mid > * {
-        /* margin-top: 2rem; */
         margin-bottom: 1rem;
     }
-}
+} */
 </style>
