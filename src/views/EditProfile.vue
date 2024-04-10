@@ -450,5 +450,12 @@ textarea {
         padding-top: 8px;
         padding-left: 15px;
     }
+    .fa-brands {
+        padding-bottom: 0.8rem;
+    }
+    .fa-code {
+        display: flex;
+        align-items: center;
+    }
 }
 </style>
