@@ -28,6 +28,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  input:focus {
+    outline: none;
+  }
   p {
     font-size: 0.9rem;
   }
