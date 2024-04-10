@@ -344,6 +344,9 @@ export default {
 </script>
 
 <style scoped>
+input[type='text'] {
+    padding: 0.5rem 1rem 0.5rem 0;
+}
 div.backdrop {
     width: 100%;
     height: 150px;
@@ -424,7 +427,7 @@ input, select, textarea {
     color: #e7e9ea;
     border: 1px solid #e7e9ea;
     border-radius: 5px;
-    height: 2rem;
+    height: 2.2rem;
     text-indent: 2.5rem;
     cursor: pointer;
     font-size: 0.9rem;
@@ -449,6 +452,8 @@ textarea {
     .icon {
         padding-top: 8px;
         padding-left: 15px;
+        display: flex;
+        align-items: center;
     }
     .fa-brands {
         padding-bottom: 0.8rem;
