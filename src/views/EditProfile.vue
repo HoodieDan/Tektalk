@@ -242,7 +242,7 @@ export default {
                 profileImage: '',
                 name: "required|min:3|max:100|alpha_spaces",
                 email: "required|min:11|max:100|email",
-                username: "required|min:1|max:25",
+                username: "required|min:1|max:25|alpha_num",
                 location: "required|min:3",
                 stack: "required",
                 bio: "min:1|max:200",

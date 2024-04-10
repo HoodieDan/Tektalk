@@ -225,10 +225,14 @@ h6 {
         display: none;
     }
     .top-nav,
-    .bottom-nav {
+    .bottom-nav,
+    .mid {
         display: flex;
         flex-direction: column;
         justify-items: center;
+        padding-left: 0;
+        padding-right: 0;
+        align-items: center;
     }
     .bottom-nav {
         padding: 1rem 0;

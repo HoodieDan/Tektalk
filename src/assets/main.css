@@ -205,7 +205,7 @@ button.talk-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 3px solid #20BF55;
+    border: 2px solid #20BF55;
     height: 2rem;
     background: transparent;
     border-radius: 32px;
@@ -229,6 +229,9 @@ div.no-results {
 p.body-wrapper {
     word-break: break-all;
     font-size: 0.8rem;
+}
+button p {
+    font-size: 0.8rem !important;
 }
 @keyframes fade-in {
     from {
@@ -261,5 +264,23 @@ p.body-wrapper {
 @media (min-width: 768px) {
     .container-sm {
         max-width: 500px;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 576px) {
+    .container {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .talk-outline-btn {
+        border: 1px solid #20BF55;
+    }
+    button p {
+        font-size: 0.7rem !important;
+    }
+    .button-div p {
+        font-size: 0.6rem !important;
     }
 }

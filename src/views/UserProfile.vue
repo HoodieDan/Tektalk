@@ -201,8 +201,8 @@
      v-motion-pop
     />
 
-    <div v-if="posts && (currentTab === 'Posts' || currentTab === 'Contributions')">
-        <div v-if="(posts.length == 0) && !posts_loading" class="no-results">
+    <div class="pb-5" v-if="posts && (currentTab === 'Posts' || currentTab === 'Contributions')">
+        <div v-if="(posts.length == 0) && !posts_loading" class="no-results mb-5">
             <p class="mb-0">No {{ currentTab }} to display.</p>
         </div>
     </div>
@@ -298,7 +298,7 @@ export default {
 
             this.loggedInUser = auth.user;
             this.profile = user_profile.data;
-                    }
+        }
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
@@ -628,6 +628,14 @@ div.others {
     border-radius: 50%;
     margin-right: 1rem;
 }
+.stack .fa-solid,
+.location .fa-solid,
+.location .fa-regular {
+    padding-left: 0;
+}
+p.subtext.mb-0.ms-2 {
+    text-align: center;
+}
 div.info {
     padding: 1.5rem 50px;
 }
@@ -703,20 +711,34 @@ a.dark.no-underline:hover {
 button.talk-btn {
     height: 2rem;
 }
+@media (max-width: 768px) {
+    div.info {
+        padding: 1.5rem 30px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    h4.name {
+        font-size: 1.2rem;
+    }
+    p.username {
+        font-size: 0.8rem;
+    }
+    .stack p,
+    .location p,
+    .location a {
+        font-size: 0.8rem;
+    }
+}
 @media (max-width: 575px) {
     .container {
         padding-left: 0;
         padding-right: 0;
     }
-    .info {
-        margin-right: 0;
-        margin-left: 0;
-    }
-    div.info {
-        padding: 1.5rem 30px;
-    }
 }
 @media (max-width: 400px) {
+    div.info {
+        padding: 1.5rem 0.5rem;
+    }
     .circular {
         left: 30px;
     }
