@@ -1,7 +1,7 @@
 <template>
   <div>
     <PreLoader v-if="!showPage" />
-    <div class="main-fluid">
+    <div class="container-xs main-fluid">
       <vue-headful
           title="Tektalk"
           description="TekTalk is a social network aimed for tech driven individuals to
@@ -212,6 +212,12 @@ export default {
     .container {
         padding-left: 0;
         padding-right: 0;
+    }
+    .container-xs {
+      width: 100%;
+      padding-right: var(--bs-gutter-x, .75rem);
+      margin-right: auto;
+      margin-left: auto;
     }
     .row > * {
         padding-left: 1rem;
