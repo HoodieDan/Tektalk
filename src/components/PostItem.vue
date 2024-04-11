@@ -18,8 +18,8 @@
                                 <router-link :to="{ name: 'Profile', params: { username: post.username } }" class="mb-0 light no-underline" :class="{ 'me-2': !post.isVerified }">{{ post.name }}</router-link>
                                 <div class="badge" v-if="post.isVerified">
                                     <svg
-                                        width="17px"
-                                        height="17px"
+                                        width="13px"
+                                        height="13px"
                                         fill="#d9d9d9"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -89,22 +89,24 @@
                 </div>
             </div>
         </router-link>
-        <div class="function-icons">
+        <div class="function-icons row">
+            <div class="col-lg-1 col-md-2 col-sm-2 col-2"></div>
             <!-- comment lol -->
-            <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="svg-box no-underline d-flex pe-4">
+            <router-link :to="{ name: 'Post', params: { postID: post.postId } }" class="svg-box no-underline d-flex col-auto">
                 <i class="fa-regular fa-comment pt-0 pb-0 ps-0 pe-2 dark"></i>
-                <p class="subtext">{{ post.commentCount }}</p>
+                <p class="subtext mb-0">{{ post.commentCount }}</p>
             </router-link>
             <!-- Like  -->
-            <div class="svg-box pe-4" @click="likeOrUnlike(post.isLiked, post.postId)" >
+            <div class="svg-box col-auto" @click="likeOrUnlike(post.isLiked, post.postId)" >
                 <i class="fa-regular fa-heart pt-0 pb-0 ps-0 pe-2 dark" v-motion-pop v-if="!post.isLiked"></i>
                 <i class="fa-solid fa-heart pt-0 pb-0 ps-0 pe-2 liked" v-motion-pop v-else ></i>
                 <p class="subtext" :class="{ 'liked': post.isLiked }" >{{ post.likeCount }}</p>
             </div>
             <!-- Share  -->
-            <div v-if="webShareApiSupported" >
+            <div class="col-auto share" v-if="webShareApiSupported" >
                 <div class="svg-box pe-4" @click="shareViaWebShare(post)" >
                     <i class="fa-solid fa-share-nodes dark p-0"></i>
+                    <p class="subtext">Share</p>
                 </div>
             </div>
         </div>
@@ -258,18 +260,30 @@ div.post {
 .user-details h6:hover {
     text-decoration: underline;
 }
-.function-icons {
-    display: flex;
-    /* justify-content: space-between; */
-    margin-left: 8.33%;
+.svg-box {
+    transition: all 0.5s ease;
 }
-div.svg-box {
+.svg-box p {
+    margin-bottom: 0;
+}
+div.svg-box,
+.svg-box .col-auto,
+.svg-box p {
     display: flex;
+    align-items: center;
     cursor: pointer;
     margin-bottom: 0;
 }
+i {
+    display: flex;
+    align-items: center;
+    height: 1.5rem;
+}
 div.svg-box:nth-of-type(3) {
     margin-right: 1rem;
+}
+.svg-box:hover > * {
+    color: #01BAEF;
 }
 .svg-box svg {
     margin-right: 0.5rem;
@@ -314,10 +328,16 @@ img.user-img {
 .mentions {
     border-top: 1px solid #222222;
 }
-
+/* .share {
+    transition: all 0.3s ease;
+}
+.share:hover {
+    color: #01BAEF;
+} */
 @media (max-width: 992px) {
-    .function-icons {
-        margin-left: 20%;
-    }
+    /* .function-icons .col-2 {
+        display: flex;
+        align-items: center;
+    } */
 }
 </style>

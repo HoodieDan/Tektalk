@@ -138,6 +138,9 @@ div.recommendation {
   cursor: pointer;
   transition: all 0.5s;
 }
+.recommendation .row {
+  align-items: center;
+}
 div.recommendation:hover {
   background-color: #191919;
   border-radius: 5px;
@@ -146,7 +149,7 @@ div.recommendation:hover {
 border: 1px solid #A9A9A9;
 }
 .talk-btn {
-padding: 0.5rem 1rem;
+padding: 0.3rem 1rem;
 }
 .talk-outline-btn {
   height: 2rem !important;
@@ -186,6 +189,10 @@ div.cont {
     div.col-4 {
       flex: 0 0 30%;
       max-width: 30%;
+    }
+    .talk-btn p,
+    .talk-outline-btn p {
+      font-size: 0.7rem !important;
     }
 }
 @media (max-width: 992px) {

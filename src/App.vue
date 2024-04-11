@@ -219,6 +219,9 @@ export default {
       margin-right: auto;
       margin-left: auto;
     }
+    .middle {
+      margin-bottom: 4rem;
+    }
     .row > * {
         padding-left: 1rem;
         padding-right: 0.25rem;

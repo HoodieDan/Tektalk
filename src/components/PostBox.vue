@@ -23,7 +23,7 @@
                         <div class="col-lg-6 col-md-6 buttons">
                             <div class="attached">
                                 <i class="fa-solid fa-paperclip no-underline" :class="iconClass"></i>
-                                <p class="subtext mb-0" v-if="!upload_alert" :class="{ 'text-gradient no-underline': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
+                                <p class="subtext mb-0 pe-1" v-if="!upload_alert" :class="{ 'text-gradient no-underline': (noOfFiles === 1 ) || (noOfFiles === 2)  }" >{{ noOfFiles }} file(s) attached</p>
                                 <p class="subtext mb-0 p-0 alert" v-else>{{ upload_alert }}</p>
                             </div>
                             <div class="file-input">
@@ -36,7 +36,11 @@
                                     multiple
                                 />
                                 <label class="file-input__label" for="file_input">
-                                    <i class="fa-regular fa-image"></i></label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image me-2" viewBox="0 0 16 16">
+                                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                                    </svg>
+                                </label>
                             </div>
                             <button type="submit" class="talk-btn w-50" :disabled="loading" >
                                 <PageLoader :color="color" :height="20" :width="20" v-motion-pop v-if="loading"/>
@@ -307,13 +311,9 @@ div.post-box {
     border-radius: 5px;
     margin-bottom: 0.5rem;
 }
-/* div.form {
-    display: flex;
-    align-items: center;
+svg {
+    transition: all 0.5s;
 }
-div.form > *, div.buttons > * {
-    margin-right: 0.5rem;
-} */
 .close-modal {
     position: absolute;
     width: 2rem;

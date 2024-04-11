@@ -67,6 +67,13 @@
       transform: translate(-50%, -50%); */
       object-fit: cover;
   }
+svg {
+    cursor: pointer;
+}
+svg:hover {
+    color: #01BAEF;
+    fill: #01BAEF;
+}
 .fade-enter-from {
     opacity: 0;
 }
@@ -121,7 +128,7 @@
 }
 button.talk-btn {
     height: auto;
-    border: 2px solid #A9A9A9;
+    border: none;
 }
 .other-talks {
     text-decoration: none;

@@ -142,8 +142,14 @@
         <AddComment @increase-comment="addOne" v-motion-pop />
     </div>
 
-    <div class="post no-pointer" v-if="comments.length > 0">
+    <div class="post no-pointer">
         <h4 class="mb-0">Comments</h4>
+    </div>
+
+    <div v-if="comments">
+      <div class="no-results mt-3 mb-3" v-if="comments.length == 0">
+        <p class="mb-0">Be the first to comment...</p>
+      </div>
     </div>
 
     <page-loader class="mt-5 mb-5" :color="color" :height="40" :width="40" v-if="getting_comments" />

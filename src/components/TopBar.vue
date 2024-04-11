@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-if="currentUser === null" >
-            <div class="d-flex icons">
+            <div class="d-flex justify-content-around align-items-center me-0 pe-0">
                 <ImageSkeleton :width='25' :height='25' />
                 <ImageSkeleton :width='25' :height='25' />
                 <ImageSkeleton :width='40' :height='40' />
@@ -23,14 +23,18 @@
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6 ms-auto" v-else >
             <div class="d-flex icons">
-                <router-link :to="{ name: 'Chats'}" class="light no-underline">
-                    <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Chats' }" ></i>
+                <router-link :to="{ name: 'Chats'}" class="light no-underline pe-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send fai" viewBox="0 0 16 16" :class="{ 'active': currentRoute === 'Chats' }">
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                    </svg>
                 </router-link>
-                <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
+                <router-link :to="{ name: 'Notifications' }" class="light no-underline pe-4 right-border" @click="read" >
                     <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
-                    <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell fai" viewBox="0 0 16 16" :class="{ 'active': currentRoute === 'Notifications' }">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                    </svg>
                 </router-link>
-                <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular">
+                <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular ms-4">
                     <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
                     <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
                 </router-link>
@@ -46,13 +50,17 @@
         <div class="col-5 d-flex align-items-center route">
             <h6 class="mb-0">{{ currentRoute }}</h6>
         </div>
-        <div class="col-3 d-flex mobile-icons" v-if="currentUser !== null">
+        <div class="col-3 d-flex mobile-icons right-border" v-if="currentUser !== null">
             <router-link :to="{ name: 'Chats' }" class="light no-underline" >
-                <i class="fai fa-regular fa-paper-plane" :class="{ 'active': currentRoute === 'Chats' }" ></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send fai" viewBox="0 0 16 16" :class="{ 'active': currentRoute === 'Chats' }">
+                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                </svg>
             </router-link>
             <router-link :to="{ name: 'Notifications' }" class="light no-underline" @click="read" >
                 <div class="dot" v-if="currentUser.unreadNotifications === true" ></div>
-                <i class="fai fa-regular fa-bell" :class="{ 'active': currentRoute === 'Notifications' }" ></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell fai" viewBox="0 0 16 16" :class="{ 'active': currentRoute === 'Notifications' }">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                </svg>
             </router-link>
         </div>
         <div class="col-5 ms-auto" v-if="loggedIn === false">
@@ -309,13 +317,15 @@ input:focus {
     outline-style: 1px solid linear-gradient(to right, #20BF55, #01BAEF);
 }
 .icons {
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 }
-/* .fai {
-    cursor: pointer;
-    transition: all 0.5s;
-} */
+.right-border {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+.fai {
+    transition: all .3s ease;
+}
 .fai:hover {
     color: #01BAEF;
 }
@@ -335,6 +345,7 @@ input:focus {
 }
 .mobile-icons {
     justify-content: space-evenly;
+    align-items: center;
 }
 .navi {
     font-weight: 700;
