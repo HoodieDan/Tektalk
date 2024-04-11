@@ -315,8 +315,6 @@ export default {
 
             this.loggedInUser = auth.user;
             this.profile = user_profile.data;
-            console.log(this.profile);
-            console.log(this.loggedInUser);
         }
     },
     mounted() {
