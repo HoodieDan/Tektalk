@@ -171,5 +171,8 @@ input, select {
     .error {
         font-size: 0.8rem;
     }
+    h5 {
+        font-size: 1rem
+    }
 }
 </style>
