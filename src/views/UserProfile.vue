@@ -615,6 +615,7 @@ div.circular {
 }
 div.others {
     display: flex;
+    justify-content: center;
 }
 .circle {
     display: flex;
