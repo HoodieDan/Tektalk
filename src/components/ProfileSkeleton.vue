@@ -205,7 +205,7 @@ div.info {
         left: 30px;
     }
     div.info {
-        padding: 1.5rem 30px;
+        padding: 1.5rem 0.5rem;
     }
     .other-talks span {
         display: none;
