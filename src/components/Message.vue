@@ -186,6 +186,7 @@ p.subtext {
     position: absolute;
     bottom: -0.8rem;
     right: 0;
+    font-size: 0.5rem;
 }
 img.user-img {
     object-fit: cover !important;
@@ -212,6 +213,11 @@ img.user-img {
 @media (max-width: 992px) {
     .function-icons {
         margin-left: 20%;
+    }
+}
+@media (max-width: 575px) {
+    p.body-wrapper {
+        font-size: 0.7rem;
     }
 }
 </style>

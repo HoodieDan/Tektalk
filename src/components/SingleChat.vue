@@ -93,21 +93,27 @@ export default {
         timePosted() {
             const date = new Date().toString();
             const currentTime = date.slice(16,21);
+            const currentYear = date.slice(11, 15);
             const day = date.slice(4,15);
             const dayPosted = this.chat.time.slice(4,15);
+            const yearPosted = this.chat.time.slice(11, 15);
             const dayAndMonth = this.chat.time.slice(4, 11)
 
             let time;
 
-            if (this.chat.time) {
-                time = this.chat.time.slice(16,21);
-            }
-            if (time === currentTime) {
-                return 'now'
-            } else if (day === dayPosted) {
-                return time;
+            if (yearPosted === currentYear) {
+                if (this.chat.time) {
+                    time = this.chat.time.slice(16,21);
+                }
+                if (time === currentTime) {
+                    return 'now'
+                } else if (day === dayPosted) {
+                    return time;
+                } else {
+                    return dayAndMonth;
+                }
             } else {
-                return dayAndMonth;
+                return `${dayAndMonth}, ${yearPosted}`;
             }
         },
         imageWithNoCaption() {
@@ -215,6 +221,14 @@ p.time {
     }
     .foll {
         font-size: 0.6rem;
+    }
+    p.last {
+        font-size: 0.8rem;
+        margin-top: 0.1rem;
+    }
+    p.time {
+        font-size: 0.6rem;
+        margin-left: -0.1rem;
     }
 }
 @media (max-width: 420px) {
