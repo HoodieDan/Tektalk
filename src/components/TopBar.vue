@@ -42,7 +42,7 @@
                 </router-link>
                 <router-link :to="{name: 'Profile', params: { username: currentUser.username }}" class="circular ms-4">
                     <img :src="currentUser.displayUrl" alt="user.name" v-if="currentUser.displayUrl">
-                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                    <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                 </router-link>
             </div>
         </div>
@@ -89,7 +89,7 @@
             <router-link :to="{name: 'Profile', params: { username: currentUser.username }}">
                 <div class="circular">
                     <img :src="currentUser.displayUrl" alt="gorgeous" v-if="currentUser.displayUrl">
-                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                    <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                 </div>
             </router-link>
         </div>
@@ -102,7 +102,7 @@
             <router-link :to="{name: 'Profile', params: { username: chat.username }}">
                 <div class="circular">
                     <img :src="chat.displayUrl" alt="gorgeous" v-if="chat.displayUrl">
-                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                    <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                 </div>
             </router-link>
         </div>

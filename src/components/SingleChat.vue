@@ -5,7 +5,7 @@
             <router-link :to="{name: 'Profile', params: { username: chat.username }}" class="col-2">
                 <div class="circular" >
                     <img :src="chat.displayUrl" alt="handsome" v-if="chat.displayUrl">
-                    <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                    <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                 </div>
             </router-link>
             <router-link :to="{name: 'Chat', params: { id: chat.id }}" class="col-10 chat-link no-underline row">

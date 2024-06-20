@@ -11,7 +11,7 @@
                     <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                         <div class="circular" >
                             <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
-                            <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                            <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                         </div>
                     </router-link>
                     <p class="mb-1"	>
@@ -34,7 +34,7 @@
                 <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
-                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                        <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                     </div>
                 </router-link>
                 <div class="light no-underline" >
@@ -57,7 +57,7 @@
                 <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
-                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                        <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                     </div>
                 </router-link>
                 <div class="light no-underline" >
@@ -80,7 +80,7 @@
                 <router-link class="user-link" :to="{name: 'Profile', params: { username: notification.username }}" >
                     <div class="circular" >
                         <img :src="notification.displayUrl" alt="handsome" v-if="notification.displayUrl">
-                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                        <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                     </div>
                 </router-link>
                 <div class="light no-underline" >

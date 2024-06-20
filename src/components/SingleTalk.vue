@@ -13,7 +13,7 @@
                             <router-link :to="{ name: 'Profile', params: { username: user.username } }" class="circular mb-2" v-for="(user, i) in talk.users" :key="i" v-motion-roll-right>
                                 <img :src="user.displayUrl" alt="member image" v-if="user.displayUrl !== null">
                                 <img
-                                    src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" 
+                                    src="../assets/images/avatar.webp" 
                                     alt="profile image" 
                                     v-else
                                 >

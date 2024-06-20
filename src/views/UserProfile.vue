@@ -23,9 +23,9 @@
                  @click="openImage(profile.displayUrl)" 
                 >
                 <img
-                 src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
+                 src="../assets/images/avatar.webp"
                  :alt="profile.name"
-                 @click="openImage('https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png')" 
+                 @click="openImage('/src/assets/images/avatar.webp')" 
                  v-else
                 >
             </div>

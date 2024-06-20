@@ -42,7 +42,7 @@
                         <img v-if="profileUrl !== ''" :src="profileUrl" alt="profile image" v-motion-pop >
                         <img v-if="user.displayUrl !== null && profileUrl === ''" :src="user.displayUrl" alt="profile image"  v-motion-pop >
                         <img
-                            src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
+                            src="../assets/images/avatar.webp"
                             alt="profile image"
                             v-if="user.displayUrl === null && profileUrl === ''"
                             v-motion-pop

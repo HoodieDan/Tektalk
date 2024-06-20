@@ -13,7 +13,7 @@
                 <router-link :to="{name: 'Profile', params: { username: user.username }}">
                     <div class="circular">
                         <img :src="user.displayUrl" alt="gorgeous" v-if="user.displayUrl">
-                        <img src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png" alt="profile image" v-else>
+                        <img src="../assets/images/avatar.webp" alt="profile image" v-else>
                     </div>
                 </router-link>
                 <div class="d-flex align-items-end pt-1">

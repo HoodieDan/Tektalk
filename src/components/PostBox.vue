@@ -7,7 +7,7 @@
                 <div class="circular">
                     <img :src="user.displayUrl" alt="handsome" v-if="user.displayUrl !== null" >
                     <img
-                        src="https://www.yourhometownchevy.com/static/dealer-14287/Profile_avatar_placeholder_large.png"
+                        src="../assets/images/avatar.webp"
                         alt="profile image" 
                         v-else
                     >
