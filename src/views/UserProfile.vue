@@ -653,6 +653,10 @@ div.others {
 .circle:hover {
     outline-color: #01BAEF;
 }
+.circle:hover > svg {
+    color: #01BAEF;
+    fill: #01BAEF;
+}
 .stack .fa-solid,
 .location .fa-solid,
 .location .fa-regular {
