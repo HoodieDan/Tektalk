@@ -17,7 +17,6 @@
     <div class="post" v-if="!loading">
         <!-- delete post -->
         <div class="delete" v-if="user !== null">
-            <!-- <i class="fa-solid fa-trash delete dark" v-if="canDelete && !deleting" @click="deletePost" ></i> -->
             <i class="fa-regular fa-trash-can delete dark" v-if="canDelete && !deleting" @click="deletePost"></i>
         </div>
         <div class="loader-div" v-if="deleting">
@@ -79,7 +78,6 @@
             <div class="user-post light mt-3">
                 <p class="body-wrapper" v-if="post.postBody"><span v-for="(item, i) in postArray" :key="i" v-cloak >
                     <router-link :to="{ name: 'Profile', params: { username: shavedItem(item).slice(1) } }" class="text-gradient no-underline me-1" v-if="isTag(item)" >
-                        <!-- <span>{{ item }}</span> -->
                         {{ shavedItem(item) }} 
                     </router-link>
                     <a :href="item" target="__blank" class="active" v-else-if="isLink(item)" >{{ item }}</a>
@@ -199,9 +197,6 @@ export default {
         this.post = response.data.post[0];
         this.loading = false;
 
-        // if (localStorage.getItem('token')) {
-        //     this.loggedIn = true;
-        // }
         this.loggedIn = auth.userLoggedIn;
         this.getComments();
     },
